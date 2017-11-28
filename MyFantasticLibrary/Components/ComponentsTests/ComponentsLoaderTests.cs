@@ -12,7 +12,7 @@ namespace ComponentsTests
         public void TestMethod1()
         {
             Loader loader = new Loader();
-            List<Type> types = loader.GetTypes();
+            List<Type> types = loader.GetComponentsTypes();
             Assert.AreEqual(4, types.Count);
         }
     }
