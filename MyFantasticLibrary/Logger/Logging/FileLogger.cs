@@ -8,9 +8,10 @@ namespace Logging
         private StreamWriter file;
         private bool init;
 
-        public FileLogger(string parameter):base(parameter)
+        private string parameter;
+        public FileLogger(string parameter)
         {
-
+            this.parameter = parameter;
         }
 
         public void Init()
@@ -24,11 +25,7 @@ namespace Logging
         public override void Log(LogType type, string message, bool addUtcTime)
         {
             Init();
-            string completeMessage = ""; ;
-            if (addUtcTime)
-                completeMessage += DateTime.UtcNow + " ";
-            completeMessage += type + ": " + message; 
-            file.WriteLine(completeMessage);
+            file.WriteLine(CreateLogMessage(type, message, addUtcTime));
         }
         public override void Dispose()
         {
