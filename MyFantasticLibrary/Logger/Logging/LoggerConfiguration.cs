@@ -22,7 +22,24 @@ namespace Logging
                 logObject =
                   Activator.CreateInstance(Type.GetType(section.Attributes["type"].Value));
             }
-            return logObject;
+            if (section.Attributes["filter"] != null)
+            {
+                switch (section.Attributes["filter"].Value)
+                {
+                    case "Information":
+                        ((Logger)logObject).Filter = LogType.Information;
+                        break;
+                    case "Warning":
+                        ((Logger)logObject).Filter = LogType.Warning;
+                        break;
+                    case "Error":
+                        ((Logger)logObject).Filter = LogType.Error;
+                        break;
+                    default:
+                        break;
+                }
+            }
+                return logObject;
         }
     }
 }

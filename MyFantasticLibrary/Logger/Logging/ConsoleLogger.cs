@@ -5,15 +5,17 @@
         public ConsoleLogger()
         {
         }
-
+        public ConsoleLogger(string param)
+        {
+        }
         public override void Dispose()
         {
             
         }
 
-        public override void Log(LogType type, string message, bool addUtcTime)
+        protected override void Write(string message)
         {
-            System.Console.WriteLine(CreateLogMessage(type,message,addUtcTime));
+            System.Console.WriteLine(message);
         }
     }
 }

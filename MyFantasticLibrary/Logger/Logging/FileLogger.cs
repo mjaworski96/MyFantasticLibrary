@@ -14,6 +14,10 @@ namespace Logging
             this.parameter = parameter;
         }
 
+        public FileLogger() : this("log.txt")
+        {
+        }
+
         public void Init()
         {
             if (init)
@@ -22,10 +26,10 @@ namespace Logging
             init = true;
         }
 
-        public override void Log(LogType type, string message, bool addUtcTime)
+        protected override void Write(string message)
         {
             Init();
-            file.WriteLine(CreateLogMessage(type, message, addUtcTime));
+            file.WriteLine(message);
         }
         public override void Dispose()
         {

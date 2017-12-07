@@ -10,7 +10,7 @@ namespace Logging
         static LoggerManager()
         {
             Default = (Logger)ConfigurationManager.GetSection("Logger");
-            FileLogger = new FileLogger("log.txt");
+            FileLogger = new FileLogger();
             ConsoleLogger = new ConsoleLogger();
 
             if (Default == null)

@@ -4,15 +4,22 @@ namespace Logging
 {
     public abstract class Logger: IDisposable
     {
-        public abstract void Log(LogType type, string message, bool addUtcTime);
-        
+        public LogType Filter { get; set; } = LogType.Information;
+        public void Log(LogType type, string message, bool addUtcTime)
+        {
+            if(type >= Filter)
+            {
+                Write(CreateLogMessage(type, message, addUtcTime));
+            }
+        }
+        protected abstract void Write(string message);
         public abstract void Dispose();
 
-        protected string CreateLogMessage(LogType type, string message, bool addUtcTime)
+        private string CreateLogMessage(LogType type, string message, bool addUtcTime)
         {
             string completeMessage = "";
             if (addUtcTime)
-                completeMessage += DateTime.UtcNow + " ";
+                completeMessage += DateTime.Now + " ";
             completeMessage += type + ": " + message;
             return completeMessage;
         }
