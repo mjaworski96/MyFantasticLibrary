@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace ComponentsLoader
 {
-    public class Loader
+    public class ComponentsLoader
     {
         internal ComponentAttribute GetComponentAttribute(Type componentType)
         {

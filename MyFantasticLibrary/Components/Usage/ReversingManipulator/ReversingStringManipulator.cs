@@ -11,7 +11,7 @@ namespace ReversingManipulator
         {
             StringBuilder sb = new StringBuilder(toManip);
             int begin = 0;
-            int end = toManip.Length;
+            int end = toManip.Length - 1;
             char buffer;
             while (begin < end)
             {
