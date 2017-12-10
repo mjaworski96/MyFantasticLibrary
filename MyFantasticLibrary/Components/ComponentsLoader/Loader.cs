@@ -44,7 +44,7 @@ namespace ComponentsLoader
             }
             return assemblies;
         }
-
+        /*
         public List<Type> GetComponentsTypes(string directoryPath = ".")
         {
             List<Type> types = new List<Type>();
@@ -129,6 +129,40 @@ namespace ComponentsLoader
         public T GetComponent<T>(string directoryPath = ".")
         {
             return GetComponents<T>(directoryPath).FirstOrDefault();
+        }
+        */
+        public LoadedComponent<T> GetComponent<T>(string name, string directoryPath = ".")
+        {
+            return (from c
+                   in GetComponents<T>(directoryPath)
+                    where c.Name == name
+                    select c).FirstOrDefault();
+        }
+        public List<LoadedComponent<T>> GetComponents<T>(string directoryPath = ".")
+        {
+            List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
+            foreach (var assembly in LoadAssemblies(directoryPath))
+            {
+                try
+                {
+                    List<Type> types = (from t
+                               in assembly.GetTypes()
+                                   where t.GetInterfaces().Contains(typeof(T))
+                                   select t).ToList();
+                               
+                    foreach (Type type in types)
+                    {
+                        ComponentAttribute attr = GetComponentAttribute(type);
+                        if (attr != null)
+                        {
+
+                            components.Add(new LoadedComponent<T>(type));
+                        }
+                    }
+                }
+                catch (Exception) { }
+            }
+            return components;
         }
     }
 }
