@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Logger\Logging\L
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logger", "Logger", "{BAF53156-5E7A-4C12-9774-2EDF4E83F192}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCalculator2", "Components\Usage\MyCalculator2\MyCalculator2.csproj", "{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{3C0BD03F-D580-4146-B2FC-05D934F37238}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C0BD03F-D580-4146-B2FC-05D934F37238}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C0BD03F-D580-4146-B2FC-05D934F37238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{39E9AEE7-247A-44AA-ABDF-5897F6ABCA3C} = {E448FC46-965F-4D6A-A98E-821649B4AED3}
 		{A8BAD491-2640-4B00-A07F-2626DAFEB5F8} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
 		{3C0BD03F-D580-4146-B2FC-05D934F37238} = {BAF53156-5E7A-4C12-9774-2EDF4E83F192}
+		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {34D23819-9ACD-4281-A47E-770A118CEAAD}

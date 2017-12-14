@@ -131,7 +131,7 @@ namespace ComponentsLoader
             return GetComponents<T>(directoryPath).FirstOrDefault();
         }
         */
-        public LoadedComponent<T> GetComponent<T>(string name, string directoryPath = ".")
+        public LoadedComponent<T> GetComponentByName<T>(string name, string directoryPath = ".")
         {
             return (from c
                    in GetComponents<T>(directoryPath)
@@ -163,6 +163,29 @@ namespace ComponentsLoader
                 catch (Exception) { }
             }
             return components;
+        }
+
+        public LoadedComponent<T> GetComponentByNameVersion<T>(string name, string version, string directoryPath = ".")
+        {
+            return (from c
+                   in GetComponents<T>(directoryPath)
+                    where c.Name == name && c.Version == version
+                    select c).FirstOrDefault();
+        }
+        public LoadedComponent<T> GetComponentByNamePublisher<T>(string name, string publisher, string directoryPath = ".")
+        {
+            return (from c
+                   in GetComponents<T>(directoryPath)
+                    where c.Name == name && c.Publisher == publisher
+                    select c).FirstOrDefault();
+        }
+        public LoadedComponent<T> GetComponentByNameVersionPublisher<T>(string name, string version, string publisher, string directoryPath = ".")
+        {
+            return (from c
+                   in GetComponents<T>(directoryPath)
+                    where c.Name == name && c.Version == version &&
+                    c.Publisher == publisher
+                    select c).FirstOrDefault();
         }
     }
 }

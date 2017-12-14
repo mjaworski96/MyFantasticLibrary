@@ -68,6 +68,10 @@
       <Project>{51708940-0819-4808-9740-0b4905739e8b}</Project>
       <Name>LowerManipulator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Usage\MyCalculator2\MyCalculator2.csproj">
+      <Project>{0f37dc04-7539-42f3-afc9-05ada8ab9e2d}</Project>
+      <Name>MyCalculator2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Usage\MyCalculator\MyCalculator.csproj">
       <Project>{2f0b70ba-e4d3-44b1-b6a3-288a9adfb2ef}</Project>
       <Name>MyCalculator</Name>
