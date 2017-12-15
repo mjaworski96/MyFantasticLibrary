@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,11 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentsConfiguration.cs" />
     <Compile Include="LoadedComponent.cs" />
-    <Compile Include="ComponentsLoader.cs" />
+    <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Logger\Logging\Logging.csproj">
+      <Project>{3c0bd03f-d580-4146-b2fc-05d934f37238}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ComponentContract\ComponentContract.csproj">
       <Project>{f7ab7bef-5762-4d62-8a05-0f739235246a}</Project>
       <Name>ComponentContract</Name>

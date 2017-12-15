@@ -34,6 +34,7 @@ namespace Logging
         public override void Dispose()
         {
             file.Dispose();
+            init = false;
         }
     }
 }

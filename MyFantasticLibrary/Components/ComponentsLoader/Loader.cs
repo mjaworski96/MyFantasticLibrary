@@ -1,13 +1,14 @@
 ﻿using ComponentContract;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace ComponentsLoader
 {
-    public class ComponentsLoader
+    public class Loader
     {
         internal ComponentAttribute GetComponentAttribute(Type componentType)
         {
@@ -147,9 +148,9 @@ namespace ComponentsLoader
                 {
                     List<Type> types = (from t
                                in assembly.GetTypes()
-                                   where t.GetInterfaces().Contains(typeof(T))
-                                   select t).ToList();
-                               
+                                        where t.GetInterfaces().Contains(typeof(T))
+                                        select t).ToList();
+
                     foreach (Type type in types)
                     {
                         ComponentAttribute attr = GetComponentAttribute(type);
@@ -186,6 +187,45 @@ namespace ComponentsLoader
                     where c.Name == name && c.Version == version &&
                     c.Publisher == publisher
                     select c).FirstOrDefault();
+        }
+        public List<LoadedComponent<T>> GetComponentsFromConfiguration<T>()
+        {
+            List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
+            List<Tuple<Type, string, string, string, string>> config =
+                (List<Tuple<Type, string, string, string, string>>)ConfigurationManager.GetSection("components");
+
+            foreach (var item in config)
+            {
+                if(item.Item1 == typeof(T))
+                {
+                    if(item.Item3 == null && item.Item4 == null)
+                    {
+                        components.Add(
+                            GetComponentByName<T>(
+                                item.Item2, item.Item5));
+                    }
+                    else if (item.Item3 != null && item.Item4 == null)
+                    {
+                        components.Add(
+                            GetComponentByNameVersion<T>(
+                                item.Item2, item.Item3, item.Item5));
+                    }
+                    else if (item.Item3 == null && item.Item4 != null)
+                    {
+                        components.Add(
+                            GetComponentByNamePublisher<T>(
+                                item.Item2, item.Item4, item.Item5));
+                    }
+                    else if (item.Item3 != null && item.Item4 != null)
+                    {
+                        components.Add(
+                            GetComponentByNameVersionPublisher<T>(
+                                item.Item2, item.Item3, item.Item4, item.Item5));
+                    }
+                }
+            }
+            components.RemoveAll(x => x == null);
+            return components;
         }
     }
 }
