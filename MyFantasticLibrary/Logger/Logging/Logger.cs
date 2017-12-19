@@ -9,10 +9,10 @@ namespace Logging
         {
             if(type >= Filter)
             {
-                Write(CreateLogMessage(type, message, addUtcTime));
+                Write(CreateLogMessage(type, message, addUtcTime), type);
             }
         }
-        protected abstract void Write(string message);
+        protected abstract void Write(string message, LogType type);
         public abstract void Dispose();
 
         private string CreateLogMessage(LogType type, string message, bool addUtcTime)

@@ -5,7 +5,7 @@ Platforms: Windows
 
 # PROJECTS #
 Components - creating and using of indepentent Components, Version: Not released yet
-Logger - logging application state, Version: 1.2.0
+Logger - logging application state, Version: 1.4.0
 	Provides: 
 	FileLogger - logging data to file
 	ConsoleLogger - logging data to console
@@ -20,4 +20,7 @@ Logger:
 	- Added loggging to console
 1.2.0
 	- Added filter
-	
+1.3.0
+	- Added color to console logger
+1.4.0
+	- Added multiple colors to console logger

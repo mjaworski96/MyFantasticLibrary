@@ -26,7 +26,7 @@ namespace Logging
             init = true;
         }
 
-        protected override void Write(string message)
+        protected override void Write(string message, LogType type)
         {
             Init();
             file.WriteLine(message);
