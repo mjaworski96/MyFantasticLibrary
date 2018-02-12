@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentsTest.cs" />
+    <Compile Include="ITest.cs" />
+    <Compile Include="LoggerTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,6 +54,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Components\ComponentContract\ComponentContract.csproj">
+      <Project>{f7ab7bef-5762-4d62-8a05-0f739235246a}</Project>
+      <Name>ComponentContract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\ComponentsLoader\ComponentsLoader.csproj">
+      <Project>{5b599a45-5feb-4e7d-b124-1592c1d220ed}</Project>
+      <Name>ComponentsLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\Usage\Calculator\Calculator.csproj">
+      <Project>{9730f0b1-44bb-46ad-9a08-027be1d3b3d1}</Project>
+      <Name>Calculator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\Usage\StringManipulator\StringManipulator.csproj">
+      <Project>{77a5942c-2f54-4adf-840d-bd025955823f}</Project>
+      <Name>StringManipulator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logger\Logging\Logging.csproj">
       <Project>{3c0bd03f-d580-4146-b2fc-05d934f37238}</Project>
       <Name>Logging</Name>

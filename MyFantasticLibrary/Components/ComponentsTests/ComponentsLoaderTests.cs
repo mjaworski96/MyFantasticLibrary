@@ -160,5 +160,17 @@ namespace ComponentsTests
             Assert.IsTrue(loader.IsComponentAvaiableByNameVersionPublisher<IStringManipulator>("Reversing String Manipulator", "1.0", "MJayJ"));
             Assert.IsFalse(loader.IsComponentAvaiableByNameVersionPublisher<ICalculator>("My Calculator Pro", "2.1", "My Company"));
         }
+        [TestMethod]
+        public void TestGetAssemblyAndReferencedAssembliesFromComponent()
+        {
+            Loader loader = new Loader();
+            LoadedComponent<IStringManipulator> component =
+                loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator");
+            Assert.AreEqual("ReversingManipulator", component.AssemblyName.Name);
+            Assert.AreEqual(3, component.ReferencesAssembliesNames.Length);
+            Assert.AreEqual("mscorlib", component.ReferencesAssembliesNames[0].Name);
+            Assert.AreEqual("ComponentContract", component.ReferencesAssembliesNames[1].Name);
+            Assert.AreEqual("StringManipulator", component.ReferencesAssembliesNames[2].Name);
+        }
     }
 }
