@@ -166,11 +166,10 @@ namespace ComponentsLoader
             }
             return components;
         }
-
         public LoadedComponent<T> GetComponentByNameVersion<T>(string name, string version, string directoryPath = ".")
         {
             return (from c
-                   in GetComponents<T>(directoryPath)
+                    in GetComponents<T>(directoryPath)
                     where c.Name == name && c.Version == version
                     select c).FirstOrDefault();
         }
@@ -189,6 +188,7 @@ namespace ComponentsLoader
                     c.Publisher == publisher
                     select c).FirstOrDefault();
         }
+
         public List<LoadedComponent<T>> GetComponentsFromConfiguration<T>()
         {
             List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
@@ -227,6 +227,23 @@ namespace ComponentsLoader
             }
             components.RemoveAll(x => x == null);
             return components;
+        }
+
+        public bool IsComponentAvaiableByName<T>(string name, string directoryPath = ".")
+        {
+            return GetComponentByName<T>(name, directoryPath) != null;
+        }
+        public bool IsComponentAvaiableByNameVersion<T>(string name, string version, string directoryPath = ".")
+        {
+            return GetComponentByNameVersion<T>(name, version, directoryPath) != null;
+        }
+        public bool IsComponentAvaiableByNamePublisher<T>(string name, string publisher, string directoryPath = ".")
+        {
+            return GetComponentByNamePublisher<T>(name, publisher, directoryPath) != null;
+        }
+        public bool IsComponentAvaiableByNameVersionPublisher<T>(string name, string version, string publisher, string directoryPath = ".")
+        {
+            return GetComponentByNameVersionPublisher<T>(name, version, publisher, directoryPath) != null;
         }
     }
 }

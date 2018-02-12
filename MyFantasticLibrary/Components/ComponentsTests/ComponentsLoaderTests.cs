@@ -143,5 +143,22 @@ namespace ComponentsTests
             Loader loader = new Loader();
             Assert.IsNotNull(loader.GetComponentByName<DoSomething>("Abstract Class Contract Implementation"));
         }
+        [TestMethod]
+        public void TestIsComponentAvaiable()
+        {
+            Loader loader = new Loader();
+
+            Assert.IsTrue(loader.IsComponentAvaiableByName<ICalculator>("My Calculator"));
+            Assert.IsFalse(loader.IsComponentAvaiableByName<ICalculator>("My Calulator 3"));
+
+            Assert.IsTrue(loader.IsComponentAvaiableByNameVersion<IStringManipulator>("Reversing String Manipulator", "1.0"));
+            Assert.IsFalse(loader.IsComponentAvaiableByNameVersion<IStringManipulator>("My Calulator", "2.0"));
+
+            Assert.IsTrue(loader.IsComponentAvaiableByNamePublisher<ICalculator>("My Calculator", "MJayJ"));
+            Assert.IsFalse(loader.IsComponentAvaiableByNamePublisher<ICalculator>("My Calulator", "My Company"));
+
+            Assert.IsTrue(loader.IsComponentAvaiableByNameVersionPublisher<IStringManipulator>("Reversing String Manipulator", "1.0", "MJayJ"));
+            Assert.IsFalse(loader.IsComponentAvaiableByNameVersionPublisher<ICalculator>("My Calculator Pro", "2.1", "My Company"));
+        }
     }
 }
