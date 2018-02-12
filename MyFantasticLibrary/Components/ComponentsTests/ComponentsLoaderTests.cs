@@ -172,5 +172,11 @@ namespace ComponentsTests
             Assert.AreEqual("ComponentContract", component.ReferencesAssembliesNames[1].Name);
             Assert.AreEqual("StringManipulator", component.ReferencesAssembliesNames[2].Name);
         }
+        [TestMethod]
+        [ExpectedException(typeof(NotComponentTypeException))]
+        public void TestCreateLoadedComponentFromNotComponentType()
+        {
+            LoadedComponent<ICalculator> component = new LoadedComponent<ICalculator>(typeof(ComponentsLoaderTests));
+        }
     }
 }

@@ -39,6 +39,8 @@ namespace ComponentsLoader
             _attr = (ComponentAttribute)component
                 .GetCustomAttribute(
                 typeof(ComponentAttribute));
+            if (_attr == null)
+                throw new NotComponentTypeException();
             _assemblyName = component.Assembly.GetName();
             _referencesAssembliesNames = component.Assembly.GetReferencedAssemblies();
         }

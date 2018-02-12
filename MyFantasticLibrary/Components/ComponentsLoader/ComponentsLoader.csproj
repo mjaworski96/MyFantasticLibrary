@@ -44,6 +44,7 @@
     <Compile Include="ComponentsConfiguration.cs" />
     <Compile Include="LoadedComponent.cs" />
     <Compile Include="Loader.cs" />
+    <Compile Include="NotComponentTypeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
