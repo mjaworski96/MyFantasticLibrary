@@ -147,9 +147,10 @@ namespace ComponentsLoader
                 try
                 {
                     List<Type> types = (from t
-                               in assembly.GetTypes()
-                                        where t.GetInterfaces().Contains(typeof(T))
-                                        select t).ToList();
+                                in assembly.GetTypes()
+                                where t.GetInterfaces().Contains(typeof(T)) ||
+                                t.BaseType == typeof(T)
+                                select t).ToList();
 
                     foreach (Type type in types)
                     {

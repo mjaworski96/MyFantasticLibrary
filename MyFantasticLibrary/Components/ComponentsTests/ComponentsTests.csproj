@@ -60,6 +60,14 @@
       <Project>{5b599a45-5feb-4e7d-b124-1592c1d220ed}</Project>
       <Name>ComponentsLoader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Usage\AbstractClassContractImplementaion\AbstractClassContractImplementaion.csproj">
+      <Project>{12374e52-ef0f-4151-9daf-36e882daa881}</Project>
+      <Name>AbstractClassContractImplementaion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Usage\AbstractClassContract\AbstractClassContract.csproj">
+      <Project>{6ab8903e-61ff-4405-9294-603866122e1b}</Project>
+      <Name>AbstractClassContract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Usage\Calculator\Calculator.csproj">
       <Project>{9730f0b1-44bb-46ad-9a08-027be1d3b3d1}</Project>
       <Name>Calculator</Name>

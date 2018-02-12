@@ -1,9 +1,8 @@
-﻿using Calculator;
+﻿using AbstractClassContract;
+using Calculator;
 using ComponentsLoader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StringManipulator;
-using System;
-using System.Collections.Generic;
 
 namespace ComponentsTests
 {
@@ -137,6 +136,12 @@ namespace ComponentsTests
             Loader loader = new Loader();
             Assert.AreEqual(2, loader.GetComponentsFromConfiguration<ICalculator>().Count);
             Assert.AreEqual(3, loader.GetComponentsFromConfiguration<IStringManipulator>().Count);
+        }
+        [TestMethod]
+        public void TestGetAbstractClassComponent()
+        {
+            Loader loader = new Loader();
+            Assert.IsNotNull(loader.GetComponentByName<DoSomething>("Abstract Class Contract Implementation"));
         }
     }
 }
