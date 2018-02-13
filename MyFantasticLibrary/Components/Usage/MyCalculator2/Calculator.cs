@@ -4,7 +4,7 @@ using System;
 
 namespace MyCalculator2
 {
-    [Component("My Calculator", Version = "2.0", Publisher = "MJayJ II", Description = "Simple calculator")]
+    [Component("My Calculator", "2.0",  "MJayJ II",  "Simple calculator")]
     public class Calculator : ICalculator
     {
         public double Add(double a, double b)
