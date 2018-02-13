@@ -4,8 +4,18 @@ using System.Xml;
 
 namespace Logging
 {
+    /// <summary>
+    /// Handler of app.config logger section
+    /// </summary>
     class LoggerConfiguration: IConfigurationSectionHandler
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parent">Parent object.</param>
+        /// <param name="configContext"> Configuration context object.</param>
+        /// <param name="section">Section XML node</param>
+        /// <returns></returns>
         public object Create(object parent, object configContext, XmlNode section)
         {
             bool param = false;
