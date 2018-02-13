@@ -28,7 +28,7 @@ namespace Logging
         /// </summary>
         public static NullLogger NullLogger { get; }
         /// <summary>
-        /// Default constructor.
+        /// Initializes static parameters of LoggerManager.
         /// </summary>
         static LoggerManager()
         {

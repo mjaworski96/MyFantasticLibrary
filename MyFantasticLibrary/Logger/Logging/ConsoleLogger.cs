@@ -13,14 +13,15 @@ namespace Logging
         /// </summary>
         private Dictionary<LogType, ConsoleColor> _colors;
         /// <summary>
-        /// Default constructor. Output color will not be changed.
+        /// Initializes new instance of ConsoleLogger. 
+        /// Output color will not be changed.
         /// </summary>
         public ConsoleLogger()
         {
             _colors = new Dictionary<LogType, ConsoleColor>();
         }
         /// <summary>
-        /// Constructor that set color of messages;
+        /// Initializes new instance of ConsoleLogger. 
         /// </summary>
         /// <param name="param">
         /// Color or colors for messages depending on type of message.

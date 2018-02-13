@@ -8,26 +8,35 @@ using System.Reflection;
 
 namespace ComponentsLoader
 {
+    /// <summary>
+    /// Loader of components.
+    /// </summary>
     public class Loader
     {
+        /// <summary>
+        /// Get <see cref="ComponentAttribute"/> of component.
+        /// </summary>
+        /// <param name="componentType">Type of component.</param>
+        /// <returns><see cref="ComponentAttribute"/> of component.</returns>
         internal ComponentAttribute GetComponentAttribute(Type componentType)
         {
             return (ComponentAttribute)componentType.GetCustomAttribute(typeof(ComponentAttribute));
         }
-        internal ComponentAttribute GetComponentAttribute<T>(T component)
-        {
-            return GetComponentAttribute(component.GetType());
-        }
-
+        /// <summary>
+        /// Creating instance of component.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="toInstantialize">Type to instantialize.</param>
+        /// <returns>Instantialized component.</returns>
         public static T Instantialize<T>(Type toInstantialize)
         {
             return (T)Activator.CreateInstance(toInstantialize);
         }
-        public static object Instantialize(Type toInstantialize)
-        {
-            return Activator.CreateInstance(toInstantialize);
-        }
-
+        /// <summary>
+        /// Load all assemblies from selected directory.
+        /// </summary>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns>List of assemblies.</returns>
         private List<Assembly> LoadAssemblies(string directoryPath = ".")
         {
             List<Assembly> assemblies = new List<Assembly>();
@@ -45,93 +54,13 @@ namespace ComponentsLoader
             }
             return assemblies;
         }
-        /*
-        public List<Type> GetComponentsTypes(string directoryPath = ".")
-        {
-            List<Type> types = new List<Type>();
-
-            foreach (var assembly in LoadAssemblies(directoryPath))
-            {
-                try
-                {
-                    Type[] t = assembly.GetTypes();
-                    foreach (Type type in t)
-                    {
-                        ComponentAttribute attr = GetComponentAttribute(type);
-                        if (attr != null)
-                        {
-                            types.Add(type);
-                        }
-                    }
-                }
-                catch (Exception) { }
-            }
-            return types;
-        }
-        public List<Type> GetComponentsTypes(string name, string directoryPath = ".")
-        {
-            return (from component 
-                    in GetComponentsTypes(directoryPath)
-                    where GetComponentAttribute(component).Name == name
-                    select component).ToList();
-        }
-
-        public List<Type> GetComponentsTypes<T>(string directoryPath = ".")
-        {
-            return (from component 
-                    in GetComponentsTypes(directoryPath)
-                    where component.GetInterfaces().Contains(typeof(T))
-                    select component).ToList();
-        }
-        public List<Type> GetComponentsTypes<T>(string name, string directoryPath = ".")
-        {
-            return (from component 
-                    in GetComponentsTypes<T>(directoryPath)
-                    where GetComponentAttribute(component).Name == name
-                    select component).ToList();
-        }
-   
-        public List<T> GetComponents<T>(string directoryPath = ".")
-        {
-            return (from component
-                    in GetComponentsTypes<T>(directoryPath)
-                    select Instantialize<T>(component)).ToList();
-        }
-        public List<T> GetComponents<T>(string name, string directoryPath = ".")
-        {
-            return (from component
-                    in GetComponents<T>(directoryPath)
-                    where GetComponentAttribute(component).Name == name
-                    select component).ToList();
-        }
-
-        public Type GetComponentType(string directoryPath)
-        {
-            return GetComponentsTypes(directoryPath).FirstOrDefault();
-        }
-        public Type GetComponentType(string name, string directoryPath)
-        {
-            return GetComponentsTypes(name, directoryPath).FirstOrDefault();
-        }
-
-        public Type GetComponentType<T>(string directoryPath)
-        {
-            return GetComponentsTypes<T>(directoryPath).FirstOrDefault();
-        }
-        public Type GetComponentType<T>(string name, string directoryPath)
-        {
-            return GetComponentsTypes<T>(name, directoryPath).FirstOrDefault();
-        }
-
-        public T GetComponent<T>(string name, string directoryPath = ".")
-        {
-            return GetComponents<T>(name, directoryPath).FirstOrDefault();
-        }
-        public T GetComponent<T>(string directoryPath = ".")
-        {
-            return GetComponents<T>(directoryPath).FirstOrDefault();
-        }
-        */
+        /// <summary>
+        /// Get component idetified by name.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="name">Name of component.</param>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns><see cref="LoadedComponent{T}"/> with selected component or null.</returns>
         public LoadedComponent<T> GetComponentByName<T>(string name, string directoryPath = ".")
         {
             return (from c
@@ -139,6 +68,12 @@ namespace ComponentsLoader
                     where c.Name == name
                     select c).FirstOrDefault();
         }
+        /// <summary>
+        /// Get components from directory.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns>List of all components in directory.</returns>
         public List<LoadedComponent<T>> GetComponents<T>(string directoryPath = ".")
         {
             List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
@@ -165,6 +100,14 @@ namespace ComponentsLoader
             }
             return components;
         }
+        /// <summary>
+        /// Get components idetified by name and version.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="name">Name of component.</param>
+        /// <param name="version">Version of component.</param>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns><see cref="LoadedComponent{T}"/> with selected component or null.</returns>
         public LoadedComponent<T> GetComponentByNameVersion<T>(string name, string version, string directoryPath = ".")
         {
             return (from c
@@ -172,6 +115,14 @@ namespace ComponentsLoader
                     where c.Name == name && c.Version == version
                     select c).FirstOrDefault();
         }
+        /// <summary>
+        /// Get components idetified by name and publiser.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="name">Name of component.</param>
+        /// <param name="publisher">Publisher of component.</param>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns><see cref="LoadedComponent{T}"/> with selected component or null.</returns>
         public LoadedComponent<T> GetComponentByNamePublisher<T>(string name, string publisher, string directoryPath = ".")
         {
             return (from c
@@ -179,6 +130,15 @@ namespace ComponentsLoader
                     where c.Name == name && c.Publisher == publisher
                     select c).FirstOrDefault();
         }
+        /// <summary>
+        /// Get components idetified by name, version and publisher.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="name">Name of component.</param>
+        /// <param name="version">Version of component.</param>
+        /// /// <param name="publisher">Publisher of component.</param>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns><see cref="LoadedComponent{T}"/> with selected component or null.</returns>
         public LoadedComponent<T> GetComponentByNameVersionPublisher<T>(string name, string version, string publisher, string directoryPath = ".")
         {
             return (from c
@@ -187,7 +147,16 @@ namespace ComponentsLoader
                     c.Publisher == publisher
                     select c).FirstOrDefault();
         }
-
+        /// <summary>
+        /// Get components defined in app.config. Structure of components section:
+        /// <components>
+        ///<component type = "Full name of component base type or interface, Assembly with this type or interface" name="Name of component" version="Version of component" publisher="Publisher of component"/>
+        /// ...
+        ///</components>
+        /// Version and publiser are optional.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public List<LoadedComponent<T>> GetComponentsFromConfiguration<T>()
         {
             List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
@@ -227,19 +196,50 @@ namespace ComponentsLoader
             components.RemoveAll(x => x == null);
             return components;
         }
-
+        /// <summary>
+        /// Check if component identified by name is avaiable.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="name">Name of component.</param>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns>Availability of selected component.</returns>
         public bool IsComponentAvaiableByName<T>(string name, string directoryPath = ".")
         {
             return GetComponentByName<T>(name, directoryPath) != null;
         }
+        /// <summary>
+        /// Check if component identified by name and version is avaiable.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="name">Name of component.</param>
+        /// <param name="version">Version of component.</param>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns>Availability of selected component.</returns>
         public bool IsComponentAvaiableByNameVersion<T>(string name, string version, string directoryPath = ".")
         {
             return GetComponentByNameVersion<T>(name, version, directoryPath) != null;
         }
+        /// <summary>
+        /// Check if component identified by name and publisher is avaiable.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="name">Name of component.</param>
+        /// <param name="publisher">Publisher of component.</param>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns>Availability of selected component.</returns>
         public bool IsComponentAvaiableByNamePublisher<T>(string name, string publisher, string directoryPath = ".")
         {
             return GetComponentByNamePublisher<T>(name, publisher, directoryPath) != null;
         }
+        /// <summary>
+        /// Check if component identified by name, version and publisher is avaiable.
+        /// </summary>
+        /// <typeparam name="T">Base type or instance of component.</typeparam>
+        /// <param name="name">Name of component.</param>
+        /// <param name="version">Version of component.</param>
+        /// <param name="publisher">Publisher of component.</param>
+        /// <param name="directoryPath">Name of directory with components.</param>
+        /// <returns>Availability of selected component.</returns>
         public bool IsComponentAvaiableByNameVersionPublisher<T>(string name, string version, string publisher, string directoryPath = ".")
         {
             return GetComponentByNameVersionPublisher<T>(name, version, publisher, directoryPath) != null;

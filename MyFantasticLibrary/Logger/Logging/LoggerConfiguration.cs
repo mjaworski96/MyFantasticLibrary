@@ -5,17 +5,17 @@ using System.Xml;
 namespace Logging
 {
     /// <summary>
-    /// Handler of app.config logger section
+    /// Handler of logger section in app.config.
     /// </summary>
-    class LoggerConfiguration: IConfigurationSectionHandler
+    class LoggerConfiguration : IConfigurationSectionHandler
     {
         /// <summary>
-        /// 
+        /// Creating logger from app.config.
         /// </summary>
         /// <param name="parent">Parent object.</param>
         /// <param name="configContext"> Configuration context object.</param>
         /// <param name="section">Section XML node</param>
-        /// <returns></returns>
+        /// <returns>Logger implementation.</returns>
         public object Create(object parent, object configContext, XmlNode section)
         {
             bool param = false;

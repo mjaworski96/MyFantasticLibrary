@@ -6,13 +6,13 @@
     public class NullLogger : Logger
     {
         /// <summary>
-        /// Default constuctor.
+        /// Initializes new instance of NullLogger.
         /// </summary>
         public NullLogger()
         {
         }
         /// <summary>
-        /// Constructor with one parameter. 
+        /// Initializes new instance of NullLogger.
         /// Implemented only for avoid errors with calling one parameter constuctor by LoggerConfiuration Create method.
         /// </summary>
         /// <param name="message"></param>

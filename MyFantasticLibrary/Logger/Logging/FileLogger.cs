@@ -17,8 +17,7 @@ namespace Logging
         /// </summary>
         private string parameter;
         /// <summary>
-        /// Constructor that allow to set filename.
-        /// Note that file is opened before first logging.
+        /// Initializes new instance of FileLogger.
         /// </summary>
         /// <param name="parameter"></param>
         public FileLogger(string parameter)
@@ -26,7 +25,7 @@ namespace Logging
             this.parameter = parameter;
         }
         /// <summary>
-        /// Default constructor. Sets filename as log.txt
+        /// Initializes new instance of FileManager. Sets filename as log.txt
         /// Note that file is opened before first logging.
         /// </summary>
         public FileLogger() : this("log.txt")
@@ -42,7 +41,8 @@ namespace Logging
             file = new StreamWriter(parameter, true);
         }
         /// <summary>
-        /// Writing message to file
+        /// Writing message to file.
+        /// Note that file is opened before first logging.
         /// </summary>
         /// <param name="message">Message to be logged.</param>
         /// <param name="type">Type of logged message.</param>

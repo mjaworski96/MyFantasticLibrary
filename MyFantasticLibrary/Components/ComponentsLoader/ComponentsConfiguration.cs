@@ -6,8 +6,18 @@ using System.Xml;
 
 namespace ComponentsLoader
 {
+    /// <summary>
+    ///  Handler of components section in app.config.
+    /// </summary>
     public class ComponentsConfiguration : IConfigurationSectionHandler
     {
+        /// <summary>
+        /// Reading components configuration from app.config.
+        /// </summary>
+        /// <param name="parent">Parent object.</param>
+        /// <param name="configContext"> Configuration context object.</param>
+        /// <param name="section">Section XML node</param>
+        /// <returns>List&lt;Tuple&lt;Type, string, string, string, string>> of components parameters.</returns>
         public object Create(object parent, object configContext, XmlNode section)
         {
             List<Tuple<Type, string, string, string, string>> components = new List<Tuple<Type, string, string, string, string>>();
