@@ -7,7 +7,7 @@ namespace Host
     {
         static void Main(string[] args)
         {
-            ITest test = new ComponentsTest();
+            ITest test = new LoggerTest();
             test.Test();
             Console.ReadKey();
         }

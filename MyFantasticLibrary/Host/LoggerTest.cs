@@ -17,24 +17,35 @@ namespace Host
                 consoleLogger.Log(LogType.Information, "xd", true);
                 consoleLogger.Log(LogType.Warning, "xd", true);
                 consoleLogger.Log(LogType.Error, "xd", true);
+                consoleLogger.Log(LogType.Critical, "xd", true);
             }
             using (Logger consoleLogger = new ConsoleLogger("Red"))
             {
                 consoleLogger.Log(LogType.Information, "xd", true);
                 consoleLogger.Log(LogType.Warning, "xd", true);
                 consoleLogger.Log(LogType.Error, "xd", true);
+                consoleLogger.Log(LogType.Critical, "xd", true);
             }
             using (Logger consoleLogger = new ConsoleLogger("Yellow;Red"))
             {
                 consoleLogger.Log(LogType.Information, "xd", true);
                 consoleLogger.Log(LogType.Warning, "xd", true);
                 consoleLogger.Log(LogType.Error, "xd", true);
+                consoleLogger.Log(LogType.Critical, "xd", true);
             }
             using (Logger consoleLogger = new ConsoleLogger("Green;Yellow;Red"))
             {
                 consoleLogger.Log(LogType.Information, "xd", true);
                 consoleLogger.Log(LogType.Warning, "xd", true);
                 consoleLogger.Log(LogType.Error, "xd", true);
+                consoleLogger.Log(LogType.Critical, "xd", true);
+            }
+            using (Logger consoleLogger = new ConsoleLogger("Green;Yellow;Magenta;Red"))
+            {
+                consoleLogger.Log(LogType.Information, "xd", true);
+                consoleLogger.Log(LogType.Warning, "xd", true);
+                consoleLogger.Log(LogType.Error, "xd", true);
+                consoleLogger.Log(LogType.Critical, "xd", true);
             }
         }
     }

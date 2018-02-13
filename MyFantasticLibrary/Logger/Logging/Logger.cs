@@ -33,7 +33,7 @@ namespace Logging
         /// <param name="type">Type of logged message.</param>
         protected abstract void Write(string message, LogType type);
         /// <summary>
-        /// Dispose all opened resource. 
+        /// Dispose all opened resources. 
         /// </summary>
         public abstract void Dispose();
         /// <summary>

@@ -4,7 +4,7 @@ using System.IO;
 namespace Logging
 {
     /// <summary>
-    /// Logger that prints messages to file;
+    /// Logger that prints messages to file.
     /// </summary>
     public class FileLogger : Logger
     {

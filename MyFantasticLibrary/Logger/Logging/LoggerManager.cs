@@ -3,7 +3,7 @@
 namespace Logging
 {
     /// <summary>
-    /// Manager of loggers;
+    /// Manager of loggers.
     /// </summary>
     public class LoggerManager
     {
@@ -16,13 +16,17 @@ namespace Logging
         /// </summary>
         public static Logger Default { get; }
         /// <summary>
-        /// Returns implementation of FileLogger.
+        /// Instance of FileLogger.
         /// </summary>
         public static FileLogger FileLogger { get; }
         /// <summary>
-        /// Returns implemention of ConsoleLogger.
+        /// Instance of ConsoleLogger.
         /// </summary>
         public static ConsoleLogger ConsoleLogger { get; }
+        /// <summary>
+        /// Instance of NullLogger.
+        /// </summary>
+        public static NullLogger NullLogger { get; }
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -31,9 +35,10 @@ namespace Logging
             Default = (Logger)ConfigurationManager.GetSection("Logger");
             FileLogger = new FileLogger();
             ConsoleLogger = new ConsoleLogger();
+            NullLogger = new NullLogger();
 
             if (Default == null)
-                Default = FileLogger;
+                Default = NullLogger;
         }
     }
 }

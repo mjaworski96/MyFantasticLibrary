@@ -17,5 +17,9 @@
         ///  Messages informs about error.
         /// </summary>
         Error,
+        /// <summary>
+        /// Messages informs about critical event;
+        /// </summary>
+        Critical,
     }
 }
