@@ -10,7 +10,7 @@ namespace ComponentsLoader
     public class NotComponentTypeException : Exception
     {
         /// <summary>
-        /// Deafault constructor. Initializes new instance of NotComponentTypeException.
+        /// Initializes new instance of NotComponentTypeException.
         /// </summary>
         public NotComponentTypeException()
         {
@@ -31,7 +31,7 @@ namespace ComponentsLoader
         {
         }
         /// <summary>
-        /// Constructor.
+        /// Initializes new instance of NotComponentTypeException.
         /// </summary>
         /// <param name="info">Information about serialized object.</param>
         /// <param name="context">Context of serialization.</param>
