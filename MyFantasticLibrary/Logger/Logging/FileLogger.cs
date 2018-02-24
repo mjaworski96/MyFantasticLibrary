@@ -41,7 +41,7 @@ namespace Logging
             file = new StreamWriter(parameter, true);
         }
         /// <summary>
-        /// Writing message to file.
+        /// Writes message to file.
         /// Note that file is opened before first logging.
         /// </summary>
         /// <param name="message">Message to be logged.</param>
@@ -52,7 +52,7 @@ namespace Logging
             file.WriteLine(message);
         }
         /// <summary>
-        /// Closing opened file.
+        /// Closes opened file.
         /// </summary>
         public override void Dispose()
         {

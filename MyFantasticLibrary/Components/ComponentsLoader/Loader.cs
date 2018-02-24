@@ -14,7 +14,7 @@ namespace ComponentsLoader
     public class Loader
     {
         /// <summary>
-        /// Get <see cref="ComponentAttribute"/> of component.
+        /// Gets <see cref="ComponentAttribute"/> of component.
         /// </summary>
         /// <param name="componentType">Type of component.</param>
         /// <returns><see cref="ComponentAttribute"/> of component.</returns>
@@ -23,7 +23,7 @@ namespace ComponentsLoader
             return (ComponentAttribute)componentType.GetCustomAttribute(typeof(ComponentAttribute));
         }
         /// <summary>
-        /// Creating instance of component.
+        /// Creates instance of component.
         /// </summary>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="toInstantialize">Type to instantialize.</param>
@@ -33,7 +33,7 @@ namespace ComponentsLoader
             return (T)Activator.CreateInstance(toInstantialize);
         }
         /// <summary>
-        /// Load all assemblies from selected directory.
+        /// Loads all assemblies from selected directory.
         /// </summary>
         /// <param name="directoryPath">Name of directory with components.</param>
         /// <returns>List of assemblies.</returns>
@@ -101,7 +101,7 @@ namespace ComponentsLoader
             return components;
         }
         /// <summary>
-        /// Get components idetified by name and version.
+        /// Gets components idetified by name and version.
         /// </summary>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
@@ -116,7 +116,7 @@ namespace ComponentsLoader
                     select c).FirstOrDefault();
         }
         /// <summary>
-        /// Get components idetified by name and publiser.
+        /// Gets components idetified by name and publiser.
         /// </summary>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
@@ -131,7 +131,7 @@ namespace ComponentsLoader
                     select c).FirstOrDefault();
         }
         /// <summary>
-        /// Get components idetified by name, version and publisher.
+        /// Gets components idetified by name, version and publisher.
         /// </summary>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
@@ -148,7 +148,7 @@ namespace ComponentsLoader
                     select c).FirstOrDefault();
         }
         /// <summary>
-        /// Get components defined in app.config. Structure of components section:
+        /// Gets components defined in app.config. Structure of components section:
         /// <components>
         ///<component type = "Full name of component base type or interface, Assembly with this type or interface" name="Name of component" version="Version of component" publisher="Publisher of component"/>
         /// ...
@@ -197,7 +197,7 @@ namespace ComponentsLoader
             return components;
         }
         /// <summary>
-        /// Check if component identified by name is avaiable.
+        /// Checks if component identified by name is avaiable.
         /// </summary>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
@@ -208,7 +208,7 @@ namespace ComponentsLoader
             return GetComponentByName<T>(name, directoryPath) != null;
         }
         /// <summary>
-        /// Check if component identified by name and version is avaiable.
+        /// Checks if component identified by name and version is avaiable.
         /// </summary>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
@@ -220,7 +220,7 @@ namespace ComponentsLoader
             return GetComponentByNameVersion<T>(name, version, directoryPath) != null;
         }
         /// <summary>
-        /// Check if component identified by name and publisher is avaiable.
+        /// Checks if component identified by name and publisher is avaiable.
         /// </summary>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
@@ -232,7 +232,7 @@ namespace ComponentsLoader
             return GetComponentByNamePublisher<T>(name, publisher, directoryPath) != null;
         }
         /// <summary>
-        /// Check if component identified by name, version and publisher is avaiable.
+        /// Checks if component identified by name, version and publisher is avaiable.
         /// </summary>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>

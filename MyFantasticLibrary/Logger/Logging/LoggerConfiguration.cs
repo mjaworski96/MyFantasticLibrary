@@ -10,7 +10,7 @@ namespace Logging
     class LoggerConfiguration : IConfigurationSectionHandler
     {
         /// <summary>
-        /// Creating logger from app.config.
+        /// Creates logger from app.config.
         /// </summary>
         /// <param name="parent">Parent object.</param>
         /// <param name="configContext"> Configuration context object.</param>

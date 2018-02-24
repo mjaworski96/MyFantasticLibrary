@@ -10,6 +10,7 @@ Logger - logging application state, Version: 1.5.0
 	FileLogger - logging data to file
 	ConsoleLogger - logging data to console
 	NullLogge - ignores all messages
+ImagesGenerator - generates images by interpolating colors from input image, Version 1.0.0
 # VERSIONS #
 Components:
 
@@ -27,3 +28,6 @@ Logger:
 1.5.0
 	- Added NullLogger.
 	- Added Critical LogType.
+ImageGenerator:
+1.0.0
+	- Added generating images.

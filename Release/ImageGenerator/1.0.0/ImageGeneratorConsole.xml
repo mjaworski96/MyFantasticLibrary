@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ImageGeneratorConsole</name>
+    </assembly>
+    <members>
+        <member name="M:ImageGeneratorConsole.Program.Usage">
+            <summary>
+            Print to standard output Usage Information.
+            </summary>
+        </member>
+        <member name="M:ImageGeneratorConsole.Program.Main(System.String[])">
+            <summary>
+            Entry point of application.
+            </summary>
+            <param name="args">Arguments passed to program.</param>
+        </member>
+    </members>
+</doc>

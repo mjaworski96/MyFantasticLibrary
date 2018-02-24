@@ -12,7 +12,7 @@ namespace ComponentsLoader
     public class ComponentsConfiguration : IConfigurationSectionHandler
     {
         /// <summary>
-        /// Reading components configuration from app.config.
+        /// Reades components configuration from app.config.
         /// </summary>
         /// <param name="parent">Parent object.</param>
         /// <param name="configContext"> Configuration context object.</param>

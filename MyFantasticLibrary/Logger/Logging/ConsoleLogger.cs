@@ -72,7 +72,7 @@ namespace Logging
             
         }
         /// <summary>
-        /// Print message to standard output. If color for messages are defined, messages are printed in
+        /// Prints message to standard output. If color for messages are defined, messages are printed in
         /// these colors. Default colors of Console is reset.
         /// </summary>
         /// <param name="message">Message to be logged.</param>

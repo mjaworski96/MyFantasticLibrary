@@ -27,17 +27,17 @@ namespace Logging
             }
         }
         /// <summary>
-        /// Log message. Must be defined in child class.
+        /// Logs message. Must be defined in child class.
         /// </summary>
         /// <param name="message">Message to be logged.</param>
         /// <param name="type">Type of logged message.</param>
         protected abstract void Write(string message, LogType type);
         /// <summary>
-        /// Dispose all opened resources. 
+        /// Disposes all opened resources. 
         /// </summary>
         public abstract void Dispose();
         /// <summary>
-        /// Creating output message.
+        /// Creates output message.
         /// </summary>
         /// <param name="type">Type of logged message. If lower than Filter message will be ignored.</param>
         /// <param name="message">Message to be logged.</param>

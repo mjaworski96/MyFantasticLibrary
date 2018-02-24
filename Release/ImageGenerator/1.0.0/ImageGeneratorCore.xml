@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ImageGeneratorCore</name>
+    </assembly>
+    <members>
+        <member name="T:ImageGeneratorCore.ColorWithPositon">
+            <summary>
+            Color with it's postion
+            </summary>
+        </member>
+        <member name="F:ImageGeneratorCore.ColorWithPositon.x">
+            <summary>
+            X position of color.
+            </summary>
+        </member>
+        <member name="F:ImageGeneratorCore.ColorWithPositon.y">
+            <summary>
+            Y positon of color.
+            </summary>
+        </member>
+        <member name="F:ImageGeneratorCore.ColorWithPositon.color">
+            <summary>
+            Color.
+            </summary>
+        </member>
+        <member name="M:ImageGeneratorCore.ColorWithPositon.#ctor(System.Int32,System.Int32,System.Drawing.Color)">
+            <summary>
+            Initializes new instance o ColorWithPosition.
+            </summary>
+            <param name="x">X position of Color</param>
+            <param name="y">Y positon of Color</param>
+            <param name="color">Color.</param>
+        </member>
+        <member name="T:ImageGeneratorCore.EuclideanDistance">
+            <summary>
+            Calculate Euclidean distance.
+            </summary>
+        </member>
+        <member name="M:ImageGeneratorCore.EuclideanDistance.GetDistance(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Calculates Euclidean Distance.
+            </summary>
+            <param name="x1">X position of first point.</param>
+            <param name="y1">Y position of first point.</param>
+            <param name="x2">X position of second point.</param>
+            <param name="y2">Y position of second point.</param>
+            <returns>Euclidean distance between two points.</returns>
+        </member>
+        <member name="T:ImageGeneratorCore.Generator">
+            <summary>
+            Generates new image by interpolating visible colors from input image.
+            </summary>
+        </member>
+        <member name="F:ImageGeneratorCore.Generator.distance">
+            <summary>
+            Distance calculator.
+            </summary>
+        </member>
+        <member name="M:ImageGeneratorCore.Generator.Generate(System.String,System.String,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Generates new image by interpolating input image.
+            </summary>
+            <param name="imageIn">Path to input image.</param>
+            <param name="imageOut">Path to output image.</param>
+            <param name="format">Format of output image.</param>
+        </member>
+        <member name="M:ImageGeneratorCore.Generator.AddColors(System.Collections.Generic.List{ImageGeneratorCore.ColorWithPositon},System.Int32,System.Int32)">
+            <summary>
+            Interpolates colors at x,y positon.
+            </summary>
+            <param name="colors">Known colors.</param>
+            <param name="x">X position of new color.</param>
+            <param name="y">Y position of new color.</param>
+            <returns>Color calculated by interpolation to nearest unique known colors.</returns>
+        </member>
+        <member name="T:ImageGeneratorCore.IDistance">
+            <summary>
+            Provides calculating distance.
+            </summary>
+        </member>
+        <member name="M:ImageGeneratorCore.IDistance.GetDistance(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Calculates distance.
+            </summary>
+            <param name="x1">X position of first point.</param>
+            <param name="y1">Y position of first point.</param>
+            <param name="x2">X position of second point.</param>
+            <param name="y2">Y position of second point.</param>
+            <returns>Distance between two points.</returns>
+        </member>
+        <member name="T:ImageGeneratorCore.Image">
+            <summary>
+            Represents image.
+            </summary>
+        </member>
+        <member name="F:ImageGeneratorCore.Image._bitmap">
+            <summary>
+            Bitmap of image.
+            </summary>
+        </member>
+        <member name="M:ImageGeneratorCore.Image.#ctor(System.Drawing.Bitmap)">
+            <summary>
+            Initializes new instance of Image.
+            </summary>
+            <param name="bitmap"></param>
+        </member>
+        <member name="M:ImageGeneratorCore.Image.Load(System.String)">
+            <summary>
+            Loads image from file.
+            </summary>
+            <param name="path">Input filename.</param>
+            <returns>Loaded image.</returns>
+        </member>
+        <member name="M:ImageGeneratorCore.Image.Save(System.String,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Saves image to file.
+            </summary>
+            <param name="path">Output filename.</param>
+            <param name="format">Output image format.</param>
+        </member>
+        <member name="P:ImageGeneratorCore.Image.KnownColors">
+            <summary>
+            All visible color (A > 0).
+            </summary>
+        </member>
+        <member name="M:ImageGeneratorCore.Image.GetPixel(System.Int32,System.Int32)">
+            <summary>
+            Returns pixel at selected positon.
+            </summary>
+            <param name="x">X position of pixel.</param>
+            <param name="y">Y position of pixel.</param>
+            <returns>Color of pixel.</returns>
+        </member>
+        <member name="M:ImageGeneratorCore.Image.SetPixel(System.Int32,System.Int32,System.Drawing.Color)">
+            <summary>
+            Sets pixel color.
+            </summary>
+            <param name="x">X position of pixel.</param>
+            <param name="y">Y position of pixel.</param>
+            <param name="color">New color of pixel.</param>
+        </member>
+        <member name="M:ImageGeneratorCore.Image.CreateNew(System.Int32,System.Int32)">
+            <summary>
+            Creating blank image.
+            </summary>
+            <param name="width">With of new image.</param>
+            <param name="height">Height of new image.</param>
+            <returns>Blank image.</returns>
+        </member>
+        <member name="P:ImageGeneratorCore.Image.Width">
+            <summary>
+            Width of image.
+            </summary>
+        </member>
+        <member name="P:ImageGeneratorCore.Image.Height">
+            <summary>
+            Height of image.
+            </summary>
+        </member>
+    </members>
+</doc>

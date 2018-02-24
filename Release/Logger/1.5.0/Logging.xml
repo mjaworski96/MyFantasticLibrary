@@ -16,12 +16,13 @@
         </member>
         <member name="M:Logging.ConsoleLogger.#ctor">
             <summary>
-            Default constructor. Output color will not be changed.
+            Initializes new instance of ConsoleLogger. 
+            Output color will not be changed.
             </summary>
         </member>
         <member name="M:Logging.ConsoleLogger.#ctor(System.String)">
             <summary>
-            Constructor that set color of messages;
+            Initializes new instance of ConsoleLogger. 
             </summary>
             <param name="param">
             Color or colors for messages depending on type of message.
@@ -40,7 +41,7 @@
         </member>
         <member name="M:Logging.ConsoleLogger.Write(System.String,Logging.LogType)">
             <summary>
-            Print message to standard output. If color for messages are defined, messages are printed in
+            Prints message to standard output. If color for messages are defined, messages are printed in
             these colors. Default colors of Console is reset.
             </summary>
             <param name="message">Message to be logged.</param>
@@ -63,14 +64,13 @@
         </member>
         <member name="M:Logging.FileLogger.#ctor(System.String)">
             <summary>
-            Constructor that allow to set filename.
-            Note that file is opened before first logging.
+            Initializes new instance of FileLogger.
             </summary>
             <param name="parameter"></param>
         </member>
         <member name="M:Logging.FileLogger.#ctor">
             <summary>
-            Default constructor. Sets filename as log.txt
+            Initializes new instance of FileManager. Sets filename as log.txt
             Note that file is opened before first logging.
             </summary>
         </member>
@@ -81,14 +81,15 @@
         </member>
         <member name="M:Logging.FileLogger.Write(System.String,Logging.LogType)">
             <summary>
-            Writing message to file
+            Writes message to file.
+            Note that file is opened before first logging.
             </summary>
             <param name="message">Message to be logged.</param>
             <param name="type">Type of logged message.</param>
         </member>
         <member name="M:Logging.FileLogger.Dispose">
             <summary>
-            Closing opened file.
+            Closes opened file.
             </summary>
         </member>
         <member name="T:Logging.LogType">
@@ -138,19 +139,19 @@
         </member>
         <member name="M:Logging.Logger.Write(System.String,Logging.LogType)">
             <summary>
-            Log message. Must be defined in child class.
+            Logs message. Must be defined in child class.
             </summary>
             <param name="message">Message to be logged.</param>
             <param name="type">Type of logged message.</param>
         </member>
         <member name="M:Logging.Logger.Dispose">
             <summary>
-            Dispose all opened resources. 
+            Disposes all opened resources. 
             </summary>
         </member>
         <member name="M:Logging.Logger.CreateLogMessage(Logging.LogType,System.String,System.Boolean)">
             <summary>
-            Creating output message.
+            Creates output message.
             </summary>
             <param name="type">Type of logged message. If lower than Filter message will be ignored.</param>
             <param name="message">Message to be logged.</param>
@@ -159,17 +160,17 @@
         </member>
         <member name="T:Logging.LoggerConfiguration">
             <summary>
-            Handler of app.config logger section
+            Handler of logger section in app.config.
             </summary>
         </member>
         <member name="M:Logging.LoggerConfiguration.Create(System.Object,System.Object,System.Xml.XmlNode)">
             <summary>
-            
+            Creates logger from app.config.
             </summary>
             <param name="parent">Parent object.</param>
             <param name="configContext"> Configuration context object.</param>
             <param name="section">Section XML node</param>
-            <returns></returns>
+            <returns>Logger implementation.</returns>
         </member>
         <member name="T:Logging.LoggerManager">
             <summary>
@@ -202,7 +203,7 @@
         </member>
         <member name="M:Logging.LoggerManager.#cctor">
             <summary>
-            Default constructor.
+            Initializes static parameters of LoggerManager.
             </summary>
         </member>
         <member name="T:Logging.NullLogger">
@@ -212,12 +213,12 @@
         </member>
         <member name="M:Logging.NullLogger.#ctor">
             <summary>
-            Default constuctor.
+            Initializes new instance of NullLogger.
             </summary>
         </member>
         <member name="M:Logging.NullLogger.#ctor(System.String)">
             <summary>
-            Constructor with one parameter. 
+            Initializes new instance of NullLogger.
             Implemented only for avoid errors with calling one parameter constuctor by LoggerConfiuration Create method.
             </summary>
             <param name="message"></param>
