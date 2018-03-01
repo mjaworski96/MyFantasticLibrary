@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentsTest.cs" />
+    <Compile Include="ConfigurationTest.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="LoggerTest.cs" />
     <Compile Include="Program.cs" />
@@ -69,6 +70,10 @@
     <ProjectReference Include="..\Components\Usage\StringManipulator\StringManipulator.csproj">
       <Project>{77a5942c-2f54-4adf-840d-bd025955823f}</Project>
       <Name>StringManipulator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Configuration\ConfigurationManager\ConfigurationManager.csproj">
+      <Project>{29976d6c-648f-4d65-9ffa-31e1b72babca}</Project>
+      <Name>ConfigurationManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logger\Logging\Logging.csproj">
       <Project>{3c0bd03f-d580-4146-b2fc-05d934f37238}</Project>

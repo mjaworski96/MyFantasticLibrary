@@ -1,20 +1,23 @@
 # README #
 Language: C#
 IDE: Visual Studio Community 2017
-Platforms: Windows
 
 # PROJECTS #
-Components - creating and using of indepentent Components, Version: Not released yet
-Logger - logging application state, Version: 1.5.0
+
+* Components - creating and using of indepentent Components, Version: Not released yet
+
+* Logger - logging application state, Version: 1.5.0
 	Provides: 
 	FileLogger - logging data to file
 	ConsoleLogger - logging data to console
-	NullLogge - ignores all messages
-ImagesGenerator - generates images by interpolating colors from input image, Version 1.0.0
-# VERSIONS #
-Components:
+	NullLogger - ignores all messages
+	
+* ConfigurationManager - allows to load/save config using .NET Standard 2.0, Version: Not released yet
 
-Logger:
+# VERSIONS #
+* Components:
+
+* Logger:
 1.0.0 
 	- Added logging to file.
 1.1.0
@@ -28,6 +31,4 @@ Logger:
 1.5.0
 	- Added NullLogger.
 	- Added Critical LogType.
-ImageGenerator:
-1.0.0
-	- Added generating images.
+* ConfigurationManager:

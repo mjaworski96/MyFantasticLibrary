@@ -1,5 +1,4 @@
-﻿using Logging;
-using System;
+﻿using System;
 
 namespace Host
 {
@@ -7,7 +6,7 @@ namespace Host
     {
         static void Main(string[] args)
         {
-            ITest test = new LoggerTest();
+            ITest test = new ConfigurationTest();
             test.Test();
             Console.ReadKey();
         }

@@ -51,5 +51,10 @@ namespace Logging
             }
                 return logObject;
         }
+
+        public Logger Create()
+        {
+
+        }
     }
 }
