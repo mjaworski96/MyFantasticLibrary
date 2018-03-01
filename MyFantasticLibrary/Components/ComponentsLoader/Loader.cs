@@ -1,7 +1,7 @@
 ﻿using ComponentContract;
+using ConfigurationManager;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -155,13 +155,13 @@ namespace ComponentsLoader
         ///</components>
         /// Version and publiser are optional.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public List<LoadedComponent<T>> GetComponentsFromConfiguration<T>()
+        /// <typeparam name="T">Type of component.</typeparam>
+        /// <returns>List of <see cref="LoadedComponent{T}"/> from configuration.</returns>
+        public List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(string configPath = "config.cfg")
         {
             List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
-            List<Tuple<Type, string, string, string, string>> config =
-                (List<Tuple<Type, string, string, string, string>>)ConfigurationManager.GetSection("components");
+            List<Tuple<Type, string, string, string, string>> config = ComponentsConfiguration.Create(
+                new Configuration(configPath));
 
             foreach (var item in config)
             {

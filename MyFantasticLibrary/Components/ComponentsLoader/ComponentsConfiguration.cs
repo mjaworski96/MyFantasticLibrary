@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using ConfigurationManager;
+using Logging;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,16 +10,17 @@ namespace ComponentsLoader
     /// <summary>
     ///  Handler of components section in app.config.
     /// </summary>
-    public class ComponentsConfiguration : IConfigurationSectionHandler
+    public class ComponentsConfiguration
     {
         /// <summary>
         /// Reades components configuration from app.config.
+        ///  Should be used in other class that can acces System.Configuration.IConfigurationSectionHandler in Create method.
         /// </summary>
         /// <param name="parent">Parent object.</param>
         /// <param name="configContext"> Configuration context object.</param>
         /// <param name="section">Section XML node</param>
-        /// <returns>List&lt;Tuple&lt;Type, string, string, string, string>> of components parameters.</returns>
-        public object Create(object parent, object configContext, XmlNode section)
+        /// <returns>List&lt;Tuple&lt;Type, string, string, string, string>> with components parameters.</returns>
+        public object CreateComponents(object parent, object configContext, XmlNode section)
         {
             List<Tuple<Type, string, string, string, string>> components = new List<Tuple<Type, string, string, string, string>>();
 
@@ -45,6 +47,29 @@ namespace ComponentsLoader
             }
 
             return components;
+        }
+        /// <summary>
+        /// Creates information about components from configuration.
+        /// </summary>
+        /// <param name="config"><see cref="Configuration"/> with information about components.</param>
+        /// <returns>List&lt;Tuple&lt;Type, string, string, string, string>>  with components parameters.</returns>
+        internal static List<Tuple<Type, string, string, string, string>> Create(Configuration config)
+        {
+            List<Tuple<Type, string, string, string, string>> componentsInfo = new List<Tuple<Type, string, string, string, string>>();
+            List<Field> components = config.GetListOfFields("components");
+            foreach (Field component in components)
+            {
+                Type type = Type.GetType(component.GetField("type").Value);
+                if (type == null) continue;
+                string name = component.GetField("name").Value;
+                if (name == null) continue;
+                string version = component.GetField("version")?.Value;
+                string publisher = component.GetField("publisher")?.Value;
+                string directory = component.GetField("directory")?.Value ?? ".";
+                componentsInfo.Add(Tuple.Create(type, name, version, publisher, directory));
+            }
+
+            return componentsInfo;
         }
     }
 }

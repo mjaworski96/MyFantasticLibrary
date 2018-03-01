@@ -34,6 +34,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,11 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Components\ComponentContract\ComponentContract.csproj">
-      <Project>{f7ab7bef-5762-4d62-8a05-0f739235246a}</Project>
+      <Project>{17dc17ef-c90e-4864-9c04-5fd484ba3000}</Project>
       <Name>ComponentContract</Name>
     </ProjectReference>
     <ProjectReference Include="..\Components\ComponentsLoader\ComponentsLoader.csproj">
-      <Project>{5b599a45-5feb-4e7d-b124-1592c1d220ed}</Project>
+      <Project>{568ac684-6797-4b10-86ab-3d3d1f70699b}</Project>
       <Name>ComponentsLoader</Name>
     </ProjectReference>
     <ProjectReference Include="..\Components\Usage\Calculator\Calculator.csproj">
@@ -76,9 +78,14 @@
       <Name>ConfigurationManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logger\Logging\Logging.csproj">
-      <Project>{3c0bd03f-d580-4146-b2fc-05d934f37238}</Project>
+      <Project>{5dc011ef-7ebb-4212-84ad-29bfbb089ef7}</Project>
       <Name>Logging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

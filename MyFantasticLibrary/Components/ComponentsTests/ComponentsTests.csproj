@@ -53,11 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ComponentContract\ComponentContract.csproj">
-      <Project>{f7ab7bef-5762-4d62-8a05-0f739235246a}</Project>
+      <Project>{17dc17ef-c90e-4864-9c04-5fd484ba3000}</Project>
       <Name>ComponentContract</Name>
     </ProjectReference>
     <ProjectReference Include="..\ComponentsLoader\ComponentsLoader.csproj">
-      <Project>{5b599a45-5feb-4e7d-b124-1592c1d220ed}</Project>
+      <Project>{568ac684-6797-4b10-86ab-3d3d1f70699b}</Project>
       <Name>ComponentsLoader</Name>
     </ProjectReference>
     <ProjectReference Include="..\Usage\AbstractClassContractImplementaion\AbstractClassContractImplementaion.csproj">
@@ -99,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="config.cfg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

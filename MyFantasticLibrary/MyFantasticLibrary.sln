@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{E448FC46-965F-4D6A-A98E-821649B4AED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentContract", "Components\ComponentContract\ComponentContract.csproj", "{F7AB7BEF-5762-4D62-8A05-0F739235246A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComponentsLoader", "Components\ComponentsLoader\ComponentsLoader.csproj", "{5B599A45-5FEB-4E7D-B124-1592C1D220ED}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Usage", "Usage", "{E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringManipulator", "Components\Usage\StringManipulator\StringManipulator.csproj", "{77A5942C-2F54-4ADF-840D-BD025955823F}"
@@ -27,8 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReversingManipulator", "Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host", "Host\Host.csproj", "{24AD7896-DDD5-4636-B68D-C0482DBCE250}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Logger\Logging\Logging.csproj", "{3C0BD03F-D580-4146-B2FC-05D934F37238}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logger", "Logger", "{BAF53156-5E7A-4C12-9774-2EDF4E83F192}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCalculator2", "Components\Usage\MyCalculator2\MyCalculator2.csproj", "{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}"
@@ -37,15 +31,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractClassContract", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractClassContractImplementaion", "Components\Usage\AbstractClassContractImplementaion\AbstractClassContractImplementaion.csproj", "{12374E52-EF0F-4151-9DAF-36E882DAA881}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerStandard", "Logger\LoggerStandard\LoggerStandard.csproj", "{5DC011EF-7EBB-4212-84AD-29BFBB089EF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging", "Logger\Logging\Logging.csproj", "{5DC011EF-7EBB-4212-84AD-29BFBB089EF7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComponentContractStandard", "Components\ComponentContractStandard\ComponentContractStandard.csproj", "{17DC17EF-C90E-4864-9C04-5FD484BA3000}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComponentContract", "Components\ComponentContract\ComponentContract.csproj", "{17DC17EF-C90E-4864-9C04-5FD484BA3000}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComponentsLoaderStandard", "Components\ComponentsLoaderStandard\ComponentsLoaderStandard.csproj", "{568AC684-6797-4B10-86AB-3D3D1F70699B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComponentsLoader", "Components\ComponentsLoader\ComponentsLoader.csproj", "{568AC684-6797-4B10-86AB-3D3D1F70699B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{9BA71A1A-D712-47CC-B230-6979D2CFD5F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationManager", "Configuration\ConfigurationManager\ConfigurationManager.csproj", "{29976D6C-648F-4D65-9FFA-31E1B72BABCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigurationManager", "Configuration\ConfigurationManager\ConfigurationManager.csproj", "{29976D6C-648F-4D65-9FFA-31E1B72BABCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationTests", "Configuration\ConfigurationTests\ConfigurationTests.csproj", "{1CCF36B2-F012-418D-A745-4A505BBAE79D}"
 EndProject
@@ -55,14 +49,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F7AB7BEF-5762-4D62-8A05-0F739235246A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7AB7BEF-5762-4D62-8A05-0F739235246A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7AB7BEF-5762-4D62-8A05-0F739235246A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7AB7BEF-5762-4D62-8A05-0F739235246A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B599A45-5FEB-4E7D-B124-1592C1D220ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B599A45-5FEB-4E7D-B124-1592C1D220ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B599A45-5FEB-4E7D-B124-1592C1D220ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B599A45-5FEB-4E7D-B124-1592C1D220ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77A5942C-2F54-4ADF-840D-BD025955823F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77A5942C-2F54-4ADF-840D-BD025955823F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77A5942C-2F54-4ADF-840D-BD025955823F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,10 +81,6 @@ Global
 		{24AD7896-DDD5-4636-B68D-C0482DBCE250}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24AD7896-DDD5-4636-B68D-C0482DBCE250}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24AD7896-DDD5-4636-B68D-C0482DBCE250}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C0BD03F-D580-4146-B2FC-05D934F37238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C0BD03F-D580-4146-B2FC-05D934F37238}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C0BD03F-D580-4146-B2FC-05D934F37238}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C0BD03F-D580-4146-B2FC-05D934F37238}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -136,8 +118,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F7AB7BEF-5762-4D62-8A05-0F739235246A} = {E448FC46-965F-4D6A-A98E-821649B4AED3}
-		{5B599A45-5FEB-4E7D-B124-1592C1D220ED} = {E448FC46-965F-4D6A-A98E-821649B4AED3}
 		{E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2} = {E448FC46-965F-4D6A-A98E-821649B4AED3}
 		{77A5942C-2F54-4ADF-840D-BD025955823F} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
 		{51708940-0819-4808-9740-0B4905739E8B} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
@@ -146,7 +126,6 @@ Global
 		{2F0B70BA-E4D3-44B1-B6A3-288A9ADFB2EF} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
 		{39E9AEE7-247A-44AA-ABDF-5897F6ABCA3C} = {E448FC46-965F-4D6A-A98E-821649B4AED3}
 		{A8BAD491-2640-4B00-A07F-2626DAFEB5F8} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
-		{3C0BD03F-D580-4146-B2FC-05D934F37238} = {BAF53156-5E7A-4C12-9774-2EDF4E83F192}
 		{0F37DC04-7539-42F3-AFC9-05ADA8AB9E2D} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
 		{6AB8903E-61FF-4405-9294-603866122E1B} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
 		{12374E52-EF0F-4151-9DAF-36E882DAA881} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}

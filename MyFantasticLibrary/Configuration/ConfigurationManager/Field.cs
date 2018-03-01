@@ -50,8 +50,8 @@ namespace ConfigurationManager
         /// </summary>
         /// <param name="key">Key of field</param>
         /// <param name="depth">Current search depth (Used when key is complex).</param>
-        /// <returns>Field asinged with key</returns>
-        internal Field GetField(string key, int depth = 0)
+        /// <returns>Field asinged with key.</returns>
+        public Field GetField(string key, int depth = 0)
         {
             string[] keys = key.Split('.');
             Field field = _fields.Where(f => f._key == keys[depth]).FirstOrDefault();
@@ -114,7 +114,7 @@ namespace ConfigurationManager
         /// </summary>
         /// <param name="count">Count of tabs.</param>
         /// <returns>String that contains tabs.</returns>
-        internal string Tabs(int count)
+        private static string Tabs(int count)
         {
             return new string('\t', count - 1);
         }
@@ -123,7 +123,7 @@ namespace ConfigurationManager
         /// </summary>
         /// <param name="sw"><see cref="StreamWriter"/> to save Field.</param>
         /// <param name="depth">Depth of currently saved children.</param>
-        internal void Save(StreamWriter sw, int depth)
+        private void Save(StreamWriter sw, int depth)
         {
             if (depth == 0)
             {
@@ -172,7 +172,7 @@ namespace ConfigurationManager
         /// Saves Field to file.
         /// </summary>
         /// <param name="path">Path to configuration file.</param>
-        internal void Save(string path)
+        public void Save(string path)
         {
             using (StreamWriter sw = new StreamWriter(path))
             {
@@ -184,7 +184,7 @@ namespace ConfigurationManager
         /// </summary>
         /// <param name="toCut">String to be cuted.</param>
         /// <returns>String without  begining and ending white spaces.</returns>
-        internal static string CutWhiteSpaces(string toCut)
+        private static string CutWhiteSpaces(string toCut)
         {
             int forwardSpaces = 0;
             int backwardSpaces = 0;
@@ -212,7 +212,7 @@ namespace ConfigurationManager
         /// <param name="startIndex">Startin index.</param>
         /// <param name="separator">Separator between parts of array.</param>
         /// <returns>String builded with cuted strings and separators.</returns>
-        internal static string ConnectCuttedStrings(string[] cuted, int startIndex, char separator)
+        private static string ConnectCuttedStrings(string[] cuted, int startIndex, char separator)
         {
             string str = "";
 
@@ -230,7 +230,7 @@ namespace ConfigurationManager
         /// </summary>
         /// <param name="sr"><see cref="StreamReader"/> that contains Field information.</param>
         /// <param name="listItem">If true, element doesn't have to have key.</param>
-        internal void Load(StreamReader sr, bool listItem)
+        private void Load(StreamReader sr, bool listItem)
         {
             while (!sr.EndOfStream)
             {
@@ -285,7 +285,7 @@ namespace ConfigurationManager
         /// <param name="toCheck">Element to be searched in array.</param>
         /// <param name="searched">Array to search.</param>
         /// <returns>True if array contains element, false if not.</returns>
-        internal bool CheckChar(char toCheck, params char[] searched)
+        private static bool CheckChar(char toCheck, params char[] searched)
         {
             if (searched.Contains(toCheck)) return true;
             return false;
@@ -295,7 +295,7 @@ namespace ConfigurationManager
         /// </summary>
         /// <param name="sr"><see cref="StreamReader"/> with information about Field.</param>
         /// <returns><see cref="Stream"/> with parsed data.</returns>
-        internal Stream Parse(StreamReader sr)
+        private static Stream Parse(StreamReader sr)
         {
             Stream stream = new MemoryStream();
             StreamWriter writer = new StreamWriter(stream);
@@ -330,7 +330,7 @@ namespace ConfigurationManager
         /// Loads Field from file.
         /// </summary>
         /// <param name="path">Path to file.</param>
-        internal void Load(string path)
+        public void Load(string path)
         {
             using (StreamReader sr = new StreamReader(path))
             {

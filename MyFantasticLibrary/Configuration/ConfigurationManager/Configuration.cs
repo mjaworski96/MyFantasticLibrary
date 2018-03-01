@@ -4,6 +4,19 @@ namespace ConfigurationManager
 {
     /// <summary>
     /// Configuration. Contains data in Key-Value format. Can contain list of data without keys.
+    /// Cnfiguration file format:
+    /// simple=simpleValue
+    /// complex = {
+    ///     nestedKey = val
+    ///     nested = value
+    /// }
+    /// list = [
+    ///     simpleListItem
+    ///     complexListItem = {
+    ///     nested = 1
+    ///     parameter = param
+    ///     }
+    /// ]
     /// </summary>
     public class Configuration
     {
@@ -18,7 +31,31 @@ namespace ConfigurationManager
         /// <returns>Value asigned to key</returns>
         public string GetString(string key)
         {
-            return configuration.GetField(key)?.Value ?? "";
+            return GetField(key)?.Value ?? "";
+        }
+        /// <summary>
+        /// Gets <see cref="Field"/> asigned with key.
+        /// </summary>
+        /// <param name="key">Key to search <see cref="Field"/>.</param>
+        /// <returns><see cref="Field"/> asigned with key.</returns>
+        public Field GetField(string key)
+        {
+            return configuration.GetField(key);
+        }
+        /// <summary>
+        /// Intializes new instance of Configuration.
+        /// </summary>
+        /// <param name="path">Path to file with initial configuration.</param>
+        public Configuration(string path)
+        {
+            configuration.Load(path);
+        }
+        /// <summary>
+        /// Initializes new instance of Configuration.
+        /// </summary>
+        public Configuration()
+        {
+
         }
         /// <summary>
         /// Gets field asigned with key.
@@ -37,7 +74,7 @@ namespace ConfigurationManager
         /// <param name="value">Value to asign with key.</param>
         public void SetString(string key, string value)
         {
-            Field field = configuration.GetField(key);
+            Field field = GetField(key);
             field.Value = value;
         }
         /// <summary>
@@ -48,8 +85,20 @@ namespace ConfigurationManager
         /// <param name="fields">Fielts to asign with key.</param>
         public void SetFields(string key, List<Field> fields)
         {
-            Field field = configuration.GetField(key);
+            Field field = GetField(key);
             field.Fields = fields;
+        }
+        /// <summary>
+        /// Sets <see cref="Field"/> asiged with key.
+        /// </summary>
+        /// <param name="key">Key of <see cref="Field"/></param>
+        /// <param name="field"><see cref="Field"/> to asign with key</param>
+        public void SetField(string key, Field field)
+        {
+            Field f = GetField(key);
+            f.Key = field.Key;
+            f.Value = field.Value;
+            f.Fields = field.Fields;
         }
         /// <summary>
         /// Loads configuration from file.

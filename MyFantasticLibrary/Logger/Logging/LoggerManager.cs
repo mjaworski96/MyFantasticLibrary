@@ -1,4 +1,4 @@
-﻿using System.Configuration;
+﻿using ConfigurationManager;
 
 namespace Logging
 {
@@ -9,6 +9,7 @@ namespace Logging
     {
         /// <summary>
         /// Returns default Logger implementation. This value can be changed from Logger section in app.config.
+        /// Not working in .NET Standard Library.
         /// Default value of logger is FileLogger
         /// Format of this section is:
         /// <logger type="type of logger" parameter="parameter for logger" filter="type of log message"/>
@@ -32,7 +33,8 @@ namespace Logging
         /// </summary>
         static LoggerManager()
         {
-            Default = (Logger)ConfigurationManager.GetSection("Logger");
+            Configuration config = new Configuration("config.cfg");
+            Default = LoggerConfiguration.Create(config);
             FileLogger = new FileLogger();
             ConsoleLogger = new ConsoleLogger();
             NullLogger = new NullLogger();

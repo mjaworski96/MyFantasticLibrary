@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ComponentContract\ComponentContract.csproj">
-      <Project>{f7ab7bef-5762-4d62-8a05-0f739235246a}</Project>
+      <Project>{17dc17ef-c90e-4864-9c04-5fd484ba3000}</Project>
       <Name>ComponentContract</Name>
     </ProjectReference>
     <ProjectReference Include="..\Calculator\Calculator.csproj">
