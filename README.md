@@ -21,6 +21,8 @@ IDE: Visual Studio Community 2017
 		ConfigurationManager 1.0.0
 	
 * ConfigurationManager - allows to load/save config using .NET Standard 2.0, Version: 1.0.0
+	Provides:
+		Configuration - loads/saves configuration to/from file
 
 # VERSIONS #
 * Components:
