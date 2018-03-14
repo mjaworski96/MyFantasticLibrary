@@ -12,82 +12,72 @@ namespace ComponentsTests
         [TestMethod]
         public void TestLoadComponents()
         {
-            Loader loader = new Loader();
-            Assert.AreEqual(3, loader.GetComponents<IStringManipulator>().Count);
-            Assert.AreEqual(2, loader.GetComponents<ICalculator>().Count);
+            Assert.AreEqual(3, Loader.GetComponents<IStringManipulator>().Count);
+            Assert.AreEqual(2, Loader.GetComponents<ICalculator>().Count);
         }
         [TestMethod]
         public void TestLoadMyCalculatorName()
         {
-            Loader loader = new Loader();
-            Assert.IsNotNull(loader.GetComponentByName<ICalculator>("My Calculator"));
-            Assert.IsNull(loader.GetComponentByName<ICalculator>("My Calculator2"));
+            Assert.IsNotNull(Loader.GetComponentByName<ICalculator>("My Calculator"));
+            Assert.IsNull(Loader.GetComponentByName<ICalculator>("My Calculator2"));
         }
         [TestMethod]
         public void TestLoadMyCalculatorNameVersion()
         {
-            Loader loader = new Loader();
-            Assert.IsNotNull(loader.GetComponentByNameVersion<ICalculator>("My Calculator", "2.0"));
-            Assert.IsNull(loader.GetComponentByNameVersion<ICalculator>("My Calculator2", "2.0"));
-            Assert.IsNull(loader.GetComponentByNameVersion<ICalculator>("My Calculator", "3.0"));
-            Assert.IsNull(loader.GetComponentByNameVersion<ICalculator>("My Calculator2", "3.0"));
+            Assert.IsNotNull(Loader.GetComponentByNameVersion<ICalculator>("My Calculator", "2.0"));
+            Assert.IsNull(Loader.GetComponentByNameVersion<ICalculator>("My Calculator2", "2.0"));
+            Assert.IsNull(Loader.GetComponentByNameVersion<ICalculator>("My Calculator", "3.0"));
+            Assert.IsNull(Loader.GetComponentByNameVersion<ICalculator>("My Calculator2", "3.0"));
         }
         [TestMethod]
         public void TestLoadMyCalculatorNamePublisher()
         {
-            Loader loader = new Loader();
-            Assert.IsNotNull(loader.GetComponentByNamePublisher<ICalculator>("My Calculator", "MJayJ II"));
-            Assert.IsNull(loader.GetComponentByNamePublisher<ICalculator>("My Calculator2", "MJayJ"));
-            Assert.IsNull(loader.GetComponentByNamePublisher<ICalculator>("My Calculator", "MJayJ III"));
-            Assert.IsNull(loader.GetComponentByNamePublisher<ICalculator>("My Calculator2", "MJayJ III"));
+            Assert.IsNotNull(Loader.GetComponentByNamePublisher<ICalculator>("My Calculator", "MJayJ II"));
+            Assert.IsNull(Loader.GetComponentByNamePublisher<ICalculator>("My Calculator2", "MJayJ"));
+            Assert.IsNull(Loader.GetComponentByNamePublisher<ICalculator>("My Calculator", "MJayJ III"));
+            Assert.IsNull(Loader.GetComponentByNamePublisher<ICalculator>("My Calculator2", "MJayJ III"));
         }
         [TestMethod]
         public void TestLoadMyCalculatorNameVersionPublisher()
         {
-            Loader loader = new Loader();
-            Assert.IsNotNull(loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator", "2.0", "MJayJ II"));
+            Assert.IsNotNull(Loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator", "2.0", "MJayJ II"));
 
-            Assert.IsNull(loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator2", "2.0", "MJayJ II"));
-            Assert.IsNull(loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator", "3.0", "MJayJ II"));
-            Assert.IsNull(loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator", "2.0", "MJayJ III"));
+            Assert.IsNull(Loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator2", "2.0", "MJayJ II"));
+            Assert.IsNull(Loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator", "3.0", "MJayJ II"));
+            Assert.IsNull(Loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator", "2.0", "MJayJ III"));
 
-            Assert.IsNull(loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator2", "3.0", "MJayJ II"));
-            Assert.IsNull(loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator2", "2.0", "MJayJ III"));
-            Assert.IsNull(loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator", "3.0", "MJayJ III"));
+            Assert.IsNull(Loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator2", "3.0", "MJayJ II"));
+            Assert.IsNull(Loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator2", "2.0", "MJayJ III"));
+            Assert.IsNull(Loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator", "3.0", "MJayJ III"));
 
-            Assert.IsNull(loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator2", "3.0", "MJayJ III"));
+            Assert.IsNull(Loader.GetComponentByNameVersionPublisher<ICalculator>("My Calculator2", "3.0", "MJayJ III"));
         }
         [TestMethod]
         public void TestLoadLowerManipulator()
         {
-            Loader loader = new Loader();
-            Assert.IsNotNull(loader.GetComponentByName<IStringManipulator>("Lowercase String Manipulator"));
+            Assert.IsNotNull(Loader.GetComponentByName<IStringManipulator>("Lowercase String Manipulator"));
         }
         [TestMethod]
         public void TestLoadUpperManipulator()
         {
-            Loader loader = new Loader();
-            Assert.IsNotNull(loader.GetComponentByName<IStringManipulator>("Uppercase String Manipulator"));
+            Assert.IsNotNull(Loader.GetComponentByName<IStringManipulator>("Uppercase String Manipulator"));
         }
         [TestMethod]
         public void TestLoadReversingManipulator()
         {
-            Loader loader = new Loader();
-            Assert.IsNotNull(loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator"));
+            Assert.IsNotNull(Loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator"));
         }
 
         [TestMethod]
         public void TestNoExistingStringManipulator()
         {
-            Loader loader = new Loader();
-            Assert.IsNull(loader.GetComponentByName<IStringManipulator>("Not exists"));
+            Assert.IsNull(Loader.GetComponentByName<IStringManipulator>("Not exists"));
         }
 
         [TestMethod]
         public void TestMyCalculator()
         {
-            Loader loader = new Loader();
-            ICalculator calc = loader.GetComponentByName<ICalculator>("My Calculator").Singleton;
+            ICalculator calc = Loader.GetComponentByName<ICalculator>("My Calculator").Singleton;
             double a = -98.221;
             double b = 107.932;
 
@@ -99,8 +89,7 @@ namespace ComponentsTests
         [TestMethod]
         public void TestMyCalculator2()
         {
-            Loader loader = new Loader();
-            ICalculator calc = loader.GetComponentByNameVersion<ICalculator>("My Calculator", "2.0").Singleton;
+            ICalculator calc = Loader.GetComponentByNameVersion<ICalculator>("My Calculator", "2.0").Singleton;
             double a = -98.221;
             double b = 107.932;
 
@@ -112,60 +101,52 @@ namespace ComponentsTests
         [TestMethod]
         public void TestLowerManipulator()
         {
-            Loader loader = new Loader();
-            IStringManipulator manip = loader.GetComponentByName<IStringManipulator>("Lowercase String Manipulator").Singleton;
+            IStringManipulator manip = Loader.GetComponentByName<IStringManipulator>("Lowercase String Manipulator").Singleton;
             Assert.AreEqual("abcdefg123", manip.Manip("ABcDefG123"));
         }
         [TestMethod]
         public void TestUpperManipulator()
         {
-            Loader loader = new Loader();
-            IStringManipulator manip = loader.GetComponentByName<IStringManipulator>("Uppercase String Manipulator").Singleton;
+            IStringManipulator manip = Loader.GetComponentByName<IStringManipulator>("Uppercase String Manipulator").Singleton;
             Assert.AreEqual("ABCDEFG123", manip.Manip("ABcDefG123"));
         }
         [TestMethod]
         public void TestReversingManipulator()
         {
-            Loader loader = new Loader();
-            IStringManipulator manip = loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator").Singleton;
+            IStringManipulator manip = Loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator").Singleton;
             Assert.AreEqual("321GfeDcBA", manip.Manip("ABcDefG123"));
         }
         [TestMethod]
         public void TestGetComponentsFromConfiguration()
         {
-            Loader loader = new Loader();
-            Assert.AreEqual(2, loader.GetComponentsFromConfiguration<ICalculator>().Count);
-            Assert.AreEqual(3, loader.GetComponentsFromConfiguration<IStringManipulator>().Count);
+            Assert.AreEqual(2, Loader.GetComponentsFromConfiguration<ICalculator>().Count);
+            Assert.AreEqual(3, Loader.GetComponentsFromConfiguration<IStringManipulator>().Count);
         }
         [TestMethod]
         public void TestGetAbstractClassComponent()
         {
-            Loader loader = new Loader();
-            Assert.IsNotNull(loader.GetComponentByName<DoSomething>("Abstract Class Contract Implementation"));
+            Assert.IsNotNull(Loader.GetComponentByName<DoSomething>("Abstract Class Contract Implementation"));
         }
         [TestMethod]
         public void TestIsComponentAvaiable()
         {
-            Loader loader = new Loader();
+            Assert.IsTrue(Loader.IsComponentAvaiableByName<ICalculator>("My Calculator"));
+            Assert.IsFalse(Loader.IsComponentAvaiableByName<ICalculator>("My Calulator 3"));
 
-            Assert.IsTrue(loader.IsComponentAvaiableByName<ICalculator>("My Calculator"));
-            Assert.IsFalse(loader.IsComponentAvaiableByName<ICalculator>("My Calulator 3"));
+            Assert.IsTrue(Loader.IsComponentAvaiableByNameVersion<IStringManipulator>("Reversing String Manipulator", "1.0"));
+            Assert.IsFalse(Loader.IsComponentAvaiableByNameVersion<IStringManipulator>("My Calulator", "2.0"));
 
-            Assert.IsTrue(loader.IsComponentAvaiableByNameVersion<IStringManipulator>("Reversing String Manipulator", "1.0"));
-            Assert.IsFalse(loader.IsComponentAvaiableByNameVersion<IStringManipulator>("My Calulator", "2.0"));
+            Assert.IsTrue(Loader.IsComponentAvaiableByNamePublisher<ICalculator>("My Calculator", "MJayJ"));
+            Assert.IsFalse(Loader.IsComponentAvaiableByNamePublisher<ICalculator>("My Calulator", "My Company"));
 
-            Assert.IsTrue(loader.IsComponentAvaiableByNamePublisher<ICalculator>("My Calculator", "MJayJ"));
-            Assert.IsFalse(loader.IsComponentAvaiableByNamePublisher<ICalculator>("My Calulator", "My Company"));
-
-            Assert.IsTrue(loader.IsComponentAvaiableByNameVersionPublisher<IStringManipulator>("Reversing String Manipulator", "1.0", "MJayJ"));
-            Assert.IsFalse(loader.IsComponentAvaiableByNameVersionPublisher<ICalculator>("My Calculator Pro", "2.1", "My Company"));
+            Assert.IsTrue(Loader.IsComponentAvaiableByNameVersionPublisher<IStringManipulator>("Reversing String Manipulator", "1.0", "MJayJ"));
+            Assert.IsFalse(Loader.IsComponentAvaiableByNameVersionPublisher<ICalculator>("My Calculator Pro", "2.1", "My Company"));
         }
         [TestMethod]
         public void TestGetAssemblyAndReferencedAssembliesFromComponent()
         {
-            Loader loader = new Loader();
             LoadedComponent<IStringManipulator> component =
-                loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator");
+                Loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator");
             Assert.AreEqual("ReversingManipulator", component.AssemblyName.Name);
             Assert.AreEqual(3, component.ReferencesAssembliesNames.Length);
             Assert.AreEqual("mscorlib", component.ReferencesAssembliesNames[0].Name);

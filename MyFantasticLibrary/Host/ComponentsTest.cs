@@ -8,9 +8,8 @@ namespace Host
     {
         public void Test()
         {
-            Loader loader = new Loader();
             LoadedComponent<IStringManipulator> reversing =
-                loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator");
+                Loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator");
             Console.WriteLine(reversing.AssemblyName);
             foreach (var item in reversing.ReferencesAssembliesNames)
             {
