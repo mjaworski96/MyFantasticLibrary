@@ -57,10 +57,11 @@ namespace ComponentsLoader
         /// <summary>
         /// Initializes new instance of LoadedComponent.
         /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown if component is null.</exception>
         /// <param name="component">Type of component</param>
         public LoadedComponent(Type component)
         {
-            _component = component;
+            _component = component ?? throw new ArgumentNullException(nameof(component));
             _attr = (ComponentAttribute)component
                 .GetCustomAttribute(
                 typeof(ComponentAttribute));

@@ -10,9 +10,15 @@ namespace ComponentContract
         /// <summary>
         /// Initializes new instance of ComponentAttribute. Other properties are set as "Unknown".
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name is null or empty.</exception>
         /// <param name="name">Name of component</param>
         public ComponentAttribute(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Parameter message can not be empty.", nameof(name));
+            }
+
             Name = name;
             Version = "Unknown";
             Publisher = "Unknown";
@@ -21,6 +27,7 @@ namespace ComponentContract
         /// <summary>
         /// Initializes new instance of ComponentAttribute. Other properties are set as "Unknown".
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name is null or empty.</exception>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>
         public ComponentAttribute(string name, string version) : this(name)
@@ -30,6 +37,7 @@ namespace ComponentContract
         /// <summary>
         /// Initializes new instance of ComponentAttribute. Other properties are set as "Unknown".
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name is null or empty.</exception>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>
         /// <param name="publisher">Publieher of component.</param>
@@ -40,6 +48,7 @@ namespace ComponentContract
         /// <summary>
         /// Initializes new instance of ComponentAttribute. Other properties are set as "Unknown".
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name is null or empty.</exception>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>
         /// <param name="publisher">Publieher of component.</param>

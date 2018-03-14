@@ -7,7 +7,7 @@ namespace Logging
     /// <summary>
     /// Handler of logger section in app.config.
     /// </summary>
-    class LoggerConfiguration
+    public class LoggerConfiguration
     {
         /// <summary>
         /// Creates logger from app.config.

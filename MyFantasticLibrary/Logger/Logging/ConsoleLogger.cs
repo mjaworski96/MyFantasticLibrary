@@ -23,7 +23,8 @@ namespace Logging
         /// <summary>
         /// Initializes new instance of ConsoleLogger. 
         /// </summary>
-        /// <param name="param">
+        /// <exception cref="ArgumentException">Thrown if parameter is null or empty.</exception>
+        /// <param name="parameter">
         /// Color or colors for messages depending on type of message.
         /// Each color must be compatible with <see cref="ConsoleColor"/>
         /// There are 3 formats of colors:
@@ -32,9 +33,14 @@ namespace Logging
         /// 3. color1;color2;color3 - sets color1 for Information and color2 for Warning and color3 for Error and Critical.
         /// 4. color1;color2;color3 - sets color1 for Information and color2 for Warning and color3 for Error and color 4 for Critical.
         /// </param>
-        public ConsoleLogger(string param) : this()
+        public ConsoleLogger(string parameter) : this()
         {
-            string[] colors = param.Split(';');
+            if (string.IsNullOrEmpty(parameter))
+            {
+                throw new ArgumentException("Parameter param can not be empty.", nameof(parameter));
+            }
+
+            string[] colors = parameter.Split(';');
             if(colors.Length == 1)
             {
                 _colors.Add(LogType.Information, (ConsoleColor)Enum.Parse(typeof(ConsoleColor), colors[0]));

@@ -19,9 +19,15 @@ namespace Logging
         /// <summary>
         /// Initializes new instance of FileLogger.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if parameter is null or empty.</exception>
         /// <param name="parameter"></param>
         public FileLogger(string parameter)
         {
+            if (string.IsNullOrEmpty(parameter))
+            {
+                throw new ArgumentException("Parameter parameter can not be empty.", nameof(parameter));
+            }
+
             this.parameter = parameter;
         }
         /// <summary>
