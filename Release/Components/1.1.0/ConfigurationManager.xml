@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ConfigurationManager</name>
+    </assembly>
+    <members>
+        <member name="T:ConfigurationManager.Configuration">
+            <summary>
+            Configuration. Contains data in Key-Value format. Can contain list of data without keys.
+            Cnfiguration file format:
+            simple=simpleValue
+            complex = {
+                nestedKey = val
+                nested = value
+            }
+            list = [
+                simpleListItem
+                complexListItem = {
+                nested = 1
+                parameter = param
+                }
+            ]
+            </summary>
+        </member>
+        <member name="F:ConfigurationManager.Configuration.configuration">
+            <summary>
+            Configuration. Key-Value format.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.GetString(System.String)">
+            <summary>
+            Gets string asigned with key.
+            </summary>
+            <param name="key">Key to search value.</param>
+            <returns>Value asigned to key</returns>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.GetField(System.String)">
+            <summary>
+            Gets <see cref="T:ConfigurationManager.Field"/> asigned with key.
+            </summary>
+            <param name="key">Key to search <see cref="T:ConfigurationManager.Field"/>.</param>
+            <returns><see cref="T:ConfigurationManager.Field"/> asigned with key.</returns>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.#ctor(System.String)">
+            <summary>
+            Intializes new instance of Configuration.
+            </summary>
+            <param name="path">Path to file with initial configuration.</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.#ctor">
+            <summary>
+            Initializes new instance of Configuration.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.GetListOfFields(System.String)">
+            <summary>
+            Gets field asigned with key.
+            </summary>
+            <param name="key">Key to search value.</param>
+            <returns>Field asigned to key</returns>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.SetString(System.String,System.String)">
+            <summary>
+            Sets string asigned with key.
+            If key does not exists, it will be crated.
+            </summary>
+            <param name="key">Key of value.</param>
+            <param name="value">Value to asign with key.</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.SetFields(System.String,System.Collections.Generic.List{ConfigurationManager.Field})">
+            <summary>
+            Sets list of fields asigned with key.
+            If key does not exists, it will be crated.
+            </summary>
+            <param name="key">Key of value.</param>
+            <param name="fields">Fielts to asign with key.</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.SetField(System.String,ConfigurationManager.Field)">
+            <summary>
+            Sets <see cref="T:ConfigurationManager.Field"/> asiged with key.
+            </summary>
+            <param name="key">Key of <see cref="T:ConfigurationManager.Field"/></param>
+            <param name="field"><see cref="T:ConfigurationManager.Field"/> to asign with key</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.LoadConfiguration(System.String)">
+            <summary>
+            Loads configuration from file.
+            </summary>
+            <param name="path">Path to configuration file.</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.SaveConfigration(System.String)">
+            <summary>
+            Saves configuration to file.
+            </summary>
+            <param name="path">Path to configuration file.</param>
+        </member>
+        <member name="T:ConfigurationManager.Field">
+            <summary>
+            Part of configuration. Data in Key-Value format.
+            Can contains nested Fields.
+            </summary>
+        </member>
+        <member name="F:ConfigurationManager.Field._fields">
+            <summary>
+            Children fields.
+            </summary>
+        </member>
+        <member name="F:ConfigurationManager.Field._key">
+            <summary>
+            Key of Field.
+            </summary>
+        </member>
+        <member name="F:ConfigurationManager.Field._value">
+            <summary>
+            Value of Field.
+            </summary>
+        </member>
+        <member name="F:ConfigurationManager.Field.list">
+            <summary>
+            If true, children will not have keys.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Field.#ctor(System.String,System.String)">
+            <summary>
+            Intializes new instance of Field.
+            </summary>
+            <param name="key">Key of Field.</param>
+            <param name="value">Value of field</param>
+        </member>
+        <member name="M:ConfigurationManager.Field.#ctor">
+            <summary>
+            Intializes new instance of Field.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Field.GetField(System.String,System.Int32)">
+            <summary>
+            Gets Field asigned with key.
+            If Field does not exists, it will be created.
+            </summary>
+            <param name="key">Key of field</param>
+            <param name="depth">Current search depth (Used when key is complex).</param>
+            <returns>Field asinged with key.</returns>
+        </member>
+        <member name="P:ConfigurationManager.Field.Value">
+            <summary>
+            Value of Field.
+            </summary>
+        </member>
+        <member name="P:ConfigurationManager.Field.Key">
+            <summary>
+            Key of Field.
+            </summary>
+        </member>
+        <member name="P:ConfigurationManager.Field.Fields">
+            <summary>
+            Children fields.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Field.Tabs(System.Int32)">
+            <summary>
+            Creates string with tabs.
+            </summary>
+            <param name="count">Count of tabs.</param>
+            <returns>String that contains tabs.</returns>
+        </member>
+        <member name="M:ConfigurationManager.Field.Save(System.IO.StreamWriter,System.Int32)">
+            <summary>
+            Saves Field to <see cref="T:System.IO.StreamWriter"/>
+            </summary>
+            <param name="sw"><see cref="T:System.IO.StreamWriter"/> to save Field.</param>
+            <param name="depth">Depth of currently saved children.</param>
+        </member>
+        <member name="M:ConfigurationManager.Field.Save(System.String)">
+            <summary>
+            Saves Field to file.
+            </summary>
+            <param name="path">Path to configuration file.</param>
+        </member>
+        <member name="M:ConfigurationManager.Field.CutWhiteSpaces(System.String)">
+            <summary>
+            Removes white spaces from begining and ending of string.
+            </summary>
+            <param name="toCut">String to be cuted.</param>
+            <returns>String without  begining and ending white spaces.</returns>
+        </member>
+        <member name="M:ConfigurationManager.Field.ConnectCuttedStrings(System.String[],System.Int32,System.Char)">
+            <summary>
+            Contect part of array with separator.
+            </summary>
+            <param name="cuted">Array to be cuted.</param>
+            <param name="startIndex">Startin index.</param>
+            <param name="separator">Separator between parts of array.</param>
+            <returns>String builded with cuted strings and separators.</returns>
+        </member>
+        <member name="M:ConfigurationManager.Field.Load(System.IO.StreamReader,System.Boolean)">
+            <summary>
+            Loads field from <see cref="T:System.IO.StreamReader"/>
+            </summary>
+            <param name="sr"><see cref="T:System.IO.StreamReader"/> that contains Field information.</param>
+            <param name="listItem">If true, element doesn't have to have key.</param>
+        </member>
+        <member name="M:ConfigurationManager.Field.CheckChar(System.Char,System.Char[])">
+            <summary>
+            Checks if array contains element.
+            </summary>
+            <param name="toCheck">Element to be searched in array.</param>
+            <param name="searched">Array to search.</param>
+            <returns>True if array contains element, false if not.</returns>
+        </member>
+        <member name="M:ConfigurationManager.Field.Parse(System.IO.StreamReader)">
+            <summary>
+            Parses data in <see cref="T:System.IO.StreamReader"/> to configuration format.
+            </summary>
+            <param name="sr"><see cref="T:System.IO.StreamReader"/> with information about Field.</param>
+            <returns><see cref="T:System.IO.Stream"/> with parsed data.</returns>
+        </member>
+        <member name="M:ConfigurationManager.Field.Load(System.String)">
+            <summary>
+            Loads Field from file.
+            </summary>
+            <param name="path">Path to file.</param>
+        </member>
+    </members>
+</doc>

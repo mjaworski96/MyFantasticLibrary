@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Logging</name>
+    </assembly>
+    <members>
+        <member name="T:Logging.ConsoleLogger">
+            <summary>
+            Logger that print messages to standard output.
+            </summary>
+        </member>
+        <member name="F:Logging.ConsoleLogger._colors">
+            <summary>
+            Colors assigned to standard outputs.
+            </summary>
+        </member>
+        <member name="M:Logging.ConsoleLogger.#ctor">
+            <summary>
+            Initializes new instance of ConsoleLogger. 
+            Output color will not be changed.
+            </summary>
+        </member>
+        <member name="M:Logging.ConsoleLogger.#ctor(System.String)">
+            <summary>
+            Initializes new instance of ConsoleLogger. 
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if parameter is null or empty.</exception>
+            <param name="parameter">
+            Color or colors for messages depending on type of message.
+            Each color must be compatible with <see cref="T:System.ConsoleColor"/>
+            There are 3 formats of colors:
+            1. color - sets color for all types of message.
+            2. color1;color2 - sets color1 for Information and color2 for Warning, Error and Critical.
+            3. color1;color2;color3 - sets color1 for Information and color2 for Warning and color3 for Error and Critical.
+            4. color1;color2;color3 - sets color1 for Information and color2 for Warning and color3 for Error and color 4 for Critical.
+            </param>
+        </member>
+        <member name="M:Logging.ConsoleLogger.Dispose">
+            <summary>
+            Definition of Dispose. Does nothing.
+            </summary>
+        </member>
+        <member name="M:Logging.ConsoleLogger.Write(System.String,Logging.LogType)">
+            <summary>
+            Prints message to standard output. If color for messages are defined, messages are printed in
+            these colors. Default colors of Console is reset.
+            </summary>
+            <param name="message">Message to be logged.</param>
+            <param name="type">Type of logged message.</param>
+        </member>
+        <member name="T:Logging.FileLogger">
+            <summary>
+            Logger that prints messages to file.
+            </summary>
+        </member>
+        <member name="F:Logging.FileLogger.file">
+            <summary>
+            File to print message.
+            </summary>
+        </member>
+        <member name="F:Logging.FileLogger.parameter">
+            <summary>
+            Name of file to print messages
+            </summary>
+        </member>
+        <member name="M:Logging.FileLogger.#ctor(System.String)">
+            <summary>
+            Initializes new instance of FileLogger.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if parameter is null or empty.</exception>
+            <param name="parameter"></param>
+        </member>
+        <member name="M:Logging.FileLogger.#ctor">
+            <summary>
+            Initializes new instance of FileManager. Sets filename as log.txt
+            Note that file is opened before first logging.
+            </summary>
+        </member>
+        <member name="M:Logging.FileLogger.Init">
+            <summary>
+            If file is not open, this method open it.
+            </summary>
+        </member>
+        <member name="M:Logging.FileLogger.Write(System.String,Logging.LogType)">
+            <summary>
+            Writes message to file.
+            Note that file is opened before first logging.
+            </summary>
+            <param name="message">Message to be logged.</param>
+            <param name="type">Type of logged message.</param>
+        </member>
+        <member name="M:Logging.FileLogger.Dispose">
+            <summary>
+            Closes opened file.
+            </summary>
+        </member>
+        <member name="T:Logging.Logger">
+            <summary>
+            Base class for all loggers
+            </summary>
+        </member>
+        <member name="P:Logging.Logger.Filter">
+            <summary>
+            Filter log messages. Only higer or eqals values are logged. 
+            Default value is Information
+            <seealso cref="T:Logging.LogType"/>
+            </summary>
+        </member>
+        <member name="M:Logging.Logger.Log(Logging.LogType,System.String,System.Boolean)">
+            <summary>
+            Log message.
+            </summary>
+            <param name="type">Type of logged message. If lower than Filter message will be ignored.</param>
+            <param name="message">Message to be logged.</param>
+            <param name="addUtcTime">If true UTC time will be added to message.</param>
+        </member>
+        <member name="M:Logging.Logger.Write(System.String,Logging.LogType)">
+            <summary>
+            Logs message. Must be defined in child class.
+            </summary>
+            <param name="message">Message to be logged.</param>
+            <param name="type">Type of logged message.</param>
+        </member>
+        <member name="M:Logging.Logger.Dispose">
+            <summary>
+            Disposes all opened resources. 
+            </summary>
+        </member>
+        <member name="M:Logging.Logger.CreateLogMessage(Logging.LogType,System.String,System.Boolean)">
+            <summary>
+            Creates output message.
+            </summary>
+            <param name="type">Type of logged message. If lower than Filter message will be ignored.</param>
+            <param name="message">Message to be logged.</param>
+            <param name="addUtcTime">If true UTC time will be added to message.</param>
+            <returns>Message with type and UTC time (optionally) that will be loggged.</returns>
+        </member>
+        <member name="T:Logging.LoggerConfiguration">
+            <summary>
+            Handler of logger section in app.config.
+            </summary>
+        </member>
+        <member name="M:Logging.LoggerConfiguration.CreateLoggers(System.Object,System.Object,System.Xml.XmlNode)">
+            <summary>
+            Creates logger from app.config.
+            Should be used in other class that can acces System.Configuration.IConfigurationSectionHandler in Create method.
+            </summary>
+            <param name="parent">Parent object.</param>
+            <param name="configContext"> Configuration context object.</param>
+            <param name="section">Section XML node</param>
+            <returns>Logger implementation.</returns>
+        </member>
+        <member name="M:Logging.LoggerConfiguration.Create(ConfigurationManager.Configuration)">
+            <summary>
+            Gets logger from configuration.
+            </summary>
+            <param name="config"><see cref="T:ConfigurationManager.Configuration"/> with logger information.</param>
+            <returns>Initialized logger.</returns>
+        </member>
+        <member name="T:Logging.LoggerManager">
+            <summary>
+            Manager of loggers.
+            </summary>
+        </member>
+        <member name="P:Logging.LoggerManager.Default">
+            <summary>
+            Returns default Logger implementation. This value can be changed from Logger section in app.config.
+            Not working in .NET Standard Library.
+            Default value of logger is FileLogger
+            Format of this section is:
+            <logger type="type of logger" parameter="parameter for logger" filter="type of log message"/>
+            Parameter for logger can be filename or colors of messages.
+            </summary>
+        </member>
+        <member name="P:Logging.LoggerManager.FileLogger">
+            <summary>
+            Instance of FileLogger.
+            </summary>
+        </member>
+        <member name="P:Logging.LoggerManager.ConsoleLogger">
+            <summary>
+            Instance of ConsoleLogger.
+            </summary>
+        </member>
+        <member name="P:Logging.LoggerManager.NullLogger">
+            <summary>
+            Instance of NullLogger.
+            </summary>
+        </member>
+        <member name="M:Logging.LoggerManager.#cctor">
+            <summary>
+            Initializes static parameters of LoggerManager.
+            </summary>
+        </member>
+        <member name="T:Logging.LogType">
+            <summary>
+            Type of logged message.
+            </summary>
+        </member>
+        <member name="F:Logging.LogType.Information">
+            <summary>
+            Message is information.
+            </summary>
+        </member>
+        <member name="F:Logging.LogType.Warning">
+            <summary>
+            Messages informs about warning.
+            </summary>
+        </member>
+        <member name="F:Logging.LogType.Error">
+            <summary>
+             Messages informs about error.
+            </summary>
+        </member>
+        <member name="F:Logging.LogType.Critical">
+            <summary>
+            Messages informs about critical event;
+            </summary>
+        </member>
+        <member name="T:Logging.NullLogger">
+            <summary>
+            Logger that ignores all messages.
+            </summary>
+        </member>
+        <member name="M:Logging.NullLogger.#ctor">
+            <summary>
+            Initializes new instance of NullLogger.
+            </summary>
+        </member>
+        <member name="M:Logging.NullLogger.#ctor(System.String)">
+            <summary>
+            Initializes new instance of NullLogger.
+            Implemented only for avoid errors with calling one parameter constuctor by LoggerConfiuration Create method.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Logging.NullLogger.Dispose">
+            <summary>
+            Definition of Dispose. Does nothing.
+            </summary>
+        </member>
+        <member name="M:Logging.NullLogger.Write(System.String,Logging.LogType)">
+            <summary>
+            Definition of Write. Does nothing.
+            </summary>
+            <param name="message">Message to be logged.</param>
+            <param name="type">Type of logged message.</param>
+        </member>
+    </members>
+</doc>
