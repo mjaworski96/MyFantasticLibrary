@@ -1,0 +1,281 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ComponentsLoader</name>
+    </assembly>
+    <members>
+        <member name="T:ComponentsLoader.ComponentsConfiguration">
+            <summary>
+             Handler of components section in app.config.
+            </summary>
+        </member>
+        <member name="M:ComponentsLoader.ComponentsConfiguration.CreateComponents(System.Object,System.Object,System.Xml.XmlNode)">
+            <summary>
+            Reades components configuration from app.config.
+             Should be used in other class that can acces System.Configuration.IConfigurationSectionHandler in Create method.
+            </summary>
+            <param name="parent">Parent object.</param>
+            <param name="configContext"> Configuration context object.</param>
+            <param name="section">Section XML node</param>
+            <returns>List&lt;Tuple&lt;Type, string, string, string, string>> with components parameters.</returns>
+        </member>
+        <member name="M:ComponentsLoader.ComponentsConfiguration.Create(ConfigurationManager.Configuration)">
+            <summary>
+            Creates information about components from configuration.
+            </summary>
+            <param name="config"><see cref="T:ConfigurationManager.Configuration"/> with information about components.</param>
+            <returns>List&lt;Tuple&lt;Type, string, string, string, string>>  with components parameters.</returns>
+        </member>
+        <member name="T:ComponentsLoader.LoadedComponent`1">
+            <summary>
+            Represents loaded component.
+            </summary>
+            <typeparam name="T">Base type or interface of component.</typeparam>
+        </member>
+        <member name="F:ComponentsLoader.LoadedComponent`1._attr">
+            <summary>
+            ComponenetAttribute of component.
+            </summary>
+        </member>
+        <member name="F:ComponentsLoader.LoadedComponent`1._component">
+            <summary>
+            Type of component.
+            </summary>
+        </member>
+        <member name="F:ComponentsLoader.LoadedComponent`1._singleton">
+            <summary>
+            Singleton instance of component.
+            </summary>
+        </member>
+        <member name="F:ComponentsLoader.LoadedComponent`1._assemblyName">
+            <summary>
+            Name of component's assembly.
+            </summary>
+        </member>
+        <member name="F:ComponentsLoader.LoadedComponent`1._referencesAssembliesNames">
+            <summary>
+            Names of references assemblies to component's assembly.
+            </summary>
+        </member>
+        <member name="P:ComponentsLoader.LoadedComponent`1.Singleton">
+            <summary>
+            Singleton instance of component.
+            </summary>
+        </member>
+        <member name="P:ComponentsLoader.LoadedComponent`1.NewInstantion">
+            <summary>
+            New instance of component.
+            </summary>
+        </member>
+        <member name="M:ComponentsLoader.LoadedComponent`1.#ctor(System.Type)">
+            <summary>
+            Initializes new instance of LoadedComponent.
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Thrown if component is null.</exception>
+            <param name="component">Type of component</param>
+        </member>
+        <member name="P:ComponentsLoader.LoadedComponent`1.Name">
+            <summary>
+            Name of component.
+            </summary>
+        </member>
+        <member name="P:ComponentsLoader.LoadedComponent`1.Version">
+            <summary>
+            Version of component.
+            </summary>
+        </member>
+        <member name="P:ComponentsLoader.LoadedComponent`1.Publisher">
+            <summary>
+            Publisher of component.
+            </summary>
+        </member>
+        <member name="P:ComponentsLoader.LoadedComponent`1.Description">
+            <summary>
+            Description of component.
+            </summary>
+        </member>
+        <member name="P:ComponentsLoader.LoadedComponent`1.AssemblyName">
+            <summary>
+            Name of component's assembly.
+            </summary>
+        </member>
+        <member name="P:ComponentsLoader.LoadedComponent`1.ReferencesAssembliesNames">
+            <summary>
+            Names of references assemblies to component's assembly.
+            </summary>
+        </member>
+        <member name="M:ComponentsLoader.LoadedComponent`1.ToString">
+            <summary>
+            ToString() method.
+            </summary>
+            <returns>Name, version, publisher and description of component.</returns>
+        </member>
+        <member name="T:ComponentsLoader.Loader">
+            <summary>
+            Loader of components.
+            </summary>
+        </member>
+        <member name="M:ComponentsLoader.Loader.GetComponentAttribute(System.Type)">
+            <summary>
+            Gets <see cref="T:ComponentContract.ComponentAttribute"/> of component.
+            </summary>
+            <param name="componentType">Type of component.</param>
+            <returns><see cref="T:ComponentContract.ComponentAttribute"/> of component.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.Instantialize``1(System.Type)">
+            <summary>
+            Creates instance of component.
+            </summary>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="toInstantialize">Type to instantialize.</param>
+            <returns>Instantialized component.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.LoadAssemblies(System.String)">
+            <summary>
+            Loads all assemblies from selected directory.
+            </summary>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns>List of assemblies.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.GetComponentByName``1(System.String,System.String)">
+            <summary>
+            Get component idetified by name.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="name">Name of component.</param>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns><see cref="T:ComponentsLoader.LoadedComponent`1"/> with selected component or null.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.GetComponents``1(System.String)">
+            <summary>
+            Get components from directory.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns>List of all components in directory.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.GetComponentByNameVersion``1(System.String,System.String,System.String)">
+            <summary>
+            Gets components idetified by name and version.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="name">Name of component.</param>
+            <param name="version">Version of component.</param>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns><see cref="T:ComponentsLoader.LoadedComponent`1"/> with selected component or null.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.GetComponentByNamePublisher``1(System.String,System.String,System.String)">
+            <summary>
+            Gets components idetified by name and publiser.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="name">Name of component.</param>
+            <param name="publisher">Publisher of component.</param>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns><see cref="T:ComponentsLoader.LoadedComponent`1"/> with selected component or null.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.GetComponentByNameVersionPublisher``1(System.String,System.String,System.String,System.String)">
+            <summary>
+            Gets components idetified by name, version and publisher.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="name">Name of component.</param>
+            <param name="version">Version of component.</param>
+            /// <param name="publisher">Publisher of component.</param>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns><see cref="T:ComponentsLoader.LoadedComponent`1"/> with selected component or null.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.GetComponentsFromConfiguration``1(System.String)">
+             <summary>
+             Gets components defined in app.config. Structure of components section:
+             <components>
+            <component type = "Full name of component base type or interface, Assembly with this type or interface" name="Name of component" version="Version of component" publisher="Publisher of component"/>
+             ...
+            </components>
+             Version and publiser are optional.
+             </summary>
+             <exception cref="T:System.ArgumentException">Thrown ifconfigPath is null or empty.</exception>
+             <typeparam name="T">Type of component.</typeparam>
+             <returns>List of <see cref="T:ComponentsLoader.LoadedComponent`1"/> from configuration.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.IsComponentAvaiableByName``1(System.String,System.String)">
+            <summary>
+            Checks if component identified by name is avaiable.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="name">Name of component.</param>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns>Availability of selected component.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.IsComponentAvaiableByNameVersion``1(System.String,System.String,System.String)">
+            <summary>
+            Checks if component identified by name and version is avaiable.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="name">Name of component.</param>
+            <param name="version">Version of component.</param>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns>Availability of selected component.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.IsComponentAvaiableByNamePublisher``1(System.String,System.String,System.String)">
+            <summary>
+            Checks if component identified by name and publisher is avaiable.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="name">Name of component.</param>
+            <param name="publisher">Publisher of component.</param>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns>Availability of selected component.</returns>
+        </member>
+        <member name="M:ComponentsLoader.Loader.IsComponentAvaiableByNameVersionPublisher``1(System.String,System.String,System.String,System.String)">
+            <summary>
+            Checks if component identified by name, version and publisher is avaiable.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
+            <typeparam name="T">Base type or instance of component.</typeparam>
+            <param name="name">Name of component.</param>
+            <param name="version">Version of component.</param>
+            <param name="publisher">Publisher of component.</param>
+            <param name="directoryPath">Name of directory with components.</param>
+            <returns>Availability of selected component.</returns>
+        </member>
+        <member name="T:ComponentsLoader.NotComponentTypeException">
+            <summary>
+            Exception for using type without ComponentAttribute
+            </summary>
+        </member>
+        <member name="M:ComponentsLoader.NotComponentTypeException.#ctor">
+            <summary>
+            Initializes new instance of NotComponentTypeException.
+            </summary>
+        </member>
+        <member name="M:ComponentsLoader.NotComponentTypeException.#ctor(System.String)">
+            <summary>
+            Initializes new instance of NotComponentTypeException.
+            </summary>
+            <param name="message">Message of exception.</param>
+        </member>
+        <member name="M:ComponentsLoader.NotComponentTypeException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes new instance of NotComponentTypeException.
+            </summary>
+            <param name="message">Message of exception.</param>
+            <param name="innerException">Exception that caused current exception.</param>
+        </member>
+        <member name="M:ComponentsLoader.NotComponentTypeException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes new instance of NotComponentTypeException.
+            </summary>
+            <param name="info">Information about serialized object.</param>
+            <param name="context">Context of serialization.</param>
+        </member>
+    </members>
+</doc>
