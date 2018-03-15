@@ -16,6 +16,7 @@ namespace Logging
         /// <summary>
         /// Log message.
         /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown if message is empty</exception>
         /// <param name="type">Type of logged message. If lower than Filter message will be ignored.</param>
         /// <param name="message">Message to be logged.</param>
         /// <param name="addUtcTime">If true UTC time will be added to message.</param>
@@ -24,6 +25,11 @@ namespace Logging
             if(type >= Filter)
             {
                 Write(CreateLogMessage(type, message, addUtcTime), type);
+            }
+
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
             }
         }
         /// <summary>

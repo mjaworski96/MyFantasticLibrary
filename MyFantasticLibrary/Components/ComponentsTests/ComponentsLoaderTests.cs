@@ -3,6 +3,7 @@ using Calculator;
 using ComponentsLoader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StringManipulator;
+using System;
 
 namespace ComponentsTests
 {
@@ -158,6 +159,54 @@ namespace ComponentsTests
         public void TestCreateLoadedComponentFromNotComponentType()
         {
             LoadedComponent<ICalculator> component = new LoadedComponent<ICalculator>(typeof(ComponentsLoaderTests));
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestGetComponentByNameNullName()
+        {
+            Loader.GetComponentByName<ICalculator>(null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestGetComponentByNameEmptyParameter()
+        {
+            Loader.GetComponentByName<ICalculator>("");
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestGetComponentByNameNullDirectory()
+        {
+            Loader.GetComponentByName<ICalculator>("My Calculator", null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestGetComponentByNameEmptyDirectory()
+        {
+            Loader.GetComponentByName<ICalculator>("My Calculator", "");
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestIsComponentAvaiableByNameNullName()
+        {
+            Loader.IsComponentAvaiableByName<ICalculator>(null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestIsComponentAvaiableByNameEmptyParameter()
+        {
+            Loader.IsComponentAvaiableByName<ICalculator>("");
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestIsComponentAvaiableByNameNullDirectory()
+        {
+            Loader.IsComponentAvaiableByName<ICalculator>("My Calculator", null);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestIsComponentAvaiableByNameEmptyDirectory()
+        {
+            Loader.IsComponentAvaiableByName<ICalculator>("My Calculator", "");
         }
     }
 }

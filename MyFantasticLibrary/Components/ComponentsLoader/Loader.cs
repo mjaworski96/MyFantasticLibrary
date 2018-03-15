@@ -57,12 +57,19 @@ namespace ComponentsLoader
         /// <summary>
         /// Get component idetified by name.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
         /// <param name="directoryPath">Name of directory with components.</param>
         /// <returns><see cref="LoadedComponent{T}"/> with selected component or null.</returns>
         public static LoadedComponent<T> GetComponentByName<T>(string name, string directoryPath = ".")
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Parameter name can not be null or empty", nameof(name));
+            }
+
+
             return (from c
                    in GetComponents<T>(directoryPath)
                     where c.Name == name
@@ -71,11 +78,16 @@ namespace ComponentsLoader
         /// <summary>
         /// Get components from directory.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="directoryPath">Name of directory with components.</param>
         /// <returns>List of all components in directory.</returns>
         public static List<LoadedComponent<T>> GetComponents<T>(string directoryPath = ".")
         {
+            if (string.IsNullOrEmpty(directoryPath))
+            {
+                throw new ArgumentException("Parameter directoryName can not be null or empty", nameof(directoryPath));
+            }
             List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
             foreach (var assembly in LoadAssemblies(directoryPath))
             {
@@ -103,6 +115,7 @@ namespace ComponentsLoader
         /// <summary>
         /// Gets components idetified by name and version.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>
@@ -118,6 +131,7 @@ namespace ComponentsLoader
         /// <summary>
         /// Gets components idetified by name and publiser.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
         /// <param name="publisher">Publisher of component.</param>
@@ -133,6 +147,7 @@ namespace ComponentsLoader
         /// <summary>
         /// Gets components idetified by name, version and publisher.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>
@@ -155,6 +170,7 @@ namespace ComponentsLoader
         ///</components>
         /// Version and publiser are optional.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown ifconfigPath is null or empty.</exception>
         /// <typeparam name="T">Type of component.</typeparam>
         /// <returns>List of <see cref="LoadedComponent{T}"/> from configuration.</returns>
         public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(string configPath = "config.cfg")
@@ -199,6 +215,7 @@ namespace ComponentsLoader
         /// <summary>
         /// Checks if component identified by name is avaiable.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
         /// <param name="directoryPath">Name of directory with components.</param>
@@ -210,6 +227,7 @@ namespace ComponentsLoader
         /// <summary>
         /// Checks if component identified by name and version is avaiable.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>
@@ -222,6 +240,7 @@ namespace ComponentsLoader
         /// <summary>
         /// Checks if component identified by name and publisher is avaiable.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
         /// <param name="publisher">Publisher of component.</param>
@@ -234,6 +253,7 @@ namespace ComponentsLoader
         /// <summary>
         /// Checks if component identified by name, version and publisher is avaiable.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if name or directoryPath is null or empty.</exception>
         /// <typeparam name="T">Base type or instance of component.</typeparam>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>

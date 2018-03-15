@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ConfigurationManager
 {
@@ -103,18 +104,30 @@ namespace ConfigurationManager
         /// <summary>
         /// Loads configuration from file.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if path is null or empty.</exception>
         /// <param name="path">Path to configuration file.</param>
         public void LoadConfiguration(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException("Parameter message can not be empty.", nameof(path));
+            }
+
             configuration = new Field();
             configuration.Load(path);
         }
         /// <summary>
         /// Saves configuration to file.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if path is null or empty.</exception>
         /// <param name="path">Path to configuration file.</param>
-        public void SaveConfigration(string path)
+        public void SaveConfiguration(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException("message", nameof(path));
+            }
+
             configuration?.Save(path);
         }
     }

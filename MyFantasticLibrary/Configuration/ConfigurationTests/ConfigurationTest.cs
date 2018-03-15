@@ -1,5 +1,6 @@
 ﻿using ConfigurationManager;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace ConfigurationTests
 {
@@ -28,7 +29,34 @@ namespace ConfigurationTests
             Assert.AreEqual("value2", configuration.GetString("key1"));
             configuration.SetString("key2.key4", "value4");
             Assert.AreEqual("value4", configuration.GetString("key2.key4"));
-
+        }
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void TestLoadMethodNullParameter()
+        {
+            Configuration configuration = new Configuration();
+            configuration.LoadConfiguration(null);
+        }
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void TestLoadMethodEmptyParameter()
+        {
+            Configuration configuration = new Configuration();
+            configuration.LoadConfiguration("");
+        }
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void TestSaveMethodNullParameter()
+        {
+            Configuration configuration = new Configuration();
+            configuration.SaveConfiguration(null);
+        }
+        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]
+        public void TestSaveMethodEmptyParameter()
+        {
+            Configuration configuration = new Configuration();
+            configuration.SaveConfiguration("");
         }
     }
 }

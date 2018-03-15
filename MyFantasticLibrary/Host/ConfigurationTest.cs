@@ -11,7 +11,7 @@ namespace Host
             Console.WriteLine(config);
             config.SetString("value1", "newValue");
             config.SetString("value2", "crated ");
-            config.SaveConfigration("saved.myconf");
+            config.SaveConfiguration("saved.myconf");
             Console.WriteLine(config.GetString("value1"));
             Console.WriteLine(config.GetString("value2"));
             Console.WriteLine(config.GetString("complex2.radio"));
