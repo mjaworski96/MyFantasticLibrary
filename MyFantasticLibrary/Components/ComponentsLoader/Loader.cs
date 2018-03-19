@@ -95,9 +95,9 @@ namespace ComponentsLoader
                 {
                     List<Type> types = (from t
                                 in assembly.GetTypes()
-                                where t.GetInterfaces().Contains(typeof(T)) ||
-                                t.BaseType == typeof(T)
-                                select t).ToList();
+                                        where t.GetInterfaces().Contains(typeof(T)) ||
+                                        t.BaseType == typeof(T)
+                                        select t).ToList();
 
                     foreach (Type type in types)
                     {
@@ -163,14 +163,17 @@ namespace ComponentsLoader
                     select c).FirstOrDefault();
         }
         /// <summary>
-        /// Gets components defined in app.config. Structure of components section:
-        /// <components>
-        ///<component type = "Full name of component base type or interface, Assembly with this type or interface" name="Name of component" version="Version of component" publisher="Publisher of component"/>
-        /// ...
-        ///</components>
+        /// Gets components defined in configuration file. Structure of components section:
+        /// components = [
+        /// {
+        ///     type = Full name of component base type or interface, Assembly with this type or interface
+        ///     name = Name of component
+        ///     version = Version of component
+        ///     publisher = Publisher of component
+        /// }
         /// Version and publiser are optional.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown ifconfigPath is null or empty.</exception>
+        /// <exception cref="ArgumentException">Thrown if configPath is null or empty.</exception>
         /// <typeparam name="T">Type of component.</typeparam>
         /// <returns>List of <see cref="LoadedComponent{T}"/> from configuration.</returns>
         public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(string configPath = "config.cfg")
@@ -181,9 +184,9 @@ namespace ComponentsLoader
 
             foreach (var item in config)
             {
-                if(item.Item1 == typeof(T))
+                if (item.Item1 == typeof(T))
                 {
-                    if(item.Item3 == null && item.Item4 == null)
+                    if (item.Item3 == null && item.Item4 == null)
                     {
                         components.Add(
                             GetComponentByName<T>(

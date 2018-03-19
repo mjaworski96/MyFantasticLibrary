@@ -6,7 +6,19 @@ namespace Logging
     /// Manager of loggers.
     /// </summary>
     public class LoggerManager
-    {
+    {   
+        /// <summary>
+        /// Configuration of logger manager.
+        /// </summary>
+        public static class Config
+        {
+            /// <summary>
+            /// Path to configuration file. Must be set before first use of DefaultLogger.
+            /// Defaut value is config.cfg.
+            /// </summary>
+            public static string ConfigFilePath { get; set; } = "config.cfg";
+        }
+
         /// <summary>
         /// Returns default Logger implementation. This value can be changed from Logger section in app.config.
         /// Not working in .NET Standard Library.
@@ -33,7 +45,7 @@ namespace Logging
         /// </summary>
         static LoggerManager()
         {
-            Configuration config = new Configuration("config.cfg");
+            Configuration config = new Configuration(Config.ConfigFilePath);
             Default = LoggerConfiguration.Create(config);
             FileLogger = new FileLogger();
             ConsoleLogger = new ConsoleLogger();

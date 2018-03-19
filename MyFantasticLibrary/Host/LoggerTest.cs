@@ -6,6 +6,8 @@ namespace Host
     {
         public void Test()
         {
+            LoggerManager.Config.ConfigFilePath = "config.cfg";
+
             using (Logger logger = LoggerManager.Default)
             {
                 logger.Log(LogType.Information, "xd", true);

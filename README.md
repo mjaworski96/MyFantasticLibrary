@@ -21,8 +21,8 @@ IDE: Visual Studio Community 2017
 		- ConfigurationManager 1.1.0
 	
 * ConfigurationManager - allows to load/save config using .NET Standard 2.0, Version: 1.1.0
-	Provides:
-		Configuration - loads/saves configuration to/from file
+	- Provides:
+		- Configuration - loads/saves configuration to/from file
 
 # VERSIONS #
 * Components:
@@ -34,6 +34,10 @@ IDE: Visual Studio Community 2017
 - 1.1.1
 	- Changed dependency from Logger 1.7.0 to Logger 1.7.1.
 	- Changed dependency from ConfigurationManager 1.0.0 to ConfigurationManager 1.1.0.
+- 1.1.2
+	- Changed dependency from Logger 1.7.1 to Logger 1.7.2.
+
+
 * Logger:
 - 1.0.0 
 	- Added logging to file.
@@ -54,8 +58,11 @@ IDE: Visual Studio Community 2017
 - 1.7.0
 	- Added null checks.
 - 1.7.1
-	- Chenged dependency from ConfigurationManager 1.0.0 to ConfigurationManager 1.1.0.
+	- Changed dependency from ConfigurationManager 1.0.0 to ConfigurationManager 1.1.0.
 	- Added null check on logging message.
+- 1.7.2
+	- Added posibility to change config filename.
+
 * ConfigurationManager:
 - 1.0.0
 	- Added configuration loading from file.
