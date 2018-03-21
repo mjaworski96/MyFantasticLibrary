@@ -4,25 +4,35 @@ IDE: Visual Studio Community 2017
 
 # PROJECTS #
 
-* Components - creating and using of indepentent Components, Version: 1.1.1
+* Components - creating and using of indepentent Components, Version: 1.1.2
 	- Provides:
-		- ComponentContract - exports components
+		- ComponentContract - exports components.
 		- Loader - loads components.
 	- Dependencies:
-		- Logger 1.7.1
+		- Logger 1.7.2
 		- ConfigurationManager 1.1.0
 
-* Logger - logging application state, Version: 1.7.1
+* Logger - logging application state, Version: 1.7.2
 	- Provides: 
-		- FileLogger - logs data to file
-		- ConsoleLogger - logs data to console
-		- NullLogger - logs all messages
+		- FileLogger - logs data to file.
+		- ConsoleLogger - logs data to console.
+		- NullLogger - logs all messages.
 	- Dependencies:
 		- ConfigurationManager 1.1.0
 	
 * ConfigurationManager - allows to load/save config using .NET Standard 2.0, Version: 1.1.0
 	- Provides:
-		- Configuration - loads/saves configuration to/from file
+		- Configuration - loads/saves configuration to/from file.
+		
+* Legion - multithread, multiplatform, multidevice independent task management, Version: not released yet
+	- Provides:
+		- In memory tasks managemet - optimal usage of CPUs on one device.
+		- Via network tasks management - optimal usage of CPUs on multiple devices.
+		- LegionContract - allows to create own tasks.
+	- Dependencies:
+		- ConfugurationManager
+		- Logger
+		- Components
 
 # VERSIONS #
 * Components:
@@ -63,6 +73,7 @@ IDE: Visual Studio Community 2017
 - 1.7.2
 	- Added posibility to change config filename.
 
+	
 * ConfigurationManager:
 - 1.0.0
 	- Added configuration loading from file.
