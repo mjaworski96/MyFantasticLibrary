@@ -8,4 +8,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="InMemoryCommunication\" />
+    <Folder Include="NetworkCommunication\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LegionContract\LegionContract.csproj" />
+  </ItemGroup>
+
 </Project>

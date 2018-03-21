@@ -8,7 +8,7 @@ namespace BasicTask
     [Legion(typeof(DataIn), typeof(DataOut))]
     public class AddAndWaitTask : LegionTask
     {
-        public override LegionData Run(LegionData dataIn)
+        public override LegionDataOut Run(LegionDataIn dataIn)
         {
             DataIn data = (DataIn)dataIn;
             DataOut dataOut = new DataOut();

@@ -3,7 +3,7 @@ using LegionContract;
 
 namespace BasicTask
 {
-    public class DataIn: LegionData
+    public class DataIn: LegionDataIn
     {
         public int A { get; set; }
         public int B { get; set; }
@@ -15,11 +15,6 @@ namespace BasicTask
             A = int.Parse(data[0]);
             B = int.Parse(data[1]);
             Wait = int.Parse(data[2]);
-        }
-
-        public override void SaveToStream(StreamWriter streamWriter)
-        {
-            streamWriter.WriteLine(A + "," + B + "," + Wait);
         }
     }
 }

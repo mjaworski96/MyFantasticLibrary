@@ -2,9 +2,8 @@
 
 namespace LegionContract
 {
-    public abstract class LegionData
+    public abstract class LegionDataOut
     {
-        public abstract void LoadFromStream(StreamReader streamReader);
         public abstract void SaveToStream(StreamWriter streamWriter);
     }
 }

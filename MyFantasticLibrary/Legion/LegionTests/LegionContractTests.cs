@@ -45,11 +45,10 @@ namespace LegionTests
             writerOut.Flush();
             streamOut.Position = 0;
 
-            DataOut receivedDataOut = new DataOut();
-            receivedDataOut.LoadFromStream(new StreamReader(streamOut));
+            StreamReader readerOut = new StreamReader(streamOut);
 
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
-            Assert.AreEqual(-8, receivedDataOut.Result);
+            Assert.AreEqual("-8", readerOut.ReadLine());
             Assert.IsTrue(stopwatch.ElapsedMilliseconds >= 150);
         }
     }
