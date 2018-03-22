@@ -1,5 +1,4 @@
 ﻿using LegionContract;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace LegionCore.Architecture

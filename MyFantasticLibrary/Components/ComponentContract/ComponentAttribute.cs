@@ -40,7 +40,7 @@ namespace ComponentContract
         /// <exception cref="ArgumentException">Thrown if name is null or empty.</exception>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>
-        /// <param name="publisher">Publieher of component.</param>
+        /// <param name="publisher">Publisher of component.</param>
         public ComponentAttribute(string name, string version, string publisher) : this(name, version)
         {
             Publisher = publisher;
@@ -51,7 +51,7 @@ namespace ComponentContract
         /// <exception cref="ArgumentException">Thrown if name is null or empty.</exception>
         /// <param name="name">Name of component.</param>
         /// <param name="version">Version of component.</param>
-        /// <param name="publisher">Publieher of component.</param>
+        /// <param name="publisher">Publisher of component.</param>
         /// <param name="description">Description of component.</param>
         public ComponentAttribute(string name, string version, string publisher, string description) : this(name, version, publisher)
         {

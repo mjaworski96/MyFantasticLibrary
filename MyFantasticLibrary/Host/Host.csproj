@@ -47,6 +47,7 @@
     <Compile Include="ComponentsTest.cs" />
     <Compile Include="ConfigurationTest.cs" />
     <Compile Include="ITest.cs" />
+    <Compile Include="LegionTests.cs" />
     <Compile Include="LoggerTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +77,14 @@
     <ProjectReference Include="..\Configuration\ConfigurationManager\ConfigurationManager.csproj">
       <Project>{29976d6c-648f-4d65-9ffa-31e1b72babca}</Project>
       <Name>ConfigurationManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Legion\LegionCore\LegionCore.csproj">
+      <Project>{2465bb96-adca-4c86-9f31-38a63d6b365d}</Project>
+      <Name>LegionCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Legion\Usage\BasicTask\BasicTask.csproj">
+      <Project>{aa04930b-9959-4f49-ae33-bc2f919f7470}</Project>
+      <Name>BasicTask</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logger\Logging\Logging.csproj">
       <Project>{5dc011ef-7ebb-4212-84ad-29bfbb089ef7}</Project>

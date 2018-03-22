@@ -6,7 +6,7 @@ namespace Host
     {
         static void Main(string[] args)
         {
-            ITest test = new LoggerTest();
+            ITest test = new LegionTests();
             test.Test();
             Console.ReadKey();
         }
