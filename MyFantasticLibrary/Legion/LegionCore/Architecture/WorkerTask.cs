@@ -1,21 +1,29 @@
 ﻿using LegionContract;
+using System;
 using System.Threading.Tasks;
 
 namespace LegionCore.Architecture
 {
-    public class WorkerTask
+    internal class WorkerTask
     {
         private LegionTask _myTask;
+        private Task<LegionDataOut> _myRunningTask;
 
-        public WorkerTask(LegionTask myTask)
+        public bool IsCompleted { get => _myRunningTask.IsCompleted; }
+
+        internal WorkerTask(LegionTask myTask)
         {
             _myTask = myTask;
         }
 
-        public Task<LegionDataOut> Run(LegionDataIn dataIn)
+        internal Task<LegionDataOut> Run(LegionDataIn dataIn)
         {
-            return Task.Run(() => _myTask.Run(dataIn));
+            _myRunningTask = Task.Run(() => _myTask.Run(dataIn));
+            return _myRunningTask;
         }
 
+        public int Id { get => IdManagement.GetId(_myTask); set => IdManagement.SetId(_myTask, value); }
+        public LegionDataOut Result { get => _myRunningTask.Result; }
+        public Task<LegionDataOut> MyTask { get => _myRunningTask; }
     }
 }

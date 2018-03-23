@@ -9,4 +9,10 @@
     <ProjectReference Include="..\..\LegionContract\LegionContract.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="data_in.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
