@@ -6,11 +6,11 @@ namespace LegionCore
     public static class LoggingManager
     {
 
-        private static Logger _logger;
+        private static Logger _Logger;
 
         static LoggingManager()
         {
-            _logger = LoggerManager.Default;
+            _Logger = LoggerManager.Default;
         }
 
         public static void LogInformation(string msg, bool addUtcTime = true)
@@ -31,9 +31,9 @@ namespace LegionCore
         }
         private static void LogTask(LogType type, string msg, bool addUtcTime)
         {
-            lock(_logger)
+            lock(_Logger)
             {
-                _logger.Log(type, msg, addUtcTime);
+                _Logger.Log(type, msg, addUtcTime);
             }
         }
     }

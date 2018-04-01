@@ -9,47 +9,47 @@ namespace LegionCore.Architecture
 {
     public class Client
     {
-        private WorkerTask[] _tasks;
-        private IClientCommunicator _communicator;
-        public int TaskCount { get => _tasks.Length;  }
+        private WorkerTask[] _Tasks;
+        private IClientCommunicator _Communicator;
+        public int TaskCount { get => _Tasks.Length;  }
 
         public Client(IClientCommunicator communicator, int tasksCount)
         {
-            _communicator = communicator;
-            _tasks = new WorkerTask[tasksCount];
+            _Communicator = communicator;
+            _Tasks = new WorkerTask[tasksCount];
         }
         public void Init()
         {
             try
             {
                 LoadedComponent<LegionTask> loadedComponent
-                = _communicator.CurrentTask;
-                for (int i = 0; i < _tasks.Length; i++)
+                = _Communicator.CurrentTask;
+                for (int i = 0; i < _Tasks.Length; i++)
                 {
-                    _tasks[i] = new WorkerTask(loadedComponent.NewInstantion);
-                    _tasks[i].Id = i;
+                    _Tasks[i] = new WorkerTask(loadedComponent.NewInstantion);
+                    _Tasks[i].Id = i;
                 }
                 LoggingManager.LogInformation("Legion Client initialization completed.");
             }
             catch(NullReferenceException e)
             {
                 Exception exc = new LegionException("Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.", e);
-                _communicator.RaiseError(exc);
+                _Communicator.RaiseError(exc);
                 LoggingManager.LogCritical("Can not initialize Legion Client. Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
                 throw exc;
             }
-            
+
         }
         public void Run()
         {
             List<LegionDataIn> dataIn = new List<LegionDataIn>();
             List<LegionDataOut> dataOut = new List<LegionDataOut>();
-            dataIn = _communicator.GetDataIn(TaskCount);
+            dataIn = _Communicator.GetDataIn(TaskCount);
             Task<LegionDataOut>[] runningTasks = new Task<LegionDataOut>[dataIn.Count];
             for (int i = 0; i < dataIn.Count; i++)
             {
                 runningTasks[i] =
-                    _tasks[i].Run(dataIn[i]);
+                    _Tasks[i].Run(dataIn[i]);
             }
 
             bool finished = false;
@@ -58,19 +58,19 @@ namespace LegionCore.Architecture
             {
                 Task.WaitAny(runningTasks);
                 
-                List<int> finishedTasks = _tasks
+                List<int> finishedTasks = _Tasks
                     .Where(task => task.IsCompleted)
                     .Select(task => task.Id)
                     .ToList();
 
                 LoggingManager.LogInformation("Tasks finished: " + finishedTasks.Count);
 
-                dataOut = _tasks
+                dataOut = _Tasks
                     .Where(task => finishedTasks.Contains(task.Id))
                     .Select(task => task.Result)
                     .ToList();
-                _communicator.SaveResults(dataOut);
-                dataIn = _communicator.GetDataIn(finishedTasks.Count);
+                _Communicator.SaveResults(dataOut);
+                dataIn = _Communicator.GetDataIn(finishedTasks.Count);
 
                 if (dataIn.Count != finishedTasks.Count)
                     finished = true;
@@ -78,7 +78,7 @@ namespace LegionCore.Architecture
                 for (int i = 0; i < dataIn.Count; i++)
                 {
                     runningTasks[finishedTasks[i]] = 
-                        _tasks[finishedTasks[i]].Run(dataIn[i]);
+                        _Tasks[finishedTasks[i]].Run(dataIn[i]);
                 }
 
                 LoggingManager.LogInformation("Tasks reinitialized.");
@@ -91,9 +91,9 @@ namespace LegionCore.Architecture
                     List<int> notInitializedTasks = new List<int>();
                     for (int i = firstNotInitializedTask; i < finishedTasks.Count; i++)
                     {
-                        notInitializedTasks.Add(_tasks[finishedTasks[i]].Id);
+                        notInitializedTasks.Add(_Tasks[finishedTasks[i]].Id);
                     }
-                    runningTasks = _tasks
+                    runningTasks = _Tasks
                         .Where(task => notInitializedTasks.Contains(task.Id) == false)
                         .Select(task => task.MyTask)
                         .ToArray();
@@ -103,7 +103,7 @@ namespace LegionCore.Architecture
             dataOut = runningTasks
                 .Select(task => task.Result)
                 .ToList();
-            _communicator.SaveResults(dataOut);
+            _Communicator.SaveResults(dataOut);
             LoggingManager.LogInformation("Legion Client ends working.");
         }
     }

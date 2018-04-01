@@ -6,24 +6,24 @@ namespace LegionCore.Architecture
 {
     internal class WorkerTask
     {
-        private LegionTask _myTask;
-        private Task<LegionDataOut> _myRunningTask;
+        private LegionTask _MyTask;
+        private Task<LegionDataOut> _MyRunningTask;
 
-        public bool IsCompleted { get => _myRunningTask.IsCompleted; }
+        public bool IsCompleted { get => _MyRunningTask.IsCompleted; }
 
         internal WorkerTask(LegionTask myTask)
         {
-            _myTask = myTask;
+            _MyTask = myTask;
         }
 
         internal Task<LegionDataOut> Run(LegionDataIn dataIn)
         {
-            _myRunningTask = Task.Run(() => _myTask.Run(dataIn));
-            return _myRunningTask;
+            _MyRunningTask = Task.Run(() => _MyTask.Run(dataIn));
+            return _MyRunningTask;
         }
 
-        public int Id { get => IdManagement.GetId(_myTask); set => IdManagement.SetId(_myTask, value); }
-        public LegionDataOut Result { get => _myRunningTask.Result; }
-        public Task<LegionDataOut> MyTask { get => _myRunningTask; }
+        public int Id { get => IdManagement.GetId(_MyTask); set => IdManagement.SetId(_MyTask, value); }
+        public LegionDataOut Result { get => _MyRunningTask.Result; }
+        public Task<LegionDataOut> MyTask { get => _MyRunningTask; }
     }
 }

@@ -12,7 +12,7 @@ namespace ConfigurationTests
         {
             Configuration configuration = new Configuration();
             configuration.LoadConfiguration("configuration.myconfig");
-
+            configuration.SaveConfiguration("test");
             Assert.AreEqual("value1", configuration.GetString("key1"));
             Assert.AreEqual("value3", configuration.GetString("key2.key3"));
             Assert.AreEqual(2, configuration.GetListOfFields("list").Count);

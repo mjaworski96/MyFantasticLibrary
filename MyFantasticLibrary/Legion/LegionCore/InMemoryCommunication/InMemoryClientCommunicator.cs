@@ -9,35 +9,35 @@ namespace LegionCore.InMemoryCommunication
 {
     public class InMemoryClientCommunicator : IClientCommunicator
     {
-        private InMemoryServerManager _serverManager;
+        private InMemoryServerManager _ServerManager;
 
         public InMemoryClientCommunicator(InMemoryServerManager serverManager)
         {
-            _serverManager = serverManager;
+            _ServerManager = serverManager;
         }
 
         public LoadedComponent<LegionTask> CurrentTask
         {
             get
             {
-                return _serverManager.CurrentTask;
+                return _ServerManager.CurrentTask;
             }
             
         }
 
         public List<LegionDataIn> GetDataIn(int taskCount)
         {
-            return _serverManager.GetDataIn(taskCount);
+            return _ServerManager.GetDataIn(taskCount);
         }
 
         public void RaiseError(Exception exc)
         {
-            throw new NotImplementedException();
+            _ServerManager.RaiseError(exc);
         }
 
         public void SaveResults(List<LegionDataOut> dataOut)
         {
-            _serverManager.SaveResults(dataOut);
+            _ServerManager.SaveResults(dataOut);
         }
     }
 }

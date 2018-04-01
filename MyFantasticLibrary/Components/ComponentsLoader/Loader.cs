@@ -178,9 +178,14 @@ namespace ComponentsLoader
         /// <returns>List of <see cref="LoadedComponent{T}"/> from configuration.</returns>
         public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(string configPath = "config.cfg")
         {
+
+            return GetComponentsFromConfiguration<T>(new Configuration(configPath).GetListOfFields("components"));
+        }
+
+        public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(List<Field> componentsInformation)
+        {
             List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
-            List<Tuple<Type, string, string, string, string>> config = ComponentsConfiguration.Create(
-                new Configuration(configPath));
+            List<Tuple<Type, string, string, string, string>> config = ComponentsConfiguration.Create(componentsInformation);
 
             foreach (var item in config)
             {
@@ -215,6 +220,7 @@ namespace ComponentsLoader
             components.RemoveAll(x => x == null);
             return components;
         }
+
         /// <summary>
         /// Checks if component identified by name is avaiable.
         /// </summary>

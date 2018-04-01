@@ -9,30 +9,35 @@ namespace LegionCore.InMemoryCommunication
 {
     public class InMemoryServerManager
     {
-        private Server _server;
+        private Server _Server;
 
         public InMemoryServerManager(Server server)
         {
-            _server = server;
+            _Server = server;
         }
 
         internal LoadedComponent<LegionTask> CurrentTask
         {
             get
             {
-                return _server.CurrentTask;
+                return _Server.CurrentTask;
             }
             
         }
 
         internal List<LegionDataIn> GetDataIn(int taskCount)
         {
-            return _server.GetDataIn(taskCount);
+            return _Server.GetDataIn(taskCount);
         }
 
         internal void SaveResults(List<LegionDataOut> dataOut)
         {
-            _server.SaveResults(dataOut);
+            _Server.SaveResults(dataOut);
+        }
+
+        internal void RaiseError(Exception exc)
+        {
+            _Server.RaiseError(exc);
         }
     }
 }

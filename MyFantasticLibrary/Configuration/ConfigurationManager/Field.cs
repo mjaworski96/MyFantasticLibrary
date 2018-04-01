@@ -195,7 +195,7 @@ namespace ConfigurationManager
                 iter++;
             }
             iter = toCut.Length - 1;
-            while (iter >= 0 && (toCut[iter] == ' ' || toCut[iter] == '\t'))
+            while (iter >= forwardSpaces && (toCut[iter] == ' ' || toCut[iter] == '\t'))
             {
                 backwardSpaces++;
                 iter--;
@@ -225,6 +225,17 @@ namespace ConfigurationManager
 
             return str;
         }
+
+        private static bool IsNotOnlyWhitespace(string toCheck)
+        {
+            foreach (char spell in toCheck)
+            {
+                if (!CheckChar(spell, ' ', '\t'))
+                    return true;
+            }
+            return false;
+        }
+        
         /// <summary>
         /// Loads field from <see cref="StreamReader"/>
         /// </summary>
@@ -234,10 +245,10 @@ namespace ConfigurationManager
         {
             while (!sr.EndOfStream)
             {
-                string line = sr.ReadLine();
-                if (CutWhiteSpaces(line) == "}")
+                string line = CutWhiteSpaces(sr.ReadLine());
+                if (line == "}" || line == "]")
                     return;
-                if (CutWhiteSpaces(line) == "\t")
+                if (line == "\t")
                     continue;
                 string[] keyValue = line.Split('=');
                 string key;
@@ -255,10 +266,10 @@ namespace ConfigurationManager
                     value = CutWhiteSpaces(ConnectCuttedStrings(keyValue, 1, '='));
                 }
 
-                Field field;
+                
                 if (CheckChar(value[value.Length - 1], '}', ']'))
                     return;
-
+                Field field;
                 if (value[0] == '{')
                 {
                     field = new Field();
@@ -276,7 +287,7 @@ namespace ConfigurationManager
                 {
                     field = new Field(key, value);
                 }
-                _fields.Add(field);
+                if(IsNotOnlyWhitespace(value)) _fields.Add(field);
             }
         }
         /// <summary>
@@ -334,10 +345,6 @@ namespace ConfigurationManager
         {
             using (StreamReader sr = new StreamReader(path))
             {
-                //StreamReader r = new StreamReader(Parse(sr));
-                //StreamWriter w = new StreamWriter("parsed.myconf");
-                //while (!r.EndOfStream) w.WriteLine(r.ReadLine());
-                //w.Flush();
                 Load(new StreamReader(Parse(sr)), false);
             }
         }
