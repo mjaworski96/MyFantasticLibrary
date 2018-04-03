@@ -53,88 +53,90 @@ namespace LegionCore.Architecture
             }
 
         }
+
         public void Run()
         {
-            List<LegionDataIn> dataIn = new List<LegionDataIn>();
-            List<LegionDataOut> dataOut = new List<LegionDataOut>();
-            dataIn = _Communicator.GetDataIn(TaskCount);
-            //Task<LegionDataOut>[] runningTasks = new Task<LegionDataOut>[dataIn.Count];
-            for (int i = 0; i < dataIn.Count; i++)
-            {
-                //runningTasks[i] =
-                    _Tasks[i].Run(dataIn[i]);
-            }
-
+            InitTasks();
             bool noMoreParameters = false;
             bool finished = false;
-            LoggingManager.LogInformation("Legion Client initialized.");
+
             while(!finished)
             {
-                bool justFinished = false;
-                Task.WaitAny(_Tasks
+                Wait();
+
+                CheckIfFinish(noMoreParameters, ref finished);
+                List<int> finishedTasksIds = FinishedTasksIds;
+                SendOutputDataToServer(finishedTasksIds);
+                if (!noMoreParameters)
+                    ReinitializeTasks(finishedTasksIds, ref noMoreParameters);  
+            }
+            LoggingManager.LogInformation("Legion Client ends working.");
+        }
+
+        private void InitTasks()
+        {
+            List<LegionDataIn> dataIn = _Communicator.GetDataIn(TaskCount);
+            for (int i = 0; i < dataIn.Count; i++)
+            {
+                _Tasks[i].Run(dataIn[i]);
+            }
+            LoggingManager.LogInformation("Legion Client initialized.");
+        }
+
+        private void CheckIfFinish(bool noMoreParameters, ref bool finished)
+        {
+            if (noMoreParameters && _Tasks.Count(x => x.IsCompleted) == _Tasks.Count())
+                finished = true;
+        }
+
+        private void ReinitializeTasks(List<int> finishedTasksIds, ref bool noMoreParameters)
+        {
+            List<LegionDataIn>  dataIn = 
+                _Communicator.GetDataIn(finishedTasksIds.Count);
+
+            if (dataIn.Count != finishedTasksIds.Count)
+            {
+                noMoreParameters = true;
+                LoggingManager.LogInformation("No more parameters left.");
+            }
+
+
+            for (int i = 0; i < dataIn.Count; i++)
+                _Tasks[finishedTasksIds[i]].Run(dataIn[i]);
+
+            LoggingManager.LogInformation("Tasks reinitialized.");
+        }
+
+        private void Wait()
+        {
+            Task.WaitAny(_Tasks
                     .Where(task => task.Enabled)
                     .Select(task => task.MyTask)
                     .ToArray());
-
-                if (noMoreParameters && _Tasks.Count(x => x.IsCompleted) == _Tasks.Count())
+        }
+        private List<int> FinishedTasksIds
+        {
+            get
+            {
+                List<int> ids = _Tasks
+                   .Where(task => task.IsCompleted && task.Enabled)
+                   .Select(task => task.Id)
+                   .ToList();
+                LoggingManager.LogInformation("Tasks finished: " + ids.Count);
+                foreach (var task in ids)
                 {
-                    finished = true;
+                    _Tasks.Where(t => t.Id == task).FirstOrDefault().Enabled = false;
                 }
-
-                List<int> finishedTasksIds = _Tasks
-                    .Where(task => task.IsCompleted && task.Enabled)
-                    .Select(task => task.Id)
-                    .ToList();
-                foreach (var task in finishedTasksIds)
-                {
-                    _Tasks.Where(t => t.Id == task).FirstOrDefault().Enabled = false; 
-                }
-                LoggingManager.LogInformation("Tasks finished: " + finishedTasksIds.Count);
-                
-
-                dataOut = _Tasks
+                return ids;
+            }
+        }
+        private void SendOutputDataToServer(List<int> finishedTasksIds)
+        {
+            List<LegionDataOut> dataOut = _Tasks
                     .Where(task => finishedTasksIds.Contains(task.Id))
                     .Select(task => task.Result)
                     .ToList();
-                _Communicator.SaveResults(dataOut);
-                
-                if (!noMoreParameters)
-                {
-                    dataIn = _Communicator.GetDataIn(finishedTasksIds.Count);
-
-                    if (dataIn.Count != finishedTasksIds.Count)
-                    {
-                        noMoreParameters = true;
-                        justFinished = true;
-                    }
-                       
-
-                    for (int i = 0; i < dataIn.Count; i++)
-                    {
-                        //runningTasks[finishedTasksIds[i]] =
-                            _Tasks[finishedTasksIds[i]].Run(dataIn[i]);
-                    }
-
-                    LoggingManager.LogInformation("Tasks reinitialized.");
-                }
-                
-                if (justFinished)
-                {
-                    LoggingManager.LogInformation("No more parameters left.");
-                    int firstNotInitializedTask =
-                        finishedTasksIds.Count - dataIn.Count;
-                    List<int> notInitializedTasks = new List<int>();
-                    for (int i = firstNotInitializedTask; i < finishedTasksIds.Count; i++)
-                    {
-                        notInitializedTasks.Add(_Tasks[finishedTasksIds[i]].Id);
-                    }
-                    /*runningTasks = _Tasks
-                        .Where(task => notInitializedTasks.Contains(task.Id) == false)
-                        .Select(task => task.MyTask)
-                        .ToArray();*/
-                }
-            }
-            LoggingManager.LogInformation("Legion Client ends working.");
+            _Communicator.SaveResults(dataOut);
         }
     }
 }
