@@ -58,65 +58,82 @@ namespace LegionCore.Architecture
             List<LegionDataIn> dataIn = new List<LegionDataIn>();
             List<LegionDataOut> dataOut = new List<LegionDataOut>();
             dataIn = _Communicator.GetDataIn(TaskCount);
-            Task<LegionDataOut>[] runningTasks = new Task<LegionDataOut>[dataIn.Count];
+            //Task<LegionDataOut>[] runningTasks = new Task<LegionDataOut>[dataIn.Count];
             for (int i = 0; i < dataIn.Count; i++)
             {
-                runningTasks[i] =
+                //runningTasks[i] =
                     _Tasks[i].Run(dataIn[i]);
             }
 
+            bool noMoreParameters = false;
             bool finished = false;
             LoggingManager.LogInformation("Legion Client initialized.");
             while(!finished)
             {
-                Task.WaitAny(runningTasks);
-                
-                List<int> finishedTasks = _Tasks
-                    .Where(task => task.IsCompleted)
+                bool justFinished = false;
+                Task.WaitAny(_Tasks
+                    .Where(task => task.Enabled)
+                    .Select(task => task.MyTask)
+                    .ToArray());
+
+                if (noMoreParameters && _Tasks.Count(x => x.IsCompleted) == _Tasks.Count())
+                {
+                    finished = true;
+                }
+
+                List<int> finishedTasksIds = _Tasks
+                    .Where(task => task.IsCompleted && task.Enabled)
                     .Select(task => task.Id)
                     .ToList();
-
-                LoggingManager.LogInformation("Tasks finished: " + finishedTasks.Count);
+                foreach (var task in finishedTasksIds)
+                {
+                    _Tasks.Where(t => t.Id == task).FirstOrDefault().Enabled = false; 
+                }
+                LoggingManager.LogInformation("Tasks finished: " + finishedTasksIds.Count);
+                
 
                 dataOut = _Tasks
-                    .Where(task => finishedTasks.Contains(task.Id))
+                    .Where(task => finishedTasksIds.Contains(task.Id))
                     .Select(task => task.Result)
                     .ToList();
                 _Communicator.SaveResults(dataOut);
-                dataIn = _Communicator.GetDataIn(finishedTasks.Count);
-
-                if (dataIn.Count != finishedTasks.Count)
-                    finished = true;
-
-                for (int i = 0; i < dataIn.Count; i++)
+                
+                if (!noMoreParameters)
                 {
-                    runningTasks[finishedTasks[i]] = 
-                        _Tasks[finishedTasks[i]].Run(dataIn[i]);
+                    dataIn = _Communicator.GetDataIn(finishedTasksIds.Count);
+
+                    if (dataIn.Count != finishedTasksIds.Count)
+                    {
+                        noMoreParameters = true;
+                        justFinished = true;
+                    }
+                       
+
+                    for (int i = 0; i < dataIn.Count; i++)
+                    {
+                        //runningTasks[finishedTasksIds[i]] =
+                            _Tasks[finishedTasksIds[i]].Run(dataIn[i]);
+                    }
+
+                    LoggingManager.LogInformation("Tasks reinitialized.");
                 }
-
-                LoggingManager.LogInformation("Tasks reinitialized.");
-
-                if (finished)
+                
+                if (justFinished)
                 {
                     LoggingManager.LogInformation("No more parameters left.");
                     int firstNotInitializedTask =
-                        finishedTasks.Count - dataIn.Count;
+                        finishedTasksIds.Count - dataIn.Count;
                     List<int> notInitializedTasks = new List<int>();
-                    for (int i = firstNotInitializedTask; i < finishedTasks.Count; i++)
+                    for (int i = firstNotInitializedTask; i < finishedTasksIds.Count; i++)
                     {
-                        notInitializedTasks.Add(_Tasks[finishedTasks[i]].Id);
+                        notInitializedTasks.Add(_Tasks[finishedTasksIds[i]].Id);
                     }
-                    runningTasks = _Tasks
+                    /*runningTasks = _Tasks
                         .Where(task => notInitializedTasks.Contains(task.Id) == false)
                         .Select(task => task.MyTask)
-                        .ToArray();
+                        .ToArray();*/
                 }
             }
-            Task.WaitAll(runningTasks);
-            dataOut = runningTasks
-                .Select(task => task.Result)
-                .ToList();
-            _Communicator.SaveResults(dataOut);
             LoggingManager.LogInformation("Legion Client ends working.");
         }
     }

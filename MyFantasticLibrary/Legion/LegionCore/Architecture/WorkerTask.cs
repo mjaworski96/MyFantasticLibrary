@@ -8,6 +8,7 @@ namespace LegionCore.Architecture
     {
         private LegionTask _MyTask;
         private Task<LegionDataOut> _MyRunningTask;
+        public bool Enabled { get; set; }
 
         public bool IsCompleted { get => _MyRunningTask.IsCompleted; }
 
@@ -18,6 +19,7 @@ namespace LegionCore.Architecture
 
         internal Task<LegionDataOut> Run(LegionDataIn dataIn)
         {
+            Enabled = true;
             _MyRunningTask = Task.Run(() => _MyTask.Run(dataIn));
             return _MyRunningTask;
         }
