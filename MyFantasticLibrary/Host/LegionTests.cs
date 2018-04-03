@@ -11,7 +11,7 @@ namespace Host
             {
                 InMemoryServerManager serverManager = new InMemoryServerManager(server);
                 IClientCommunicator communicator = new InMemoryClientCommunicator(serverManager);
-                Client client = new Client(communicator, 4);
+                Client client = new Client(communicator);
                 client.Init();
                 client.Run();
             }

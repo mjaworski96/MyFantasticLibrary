@@ -1,4 +1,5 @@
 ﻿using ComponentsLoader;
+using ConfigurationManager;
 using LegionContract;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,21 @@ namespace LegionCore.Architecture
         private IClientCommunicator _Communicator;
         public int TaskCount { get => _Tasks.Length;  }
 
-        public Client(IClientCommunicator communicator, int tasksCount)
+        private Client(IClientCommunicator communicator)
         {
             _Communicator = communicator;
+        }
+
+        public Client(IClientCommunicator communicator, int tasksCount)
+            : this(communicator)
+        {
+            _Tasks = new WorkerTask[tasksCount];
+        }
+        public Client(IClientCommunicator communicatoror, string configFilename = "config.cfg")
+            : this(communicatoror)
+        {
+            Configuration configuration = new Configuration(configFilename);
+            int tasksCount = int.Parse(configuration.GetString("legion.client.workers"));
             _Tasks = new WorkerTask[tasksCount];
         }
         public void Init()
