@@ -1,10 +1,11 @@
 # README #
 Language: C#
 IDE: Visual Studio Community 2017
+Technology: .NET Standard 2.0
 
 # PROJECTS #
 
-* Components - creating and using of indepentent Components, Version: 1.1.2
+* Components - creating and using of independent  Components, Version: 1.1.2
 	- Provides:
 		- ComponentContract - exports components.
 		- Loader - loads components.
@@ -34,7 +35,7 @@ IDE: Visual Studio Community 2017
 		- Logger
 		- Components
 
-# VERSIONS #
+# CHANGELOG #
 * Components:
 	- 1.0.0
 		- Added loading types from dll.
@@ -79,3 +80,12 @@ IDE: Visual Studio Community 2017
 		- Added configuration loading from file.
 	- 1.1.0
 		- Added null checks.
+
+# FUTURE RELEASES #
+* Legion
+	- First release that provides independent tasks management. Information about tasks and their parameters will be exchanged by memory (Partially done, but not relased) or via TCP sockets.
+* Components
+	- Components configuration as part of other project configuration (DONE, but not relased).
+	
+# OTHER INFORMATION #
+Host project is for testing or giving example how use other projects. 
