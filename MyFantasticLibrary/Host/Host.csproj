@@ -1,100 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{24AD7896-DDD5-4636-B68D-C0482DBCE250}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Host</RootNamespace>
-    <AssemblyName>Host</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <StartupObject></StartupObject>
+    <ApplicationIcon />
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Components\ComponentsLoader\ComponentsLoader.csproj" />
+    <ProjectReference Include="..\Components\Usage\StringManipulator\StringManipulator.csproj" />
+    <ProjectReference Include="..\Legion\LegionCore\LegionCore.csproj" />
+    <ProjectReference Include="..\Legion\Usage\BasicTask\BasicTask.csproj" />
+    <ProjectReference Include="..\Legion\Usage\MulAndWaitTask\MulAndWaitTask.csproj" />
+    <ProjectReference Include="..\Logger\Logging\Logging.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="ComponentsTest.cs" />
-    <Compile Include="ConfigurationTest.cs" />
-    <Compile Include="ITest.cs" />
-    <Compile Include="LegionTests.cs" />
-    <Compile Include="LoggerTest.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
+    <None Update="config.cfg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Components\ComponentContract\ComponentContract.csproj">
-      <Project>{17dc17ef-c90e-4864-9c04-5fd484ba3000}</Project>
-      <Name>ComponentContract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Components\ComponentsLoader\ComponentsLoader.csproj">
-      <Project>{568ac684-6797-4b10-86ab-3d3d1f70699b}</Project>
-      <Name>ComponentsLoader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Components\Usage\Calculator\Calculator.csproj">
-      <Project>{9730f0b1-44bb-46ad-9a08-027be1d3b3d1}</Project>
-      <Name>Calculator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Components\Usage\StringManipulator\StringManipulator.csproj">
-      <Project>{77a5942c-2f54-4adf-840d-bd025955823f}</Project>
-      <Name>StringManipulator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Configuration\ConfigurationManager\ConfigurationManager.csproj">
-      <Project>{29976d6c-648f-4d65-9ffa-31e1b72babca}</Project>
-      <Name>ConfigurationManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Legion\LegionCore\LegionCore.csproj">
-      <Project>{2465bb96-adca-4c86-9f31-38a63d6b365d}</Project>
-      <Name>LegionCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Legion\Usage\BasicTask\BasicTask.csproj">
-      <Project>{aa04930b-9959-4f49-ae33-bc2f919f7470}</Project>
-      <Name>BasicTask</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Logger\Logging\Logging.csproj">
-      <Project>{5dc011ef-7ebb-4212-84ad-29bfbb089ef7}</Project>
-      <Name>Logging</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="config.cfg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

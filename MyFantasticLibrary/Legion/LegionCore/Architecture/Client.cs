@@ -70,7 +70,7 @@ namespace LegionCore.Architecture
                 if (!noMoreParameters)
                     ReinitializeTasks(finishedTasksIds, ref noMoreParameters);  
             }
-            LoggingManager.LogInformation("Legion Client ends working.");
+            LoggingManager.LogInformation("Legion Client ended working.");
         }
 
         private void InitTasks()

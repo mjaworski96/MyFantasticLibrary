@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using ComponentsLoader;
 using ConfigurationManager;
@@ -26,11 +27,20 @@ namespace LegionCore.Architecture
             _CurrentTaskParameter = 0;
             _CurrentTask = 0;
             _Configuration = new Configuration(configFilename);
+            InitTasks();
+            InitStreams();
+        }
+
+        private void InitTasks()
+        {
             Field legionServerTasksField = _Configuration.GetField("legion.server.tasks");
             foreach (Field task in legionServerTasksField.Fields)
             {
-                _Tasks.Add(Loader.GetComponentsFromConfiguration<LegionTask>(
-                    new List<Field>() { task.GetField("component") })[0]);
+                List<Field> fields = new List<Field>() { task.GetField("component") };
+                LoadedComponent<LegionTask> component =
+                    Loader.GetComponentsFromConfiguration<LegionTask>(fields).First();
+                _Tasks.Add(component);
+
                 List<string> paramIn = new List<string>();
                 foreach (Field param in task.GetField("data_in").Fields)
                 {
@@ -39,8 +49,12 @@ namespace LegionCore.Architecture
                 _TasksInputParameters.Add(paramIn);
                 _TasksOutputParameters.Add(task.GetField("data_out").Value);
             }
-            if(_Tasks.Count > 0 && _TasksInputParameters.Count > 0
-                && _TasksInputParameters[0].Count > 0 && 
+        }
+
+        private void InitStreams()
+        {
+            if (_Tasks.Count > 0 && _TasksInputParameters.Count > 0
+                && _TasksInputParameters[0].Count > 0 &&
                 _TasksOutputParameters.Count > 0)
             {
                 dataInReader = new StreamReader(_TasksInputParameters[0][0]);
@@ -48,7 +62,6 @@ namespace LegionCore.Architecture
 
             }
         }
-
 
         internal LegionDataIn CurrentDataIn
         {

@@ -41,7 +41,6 @@ namespace ComponentsLoader
         {
             List<Assembly> assemblies = new List<Assembly>();
             DirectoryInfo di = new DirectoryInfo(directoryPath);
-            ComponentAttribute test = new ComponentAttribute("elo");
             FileInfo[] fi = di.GetFiles("*.dll");
             foreach (var item in fi)
             {
@@ -178,7 +177,6 @@ namespace ComponentsLoader
         /// <returns>List of <see cref="LoadedComponent{T}"/> from configuration.</returns>
         public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(string configPath = "config.cfg")
         {
-
             return GetComponentsFromConfiguration<T>(new Configuration(configPath).GetListOfFields("components"));
         }
 
