@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegionTests", "Legion\Legio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingTests", "Logger\LoggingTests\LoggingTests.csproj", "{5669D282-550E-4A2A-B546-09967172EF07}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MulAndWaitTask", "Legion\Usage\MulAndWaitTask\MulAndWaitTask.csproj", "{9CA0E838-DBA5-4FFF-B322-9A44B47E0AA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,10 @@ Global
 		{5669D282-550E-4A2A-B546-09967172EF07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5669D282-550E-4A2A-B546-09967172EF07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5669D282-550E-4A2A-B546-09967172EF07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA0E838-DBA5-4FFF-B322-9A44B47E0AA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA0E838-DBA5-4FFF-B322-9A44B47E0AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA0E838-DBA5-4FFF-B322-9A44B47E0AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA0E838-DBA5-4FFF-B322-9A44B47E0AA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,6 +180,7 @@ Global
 		{AA04930B-9959-4F49-AE33-BC2F919F7470} = {34223BDB-D51B-48F7-BD8E-40C2AE55C219}
 		{DF529B70-CCAF-4FBB-9F70-83467057A672} = {91B76D42-EA29-400B-983E-1C5E8315576E}
 		{5669D282-550E-4A2A-B546-09967172EF07} = {BAF53156-5E7A-4C12-9774-2EDF4E83F192}
+		{9CA0E838-DBA5-4FFF-B322-9A44B47E0AA0} = {34223BDB-D51B-48F7-BD8E-40C2AE55C219}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {34D23819-9ACD-4281-A47E-770A118CEAAD}
