@@ -57,7 +57,11 @@ namespace LegionCore.Architecture
 
         public void Run()
         {
-            InitTasks();
+            if(!InitTasks())
+            {
+                LoggingManager.LogWarning("No params available.");
+                return;
+            }
             bool noMoreParameters = false;
             bool finished = false;
 
@@ -74,14 +78,17 @@ namespace LegionCore.Architecture
             LoggingManager.LogInformation("Legion Client ended working.");
         }
 
-        private void InitTasks()
+        private bool InitTasks()
         {
             List<LegionDataIn> dataIn = _Communicator.GetDataIn(TaskCount);
+            if (dataIn.Count == 0)
+                return false;
             for (int i = 0; i < dataIn.Count; i++)
             {
                 _Tasks[i].Run(dataIn[i]);
             }
             LoggingManager.LogInformation("Legion Client initialized.");
+            return true;
         }
 
         private void CheckIfFinish(bool noMoreParameters, ref bool finished)
