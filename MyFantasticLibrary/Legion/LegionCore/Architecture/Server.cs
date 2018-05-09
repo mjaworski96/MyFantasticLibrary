@@ -6,6 +6,7 @@ using System.Reflection;
 using ComponentsLoader;
 using ConfigurationManager;
 using LegionContract;
+using LegionCore.Logging;
 
 namespace LegionCore.Architecture
 {
@@ -108,7 +109,7 @@ namespace LegionCore.Architecture
         internal void CheckNextInputParameters()
         {
             if (dataInReader.EndOfStream &&
-                _CurrentTaskParameter + 1< _TasksInputParameters[_CurrentTask].Count)
+                _CurrentTaskParameter + 1 < _TasksInputParameters[_CurrentTask].Count)
             {
                 _CurrentTaskParameter++;
                 dataInReader = new StreamReader(

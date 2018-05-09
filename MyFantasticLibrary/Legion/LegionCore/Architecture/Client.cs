@@ -1,6 +1,7 @@
 ﻿using ComponentsLoader;
 using ConfigurationManager;
 using LegionContract;
+using LegionCore.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;

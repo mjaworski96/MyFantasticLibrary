@@ -10,44 +10,44 @@ namespace Host
 
             using (Logger logger = LoggerManager.Default)
             {
-                logger.Log(LogType.Information, "xd", true);
-                logger.Log(LogType.Warning, "xd", true);
-                logger.Log(LogType.Error, "xd", true);
+                logger.Log(LogType.Information, "test", true);
+                logger.Log(LogType.Warning, "test", true);
+                logger.Log(LogType.Error, "test", true);
             }
             using (Logger consoleLogger = new ConsoleLogger())
             {
-                consoleLogger.Log(LogType.Information, "xd", true);
-                consoleLogger.Log(LogType.Warning, "xd", true);
-                consoleLogger.Log(LogType.Error, "xd", true);
-                consoleLogger.Log(LogType.Critical, "xd", true);
+                consoleLogger.Log(LogType.Information, "test", true);
+                consoleLogger.Log(LogType.Warning, "test", true);
+                consoleLogger.Log(LogType.Error, "test", true);
+                consoleLogger.Log(LogType.Critical, "test", true);
             }
             using (Logger consoleLogger = new ConsoleLogger("Red"))
             {
-                consoleLogger.Log(LogType.Information, "xd", true);
-                consoleLogger.Log(LogType.Warning, "xd", true);
-                consoleLogger.Log(LogType.Error, "xd", true);
-                consoleLogger.Log(LogType.Critical, "xd", true);
+                consoleLogger.Log(LogType.Information, "test", true);
+                consoleLogger.Log(LogType.Warning, "test", true);
+                consoleLogger.Log(LogType.Error, "test", true);
+                consoleLogger.Log(LogType.Critical, "test", true);
             }
             using (Logger consoleLogger = new ConsoleLogger("Yellow;Red"))
             {
-                consoleLogger.Log(LogType.Information, "xd", true);
-                consoleLogger.Log(LogType.Warning, "xd", true);
-                consoleLogger.Log(LogType.Error, "xd", true);
-                consoleLogger.Log(LogType.Critical, "xd", true);
+                consoleLogger.Log(LogType.Information, "test", true);
+                consoleLogger.Log(LogType.Warning, "test", true);
+                consoleLogger.Log(LogType.Error, "test", true);
+                consoleLogger.Log(LogType.Critical, "test", true);
             }
             using (Logger consoleLogger = new ConsoleLogger("Green;Yellow;Red"))
             {
-                consoleLogger.Log(LogType.Information, "xd", true);
-                consoleLogger.Log(LogType.Warning, "xd", true);
-                consoleLogger.Log(LogType.Error, "xd", true);
-                consoleLogger.Log(LogType.Critical, "xd", true);
+                consoleLogger.Log(LogType.Information, "test", true);
+                consoleLogger.Log(LogType.Warning, "test", true);
+                consoleLogger.Log(LogType.Error, "test", true);
+                consoleLogger.Log(LogType.Critical, "test", true);
             }
             using (Logger consoleLogger = new ConsoleLogger("Green;Yellow;Magenta;Red"))
             {
-                consoleLogger.Log(LogType.Information, "xd", true);
-                consoleLogger.Log(LogType.Warning, "xd", true);
-                consoleLogger.Log(LogType.Error, "xd", true);
-                consoleLogger.Log(LogType.Critical, "xd", true);
+                consoleLogger.Log(LogType.Information, "test", true);
+                consoleLogger.Log(LogType.Warning, "test", true);
+                consoleLogger.Log(LogType.Error, "test", true);
+                consoleLogger.Log(LogType.Critical, "test", true);
             }
         }
     }
