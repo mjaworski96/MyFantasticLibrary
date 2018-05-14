@@ -6,17 +6,36 @@ using System.Threading.Tasks;
 
 namespace LegionCore.Logging
 {
-
     //TODO:
     //Make LoggingManager Shared Singleton
-    public static class LoggingManager
+    public class LoggingManager
     {
-        private static Logger _Logger;
-        private static Task _LoggerTask;
-        private static Queue<LoggingInformation> _Queue;
-        private static Semaphore _Semaphore;
+        private static volatile LoggingManager _Instance;
+        private static object _SyncRoot = new Object();
 
-        static LoggingManager()
+        public static LoggingManager Instance
+        {
+            get
+            {
+                if(_Instance == null)
+                {
+                    lock(_SyncRoot)
+                    {
+                        if (_Instance == null)
+                            _Instance = new LoggingManager();
+                    }
+                }
+
+                return _Instance;
+            }
+        }
+
+        private Logger _Logger;
+        private Task _LoggerTask;
+        private Queue<LoggingInformation> _Queue;
+        private Semaphore _Semaphore;
+
+        private LoggingManager()
         {
             _Logger = LoggerManager.Default;
             _Queue = new Queue<LoggingInformation>();
@@ -24,24 +43,24 @@ namespace LegionCore.Logging
             _LoggerTask = Task.Run(() => LogTask());  
         }
 
-        public static void LogInformation(string msg, bool addUtcTime = true)
+        public void LogInformation(string msg, bool addUtcTime = true)
         {
             AddToQueue(LogType.Information, msg, addUtcTime);
         }
-        public static void LogWarning(string msg, bool addUtcTime = true)
+        public void LogWarning(string msg, bool addUtcTime = true)
         {
             AddToQueue(LogType.Warning, msg, addUtcTime);
         }
-        public static void LogError(LogType type, string msg, bool addUtcTime = true)
+        public void LogError(LogType type, string msg, bool addUtcTime = true)
         {
             AddToQueue(LogType.Error, msg, addUtcTime);
         }
-        public static void LogCritical(string msg, bool addUtcTime = true)
+        public void LogCritical(string msg, bool addUtcTime = true)
         {
             AddToQueue(LogType.Critical, msg, addUtcTime);
         }
 
-        private static void AddToQueue(LogType type, string msg, bool addUtcTime)
+        private void AddToQueue(LogType type, string msg, bool addUtcTime)
         {
             LoggingInformation information = new LoggingInformation(type, msg, addUtcTime);
             lock(_Queue)
@@ -51,7 +70,7 @@ namespace LegionCore.Logging
             }
 
         }
-        private static void LogTask()
+        private void LogTask()
         {
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
             while (true)

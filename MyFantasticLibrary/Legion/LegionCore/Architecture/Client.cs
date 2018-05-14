@@ -11,12 +11,14 @@ namespace LegionCore.Architecture
 {
     public class Client
     {
+        private LoggingManager _LoggingManager;
         private WorkerTask[] _Tasks;
         private IClientCommunicator _Communicator;
         public int TaskCount { get => _Tasks.Length;  }
 
         private Client(IClientCommunicator communicator)
         {
+            _LoggingManager = LoggingManager.Instance;
             _Communicator = communicator;
         }
 
@@ -43,13 +45,13 @@ namespace LegionCore.Architecture
                     _Tasks[i] = new WorkerTask(loadedComponent.NewInstantion);
                     _Tasks[i].Id = i;
                 }
-                LoggingManager.LogInformation("Legion Client initialization completed.");
+                _LoggingManager.LogInformation("Legion Client initialization completed.");
             }
             catch(NullReferenceException e)
             {
                 Exception exc = new LegionException("Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.", e);
                 _Communicator.RaiseError(exc);
-                LoggingManager.LogCritical("Can not initialize Legion Client. Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
+                _LoggingManager.LogCritical("Can not initialize Legion Client. Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
                 throw exc;
             }
 
@@ -59,7 +61,7 @@ namespace LegionCore.Architecture
         {
             if(!InitTasks())
             {
-                LoggingManager.LogWarning("No params available.");
+                _LoggingManager.LogWarning("No params available.");
                 return;
             }
             bool noMoreParameters = false;
@@ -75,7 +77,7 @@ namespace LegionCore.Architecture
                 if (!noMoreParameters)
                     ReinitializeTasks(finishedTasksIds, ref noMoreParameters);  
             }
-            LoggingManager.LogInformation("Legion Client ended working.");
+            _LoggingManager.LogInformation("Legion Client ended working.");
         }
 
         private bool InitTasks()
@@ -87,7 +89,7 @@ namespace LegionCore.Architecture
             {
                 _Tasks[i].Run(dataIn[i]);
             }
-            LoggingManager.LogInformation("Legion Client initialized.");
+            _LoggingManager.LogInformation("Legion Client initialized.");
             return true;
         }
 
@@ -105,14 +107,14 @@ namespace LegionCore.Architecture
             if (dataIn.Count != finishedTasksIds.Count)
             {
                 noMoreParameters = true;
-                LoggingManager.LogInformation("No more parameters left.");
+                _LoggingManager.LogInformation("No more parameters left.");
             }
 
 
             for (int i = 0; i < dataIn.Count; i++)
                 _Tasks[finishedTasksIds[i]].Run(dataIn[i]);
 
-            LoggingManager.LogInformation("Tasks reinitialized.");
+            _LoggingManager.LogInformation("Tasks reinitialized.");
         }
 
         private void Wait()
@@ -130,7 +132,7 @@ namespace LegionCore.Architecture
                    .Where(task => task.IsCompleted && task.Enabled)
                    .Select(task => task.Id)
                    .ToList();
-                LoggingManager.LogInformation("Tasks finished: " + ids.Count);
+                _LoggingManager.LogInformation("Tasks finished: " + ids.Count);
                 foreach (var task in ids)
                 {
                     _Tasks.Where(t => t.Id == task).FirstOrDefault().Enabled = false;

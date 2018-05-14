@@ -12,6 +12,7 @@ namespace LegionCore.Architecture
 {
     public class Server: IDisposable
     {
+        private LoggingManager _LoggingManager;
         List<LoadedComponent<LegionTask>> _Tasks = new List<LoadedComponent<LegionTask>>();
         int _CurrentTask;
         List<List<string>> _TasksInputParameters = new List<List<string>>();
@@ -25,6 +26,7 @@ namespace LegionCore.Architecture
 
         public Server(string configFilename = "config.cfg")
         {
+            _LoggingManager = LoggingManager.Instance;
             _CurrentTaskParameter = 0;
             _CurrentTask = 0;
             _Configuration = new Configuration(configFilename);
@@ -87,7 +89,7 @@ namespace LegionCore.Architecture
 
         internal void RaiseError(Exception exc)
         {
-            LoggingManager.LogCritical(exc.Message);
+            _LoggingManager.LogCritical(exc.Message);
         }
 
         internal LegionTask CurrentTaskSingleton
