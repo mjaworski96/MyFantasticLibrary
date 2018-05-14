@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace LegionCore.Logging
 {
-    //TODO:
-    //Make LoggingManager Shared Singleton
     public class LoggingManager
     {
         private static volatile LoggingManager _Instance;
@@ -76,11 +74,13 @@ namespace LegionCore.Logging
             while (true)
             {
                 _Semaphore.WaitOne();
-                lock(_Queue)
+                LoggingInformation information = null;
+                lock (_Queue)
                 { 
-                    LoggingInformation information = _Queue.Dequeue();
-                    _Logger.Log(information.LogType, information.Message, information.AddUtcTime);
+                    information = _Queue.Dequeue();
                 }
+                if(information != null)
+                    _Logger.Log(information.LogType, information.Message, information.AddUtcTime);
             }
         }
     }
