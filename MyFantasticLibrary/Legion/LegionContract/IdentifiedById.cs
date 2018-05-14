@@ -2,6 +2,6 @@
 {
     public abstract class IdentifiedById
     {
-        private int id = -1;
+        protected readonly int _Id = -1;
     }
 }

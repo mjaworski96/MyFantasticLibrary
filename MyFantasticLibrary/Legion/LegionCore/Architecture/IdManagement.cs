@@ -8,7 +8,7 @@ namespace LegionCore.Architecture
     {
         private static FieldInfo GetFieldInfo(IdentifiedById id)
         {
-            FieldInfo fi = id.GetType().BaseType.BaseType.GetField("id", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo fi = id.GetType().BaseType.BaseType.GetField("_Id", BindingFlags.NonPublic | BindingFlags.Instance);
             if (fi == null)
                 throw new NullReferenceException();
             return fi;
