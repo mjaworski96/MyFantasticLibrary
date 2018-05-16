@@ -86,6 +86,7 @@ Technology: .NET Standard 2.0
 	- First release that provides independent tasks management. Information about tasks and their parameters will be exchanged by memory (Partially done, but not relased) or via TCP sockets.
 * Components
 	- Components configuration as part of other project configuration (DONE, but not relased).
-	
+* Logger
+	- Removed unhandled exeption when log file does not exist.
 # OTHER INFORMATION #
 Host project is for testing or giving example how use other projects. 

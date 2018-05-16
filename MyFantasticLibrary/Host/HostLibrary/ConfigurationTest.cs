@@ -1,6 +1,6 @@
 ﻿using ConfigurationManager;
 using System;
-namespace Host
+namespace HostLibrary
 {
     public class ConfigurationTest : ITest
     {

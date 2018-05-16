@@ -1,4 +1,5 @@
 ﻿using ConfigurationManager;
+using System.IO;
 
 namespace Logging
 {
@@ -45,8 +46,13 @@ namespace Logging
         /// </summary>
         static LoggerManager()
         {
-            Configuration config = new Configuration(Config.ConfigFilePath);
-            Default = LoggerConfiguration.Create(config);
+            try
+            {
+                Configuration config = new Configuration(Config.ConfigFilePath);
+                Default = LoggerConfiguration.Create(config);
+            }
+            catch (FileNotFoundException) { }
+            
             FileLogger = new FileLogger();
             ConsoleLogger = new ConsoleLogger();
             NullLogger = new NullLogger();

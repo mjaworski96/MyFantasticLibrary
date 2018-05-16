@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 
-namespace Host
+namespace HostLibrary
 {
-    class Program
+    public class SharedProgram
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             ITest test = new LegionTests();
             test.Test();

@@ -2,7 +2,7 @@
 using StringManipulator;
 using System;
 
-namespace Host
+namespace HostLibrary
 {
     class ComponentsTest : ITest
     {

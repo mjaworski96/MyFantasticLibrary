@@ -1,7 +1,7 @@
 ﻿using LegionCore.Architecture;
 using LegionCore.InMemoryCommunication;
 
-namespace Host
+namespace HostLibrary
 {
     public class LegionTests : ITest
     {

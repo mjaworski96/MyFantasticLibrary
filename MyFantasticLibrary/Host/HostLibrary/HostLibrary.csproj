@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Components\ComponentsLoader\ComponentsLoader.csproj" />
+    <ProjectReference Include="..\..\Components\Usage\StringManipulator\StringManipulator.csproj" />
+    <ProjectReference Include="..\..\Legion\LegionCore\LegionCore.csproj" />
+    <ProjectReference Include="..\..\Legion\Usage\BasicTask\BasicTask.csproj" />
+    <ProjectReference Include="..\..\Legion\Usage\MulAndWaitTask\MulAndWaitTask.csproj" />
+    <ProjectReference Include="..\..\Logger\Logging\Logging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config.cfg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

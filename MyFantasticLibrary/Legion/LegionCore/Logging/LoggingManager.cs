@@ -64,9 +64,8 @@ namespace LegionCore.Logging
             lock(_Queue)
             { 
                 _Queue.Enqueue(information);
-                _Semaphore.Release();
             }
-
+            _Semaphore.Release();
         }
         private void LogTask()
         {

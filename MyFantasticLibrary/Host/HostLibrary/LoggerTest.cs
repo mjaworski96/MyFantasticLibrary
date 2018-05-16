@@ -1,6 +1,6 @@
 ﻿using Logging;
 
-namespace Host
+namespace HostLibrary
 {
     class LoggerTest : ITest
     {
