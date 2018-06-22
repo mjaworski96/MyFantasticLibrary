@@ -11,6 +11,6 @@ namespace LegionCore.Architecture
 
         void RaiseError(Exception exc);
         List<LegionDataIn> GetDataIn(int taskCount);
-        void SaveResults(List<LegionDataOut> dataOut);
+        void SaveResults(List<Tuple<int, LegionDataOut>> dataOut);
     }
 }

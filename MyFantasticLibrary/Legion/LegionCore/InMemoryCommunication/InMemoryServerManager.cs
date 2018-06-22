@@ -30,7 +30,7 @@ namespace LegionCore.InMemoryCommunication
             return _Server.GetDataIn(taskCount);
         }
 
-        internal void SaveResults(List<LegionDataOut> dataOut)
+        internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
             _Server.SaveResults(dataOut);
         }

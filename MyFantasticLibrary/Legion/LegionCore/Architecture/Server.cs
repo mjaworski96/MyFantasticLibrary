@@ -15,8 +15,8 @@ namespace LegionCore.Architecture
         private LoggingManager _LoggingManager;
         List<LoadedComponent<LegionTask>> _Tasks = new List<LoadedComponent<LegionTask>>();
         int _CurrentTask;
-        List<List<string>> _TasksInputParameters = new List<List<string>>();
-        List<string> _TasksOutputParameters = new List<string>();
+        List<List<string>> _TasksInputPaths = new List<List<string>>();
+        List<string> _TasksOutputPaths = new List<string>();
         int _CurrentTaskParameter;
         //TODO: List<Tuple<LegionDataIn, int>> _TasksTimeoutCount = new List<Tuple<LegionDataIn, int>>();
         StreamReader dataInReader;
@@ -49,19 +49,19 @@ namespace LegionCore.Architecture
                 {
                     paramIn.Add(param.Value);
                 }
-                _TasksInputParameters.Add(paramIn);
-                _TasksOutputParameters.Add(task.GetField("data_out").Value);
+                _TasksInputPaths.Add(paramIn);
+                _TasksOutputPaths.Add(task.GetField("data_out").Value);
             }
         }
 
         private void InitStreams()
         {
-            if (_Tasks.Count > 0 && _TasksInputParameters.Count > 0
-                && _TasksInputParameters[0].Count > 0 &&
-                _TasksOutputParameters.Count > 0)
+            if (_Tasks.Count > 0 && _TasksInputPaths.Count > 0
+                && _TasksInputPaths[0].Count > 0 &&
+                _TasksOutputPaths.Count > 0)
             {
-                dataInReader = new StreamReader(_TasksInputParameters[0][0]);
-                dataOutWriter = new StreamWriter(_TasksOutputParameters[0]);
+                dataInReader = new StreamReader(_TasksInputPaths[0][0]);
+                dataOutWriter = new StreamWriter(_TasksOutputPaths[0]);
 
             }
         }
@@ -111,11 +111,11 @@ namespace LegionCore.Architecture
         internal void CheckNextInputParameters()
         {
             if (dataInReader.EndOfStream &&
-                _CurrentTaskParameter + 1 < _TasksInputParameters[_CurrentTask].Count)
+                _CurrentTaskParameter + 1 < _TasksInputPaths[_CurrentTask].Count)
             {
                 _CurrentTaskParameter++;
                 dataInReader = new StreamReader(
-                   _TasksInputParameters[_CurrentTask][_CurrentTaskParameter]);
+                   _TasksInputPaths[_CurrentTask][_CurrentTaskParameter]);
             }
         }
 
@@ -138,13 +138,13 @@ namespace LegionCore.Architecture
             }
         }
 
-        internal void SaveResults(List<LegionDataOut> dataOut)
+        internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
             lock (dataOutWriter)
             {
                 foreach (var data in dataOut)
                 {
-                    data.SaveToStream(dataOutWriter);
+                    data.Item2.SaveToStream(dataOutWriter);
                 }
             }
         }

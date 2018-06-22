@@ -35,7 +35,7 @@ namespace LegionCore.InMemoryCommunication
             _ServerManager.RaiseError(exc);
         }
 
-        public void SaveResults(List<LegionDataOut> dataOut)
+        public void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
             _ServerManager.SaveResults(dataOut);
         }

@@ -77,7 +77,7 @@ namespace LegionCore.Architecture
                 if (!noMoreParameters)
                     ReinitializeTasks(finishedTasksIds, ref noMoreParameters);  
             }
-            _LoggingManager.LogInformation("Legion Client ended working.");
+            _LoggingManager.LogInformation("Legion Client finished working.");
         }
 
         private bool InitTasks()
@@ -121,7 +121,7 @@ namespace LegionCore.Architecture
         {
             Task.WaitAny(_Tasks
                     .Where(task => task.Enabled)
-                    .Select(task => task.MyTask)
+                    .Select(task => task.MyRunningTask)
                     .ToArray());
         }
         private List<int> FinishedTasksIds
@@ -142,10 +142,11 @@ namespace LegionCore.Architecture
         }
         private void SendOutputDataToServer(List<int> finishedTasksIds)
         {
-            List<LegionDataOut> dataOut = _Tasks
+            List<Tuple<int, LegionDataOut>> dataOut = _Tasks
                     .Where(task => finishedTasksIds.Contains(task.Id))
-                    .Select(task => task.Result)
+                    .Select(task => Tuple.Create(task.Id, task.Result))
                     .ToList();
+
             _Communicator.SaveResults(dataOut);
         }
     }
