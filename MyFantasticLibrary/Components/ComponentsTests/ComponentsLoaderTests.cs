@@ -150,7 +150,7 @@ namespace ComponentsTests
                 Loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator");
             Assert.AreEqual("ReversingManipulator", component.AssemblyName.Name);
             Assert.AreEqual(3, component.ReferencesAssembliesNames.Length);
-            Assert.AreEqual("mscorlib", component.ReferencesAssembliesNames[0].Name);
+            Assert.AreEqual("netstandard", component.ReferencesAssembliesNames[0].Name);
             Assert.AreEqual("ComponentContract", component.ReferencesAssembliesNames[1].Name);
             Assert.AreEqual("StringManipulator", component.ReferencesAssembliesNames[2].Name);
         }

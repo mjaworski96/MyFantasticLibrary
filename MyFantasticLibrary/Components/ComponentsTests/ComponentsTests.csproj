@@ -15,14 +15,11 @@
   <ItemGroup>
     <ProjectReference Include="..\ComponentContract\ComponentContract.csproj" />
     <ProjectReference Include="..\ComponentsLoader\ComponentsLoader.csproj" />
-    <ProjectReference Include="..\Usage\AbstractClassContractImplementaion\AbstractClassContractImplementaion.csproj" />
-    <ProjectReference Include="..\Usage\AbstractClassContract\AbstractClassContract.csproj" />
-    <ProjectReference Include="..\Usage\Calculator\Calculator.csproj" />
+    <ProjectReference Include="..\Usage\AbstractClassContractImplementation\AbstractClassContractImplementation.csproj" />
     <ProjectReference Include="..\Usage\LowerManipulator\LowerManipulator.csproj" />
     <ProjectReference Include="..\Usage\MyCalculator2\MyCalculator2.csproj" />
     <ProjectReference Include="..\Usage\MyCalculator\MyCalculator.csproj" />
     <ProjectReference Include="..\Usage\ReversingManipulator\ReversingManipulator.csproj" />
-    <ProjectReference Include="..\Usage\StringManipulator\StringManipulator.csproj" />
     <ProjectReference Include="..\Usage\UpperManipulator\UpperManipulator.csproj" />
   </ItemGroup>
 

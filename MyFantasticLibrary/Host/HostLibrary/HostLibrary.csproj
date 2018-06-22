@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Components\ComponentsLoader\ComponentsLoader.csproj" />
+    <ProjectReference Include="..\..\Components\Usage\ReversingManipulator\ReversingManipulator.csproj" />
     <ProjectReference Include="..\..\Components\Usage\StringManipulator\StringManipulator.csproj" />
     <ProjectReference Include="..\..\Legion\LegionCore\LegionCore.csproj" />
     <ProjectReference Include="..\..\Legion\Usage\BasicTask\BasicTask.csproj" />
