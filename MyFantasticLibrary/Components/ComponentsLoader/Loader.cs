@@ -189,25 +189,28 @@ namespace ComponentsLoader
             {
                 if (item.Item1 == typeof(T))
                 {
-                    if (item.Item3 == null && item.Item4 == null)
+                    if (item.Item2 != null && item.Item5 != null && 
+                        item.Item3 == null && item.Item4 == null)
                     {
                         components.Add(
                             GetComponentByName<T>(
                                 item.Item2, item.Item5));
                     }
-                    else if (item.Item3 != null && item.Item4 == null)
+                    else if (item.Item2 != null && item.Item3 != null && item.Item4 == null)
                     {
                         components.Add(
                             GetComponentByNameVersion<T>(
                                 item.Item2, item.Item3, item.Item5));
                     }
-                    else if (item.Item3 == null && item.Item4 != null)
+                    else if (item.Item2 != null && item.Item3 == null 
+                        && item.Item4 != null && item.Item5 != null)
                     {
                         components.Add(
                             GetComponentByNamePublisher<T>(
                                 item.Item2, item.Item4, item.Item5));
                     }
-                    else if (item.Item3 != null && item.Item4 != null)
+                    else if (item.Item2 != null && item.Item3 != null 
+                        && item.Item4 != null && item.Item5 != null)
                     {
                         components.Add(
                             GetComponentByNameVersionPublisher<T>(

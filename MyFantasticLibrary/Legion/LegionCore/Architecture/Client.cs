@@ -34,19 +34,15 @@ namespace LegionCore.Architecture
             int tasksCount = int.Parse(configuration.GetString("legion.client.workers"));
             _Tasks = new WorkerTask[tasksCount];
         }
-        public void Init()
+        private void Init(out WorkerTask workerTask, Tuple<int,
+            LoadedComponent<LegionTask>> loadedComponent,
+            int id)
         {
             try
             {
-                Tuple<int, LoadedComponent<LegionTask>> loadedComponent
-                = _Communicator.CurrentTask;
-                for (int i = 0; i < _Tasks.Length; i++)
-                {
-                    _Tasks[i] = new WorkerTask(loadedComponent.Item2.NewInstantion);
-                    _Tasks[i].ServerSideId = loadedComponent.Item1;
-                    _Tasks[i].ClientSideId = i;
-                }
-                _LoggingManager.LogInformation("Legion Client initialization completed.");
+                workerTask = new WorkerTask(loadedComponent.Item2.NewInstantion);
+                workerTask.ServerSideId = loadedComponent.Item1;
+                workerTask.ClientSideId = id;
             }
             catch (NullReferenceException e)
             {
@@ -55,6 +51,17 @@ namespace LegionCore.Architecture
                 _LoggingManager.LogCritical("Can not initialize Legion Client. Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
                 throw exc;
             }
+        }
+        public void Init()
+        {
+
+            Tuple<int, LoadedComponent<LegionTask>> loadedComponent
+            = _Communicator.CurrentTask;
+            for (int i = 0; i < _Tasks.Length; i++)
+            {
+                Init(out _Tasks[i], loadedComponent, i);
+            }
+            _LoggingManager.LogInformation("Legion Client initialization completed.");
 
         }
 
@@ -75,8 +82,7 @@ namespace LegionCore.Architecture
                 CheckIfFinish(noMoreParameters, ref finished);
                 List<Tuple<int, int>> finishedTasksIds = FinishedTasksIds;
                 SendOutputDataToServer(finishedTasksIds.Select(x => x.Item2));
-                if (!noMoreParameters)
-                    ReinitializeTasks(finishedTasksIds, ref noMoreParameters);
+                ReinitializeTasks(finishedTasksIds, ref noMoreParameters);
             }
             _LoggingManager.LogInformation("Legion Client finished working.");
         }
@@ -128,15 +134,46 @@ namespace LegionCore.Architecture
                 _LoggingManager.LogInformation("No more parameters left.");
             }
 
-
+            bool availableNewTasks = true;
             for (int i = 0; i < dataIn.Count; i++)
             {
-                if(dataIn[i] != null)
+                if (dataIn[i] != null)
                     _Tasks[finishedTasksIds[i].Item2].Run(dataIn[i]);
+                else if (availableNewTasks)
+                    availableNewTasks = ReInit(_Tasks[finishedTasksIds[i].Item2]);
             }
-                
-
+            //noMoreParameters = availableNewTasks;
             _LoggingManager.LogInformation("Tasks reinitialized.");
+        }
+
+        private bool ReInit(WorkerTask workerTask)
+        {
+            Tuple<int, LoadedComponent<LegionTask>> loadedComponent
+           = _Communicator.CurrentTask;
+            if (loadedComponent != null)
+            {
+                try
+                {
+                    Init(out workerTask, loadedComponent, workerTask.ClientSideId);
+                    LegionDataIn dataIn =
+                    _Communicator.GetDataIn(new List<int>() { workerTask.ServerSideId })
+                    .FirstOrDefault();
+                    if (dataIn != null)
+                    {
+                        workerTask.Run(dataIn);
+                        _LoggingManager.LogInformation("Started new task.");
+                        return true;
+                    }
+                    _LoggingManager.LogInformation("New task not available.");
+                    return false;
+                }
+                catch (LegionException)
+                {
+                    return false;
+                }
+            }
+            _LoggingManager.LogInformation("New task not available.");
+            return false;
         }
 
         private void Wait()

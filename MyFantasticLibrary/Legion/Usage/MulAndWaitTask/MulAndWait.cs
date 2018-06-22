@@ -6,7 +6,7 @@ namespace MulAndWaitTask
 {
     [Component("Mul And Wait Task", "1.0.0", "MJayJ")]
     [Legion(typeof(DataIn), typeof(DataOut))]
-    public class AddAndWaitTask : LegionTask
+    public class MulAndWaitTask : LegionTask
     {
         public override LegionDataOut Run(LegionDataIn dataIn)
         {

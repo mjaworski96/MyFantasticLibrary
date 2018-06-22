@@ -56,6 +56,10 @@
       <Project>{aa04930b-9959-4f49-ae33-bc2f919f7470}</Project>
       <Name>BasicTask</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Legion\Usage\MulAndWaitTask\MulAndWaitTask.csproj">
+      <Project>{9ca0e838-dba5-4fff-b322-9a44b47e0aa0}</Project>
+      <Name>MulAndWaitTask</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HostLibrary\HostLibrary.csproj">
       <Project>{d7b04aac-2177-4897-99a9-de731ea960dc}</Project>
       <Name>HostLibrary</Name>
