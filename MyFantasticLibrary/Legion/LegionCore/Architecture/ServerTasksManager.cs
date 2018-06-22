@@ -70,7 +70,7 @@ namespace LegionCore.Architecture
             IEnumerable<int> finishedTasks = dataOut.Select(x => x.Item1).Distinct();
             foreach (var item in finishedTasks)
             {
-                if (_Tasks.Count < item)
+                if (_Tasks.Count > item)
                     _Tasks[item].SaveResults(dataOut
                         .Where(x => x.Item1 == item)
                         .Select(x => x.Item2));
