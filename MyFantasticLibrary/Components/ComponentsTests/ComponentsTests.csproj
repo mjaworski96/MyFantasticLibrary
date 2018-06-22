@@ -1,117 +1,35 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{39E9AEE7-247A-44AA-ABDF-5897F6ABCA3C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ComponentsTests</RootNamespace>
-    <AssemblyName>ComponentsTests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ComponentsLoaderTests.cs" />
+    <ProjectReference Include="..\ComponentContract\ComponentContract.csproj" />
+    <ProjectReference Include="..\ComponentsLoader\ComponentsLoader.csproj" />
+    <ProjectReference Include="..\Usage\AbstractClassContractImplementaion\AbstractClassContractImplementaion.csproj" />
+    <ProjectReference Include="..\Usage\AbstractClassContract\AbstractClassContract.csproj" />
+    <ProjectReference Include="..\Usage\Calculator\Calculator.csproj" />
+    <ProjectReference Include="..\Usage\LowerManipulator\LowerManipulator.csproj" />
+    <ProjectReference Include="..\Usage\MyCalculator2\MyCalculator2.csproj" />
+    <ProjectReference Include="..\Usage\MyCalculator\MyCalculator.csproj" />
+    <ProjectReference Include="..\Usage\ReversingManipulator\ReversingManipulator.csproj" />
+    <ProjectReference Include="..\Usage\StringManipulator\StringManipulator.csproj" />
+    <ProjectReference Include="..\Usage\UpperManipulator\UpperManipulator.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\ComponentContract\ComponentContract.csproj">
-      <Project>{17dc17ef-c90e-4864-9c04-5fd484ba3000}</Project>
-      <Name>ComponentContract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComponentsLoader\ComponentsLoader.csproj">
-      <Project>{568ac684-6797-4b10-86ab-3d3d1f70699b}</Project>
-      <Name>ComponentsLoader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\AbstractClassContractImplementaion\AbstractClassContractImplementaion.csproj">
-      <Project>{12374e52-ef0f-4151-9daf-36e882daa881}</Project>
-      <Name>AbstractClassContractImplementaion</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\AbstractClassContract\AbstractClassContract.csproj">
-      <Project>{6ab8903e-61ff-4405-9294-603866122e1b}</Project>
-      <Name>AbstractClassContract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\Calculator\Calculator.csproj">
-      <Project>{9730f0b1-44bb-46ad-9a08-027be1d3b3d1}</Project>
-      <Name>Calculator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\LowerManipulator\LowerManipulator.csproj">
-      <Project>{51708940-0819-4808-9740-0b4905739e8b}</Project>
-      <Name>LowerManipulator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\MyCalculator2\MyCalculator2.csproj">
-      <Project>{0f37dc04-7539-42f3-afc9-05ada8ab9e2d}</Project>
-      <Name>MyCalculator2</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\MyCalculator\MyCalculator.csproj">
-      <Project>{2f0b70ba-e4d3-44b1-b6a3-288a9adfb2ef}</Project>
-      <Name>MyCalculator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\ReversingManipulator\ReversingManipulator.csproj">
-      <Project>{a8bad491-2640-4b00-a07f-2626dafeb5f8}</Project>
-      <Name>ReversingManipulator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\StringManipulator\StringManipulator.csproj">
-      <Project>{77a5942c-2f54-4adf-840d-bd025955823f}</Project>
-      <Name>StringManipulator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Usage\UpperManipulator\UpperManipulator.csproj">
-      <Project>{7c6fc699-13f2-4709-9ef3-fd0ff23273d1}</Project>
-      <Name>UpperManipulator</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="config.cfg">
+    <None Update="config.cfg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets'))" />
-  </Target>
-  <Import Project="..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" />
+
 </Project>
