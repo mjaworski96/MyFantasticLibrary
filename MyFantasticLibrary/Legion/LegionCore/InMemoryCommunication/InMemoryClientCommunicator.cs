@@ -25,9 +25,9 @@ namespace LegionCore.InMemoryCommunication
             
         }
 
-        public List<LegionDataIn> GetDataIn(int taskCount)
+        public List<LegionDataIn> GetDataIn(List<int> tasks)
         {
-            return _ServerManager.GetDataIn(taskCount);
+            return _ServerManager.GetDataIn(tasks);
         }
 
         public void RaiseError(Exception exc)

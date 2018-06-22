@@ -10,7 +10,7 @@ namespace LegionCore.Architecture
         Tuple<int, LoadedComponent<LegionTask>> CurrentTask { get; }
 
         void RaiseError(Exception exc);
-        List<LegionDataIn> GetDataIn(int taskCount);
+        List<LegionDataIn> GetDataIn(List<int> tasks);
         void SaveResults(List<Tuple<int, LegionDataOut>> dataOut);
     }
 }

@@ -25,9 +25,9 @@ namespace LegionCore.InMemoryCommunication
             
         }
 
-        internal List<LegionDataIn> GetDataIn(int taskCount)
+        internal List<LegionDataIn> GetDataIn(List<int> tasks)
         {
-            return _Server.GetDataIn(taskCount);
+            return _Server.GetDataIn(tasks);
         }
 
         internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)

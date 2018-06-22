@@ -48,16 +48,22 @@ namespace LegionCore.Architecture
                 _Tasks.Add(new ServerTask(component, paramsIn, task.GetField("data_out").Value));
             }
         }
-        internal List<LegionDataIn> GetDataIn(int taskCount)
+        internal List<LegionDataIn> GetDataIn(List<int> tasks)
         {
-            if(_Tasks.Count > _CurrentTaskId)
+            List<LegionDataIn> result = new List<LegionDataIn>(tasks.Count);
+            foreach (var item in tasks)
             {
-                return _Tasks[_CurrentTaskId].GetDataIn(taskCount);
+                if (_Tasks.Count > item)
+                {
+                    result.Add(_Tasks[item].GetDataIn());
+                }
+                else
+                {
+                    result.Add(null);
+                }
             }
-            else
-            {
-                return null;
-            }
+            
+            return result;
         }
         internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {

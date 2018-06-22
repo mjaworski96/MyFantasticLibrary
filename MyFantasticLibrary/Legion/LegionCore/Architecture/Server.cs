@@ -34,9 +34,9 @@ namespace LegionCore.Architecture
             _LoggingManager.LogCritical(exc.Message);
         }
 
-        internal List<LegionDataIn> GetDataIn(int taskCount)
+        internal List<LegionDataIn> GetDataIn(List<int> tasks)
         {
-            return _ServerTasksManager.GetDataIn(taskCount);
+            return _ServerTasksManager.GetDataIn(tasks);
         }
 
         internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)

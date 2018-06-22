@@ -73,21 +73,19 @@ namespace LegionCore.Architecture
             }
         }
 
-        internal List<LegionDataIn> GetDataIn(int taskCount)
+        internal LegionDataIn GetDataIn()
         {
-
             lock (dataInReader)
             {
-                List<LegionDataIn> result = new List<LegionDataIn>(taskCount);
                 CheckNextInputParameters();
-                for (int i = 0; i < taskCount && !dataInReader.EndOfStream; i++)
+                if(!dataInReader.EndOfStream)
                 {
                     LegionDataIn dataIn = CurrentDataIn;
                     dataIn.LoadFromStream(dataInReader);
-                    result.Add(dataIn);
+                    return dataIn;
                 }
 
-                return result;
+                return null;
             }
         }
 
