@@ -16,7 +16,7 @@ namespace LegionCore.InMemoryCommunication
             _ServerManager = serverManager;
         }
 
-        public LoadedComponent<LegionTask> CurrentTask
+        public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
             get
             {

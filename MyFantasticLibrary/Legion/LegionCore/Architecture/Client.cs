@@ -38,12 +38,13 @@ namespace LegionCore.Architecture
         {
             try
             {
-                LoadedComponent<LegionTask> loadedComponent
+                Tuple<int, LoadedComponent<LegionTask>> loadedComponent
                 = _Communicator.CurrentTask;
                 for (int i = 0; i < _Tasks.Length; i++)
                 {
-                    _Tasks[i] = new WorkerTask(loadedComponent.NewInstantion);
-                    _Tasks[i].Id = i;
+                    _Tasks[i] = new WorkerTask(loadedComponent.Item2.NewInstantion);
+                    _Tasks[i].ServerSideId = loadedComponent.Item1;
+                    _Tasks[i].ClientSideId = i;
                 }
                 _LoggingManager.LogInformation("Legion Client initialization completed.");
             }
@@ -130,12 +131,12 @@ namespace LegionCore.Architecture
             {
                 List<int> ids = _Tasks
                    .Where(task => task.IsCompleted && task.Enabled)
-                   .Select(task => task.Id)
+                   .Select(task => task.ClientSideId)
                    .ToList();
                 _LoggingManager.LogInformation("Tasks finished: " + ids.Count);
                 foreach (var task in ids)
                 {
-                    _Tasks.Where(t => t.Id == task).FirstOrDefault().Enabled = false;
+                    _Tasks.Where(t => t.ClientSideId == task).FirstOrDefault().Enabled = false;
                 }
                 return ids;
             }
@@ -143,8 +144,8 @@ namespace LegionCore.Architecture
         private void SendOutputDataToServer(List<int> finishedTasksIds)
         {
             List<Tuple<int, LegionDataOut>> dataOut = _Tasks
-                    .Where(task => finishedTasksIds.Contains(task.Id))
-                    .Select(task => Tuple.Create(task.Id, task.Result))
+                    .Where(task => finishedTasksIds.Contains(task.ClientSideId))
+                    .Select(task => Tuple.Create(task.ServerSideId, task.Result))
                     .ToList();
 
             _Communicator.SaveResults(dataOut);

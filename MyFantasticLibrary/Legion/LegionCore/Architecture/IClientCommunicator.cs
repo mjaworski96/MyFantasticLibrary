@@ -7,7 +7,7 @@ namespace LegionCore.Architecture
 {
     public interface IClientCommunicator
     {
-        LoadedComponent<LegionTask> CurrentTask { get; }
+        Tuple<int, LoadedComponent<LegionTask>> CurrentTask { get; }
 
         void RaiseError(Exception exc);
         List<LegionDataIn> GetDataIn(int taskCount);

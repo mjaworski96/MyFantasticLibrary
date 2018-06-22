@@ -24,8 +24,9 @@ namespace LegionCore.Architecture
             return _MyRunningTask;
         }
 
-        public int Id { get => IdManagement.GetId(_MyTask); set => IdManagement.SetId(_MyTask, value); }
+        public int ServerSideId { get => IdManagement.GetId(_MyTask); set => IdManagement.SetId(_MyTask, value); }
         public LegionDataOut Result { get => _MyRunningTask.Result; }
         public Task<LegionDataOut> MyRunningTask { get => _MyRunningTask; }
+        public int ClientSideId { get; set; }
     }
 }
