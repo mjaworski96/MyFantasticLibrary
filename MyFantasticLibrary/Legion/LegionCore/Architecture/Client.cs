@@ -72,7 +72,6 @@ namespace LegionCore.Architecture
                 _LoggingManager.LogWarning("[ Client ] No params available.");
                 return;
             }
-            bool noMoreParameters = false;
             bool finished = false;
 
             while (!finished)
@@ -80,7 +79,7 @@ namespace LegionCore.Architecture
                 Wait();
                 List<Tuple<int, int>> finishedTasksIds = FinishedTasksIds;
                 SendOutputDataToServer(finishedTasksIds.Select(x => x.Item2));
-                ReinitializeTasksParameters(finishedTasksIds, ref noMoreParameters);
+                ReinitializeTasksParameters(finishedTasksIds);
                 finished = CheckIfFinish();
             }
             _LoggingManager.LogInformation("[ Client ] Legion Client finished working.");
@@ -108,7 +107,8 @@ namespace LegionCore.Architecture
 
             for (int i = 0; i < dataIn.Count; i++)
             {
-                _Tasks[i].Run(dataIn[i]);
+                if (dataIn[i] != null)
+                    _Tasks[i].Run(dataIn[i]);
             }
             _LoggingManager.LogInformation("[ Client ] Legion Client initialized.");
             return true;
@@ -121,17 +121,11 @@ namespace LegionCore.Architecture
             return false;
         }
 
-        private void ReinitializeTasksParameters(List<Tuple<int, int>> finishedTasksIds, ref bool noMoreParameters)
+        private void ReinitializeTasksParameters(List<Tuple<int, int>> finishedTasksIds)
         {
             List<LegionDataIn> dataIn =
                 _Communicator.GetDataIn(finishedTasksIds
                 .Select(x => x.Item1).ToList());
-
-            if (dataIn.Where(x => x != null).ToList().Count != finishedTasksIds.Count)
-            {
-                noMoreParameters = true;
-                _LoggingManager.LogInformation("[ Client ] No more parameters left.");
-            }
 
             bool availableNewTasks = true;
             for (int i = 0; i < dataIn.Count; i++)
@@ -140,12 +134,25 @@ namespace LegionCore.Architecture
                     _Tasks[finishedTasksIds[i].Item2].Run(dataIn[i]);
                 else if (availableNewTasks)
                 {
-                    noMoreParameters = availableNewTasks = 
-                        ReInit(ref _Tasks[finishedTasksIds[i].Item2]);
+                    availableNewTasks =
+                       ReInit(ref _Tasks[finishedTasksIds[i].Item2]);
                 }
-                    
             }
+            if (availableNewTasks)
+                ReinitializeDisabledTasks();
             _LoggingManager.LogInformation("[ Client ] Tasks reinitialized.");
+        }
+
+        private void ReinitializeDisabledTasks()
+        {
+            List<int> tasksIds = _Tasks.Where(x => !x.Enabled)
+                .Select(x => x.ClientSideId).ToList();
+
+            foreach (var task in tasksIds)
+            {
+                if (!ReInit(ref _Tasks[task]))
+                    break;
+            }
         }
 
         private bool ReInit(ref WorkerTask workerTask)
@@ -185,6 +192,9 @@ namespace LegionCore.Architecture
                     .Select(task => task.MyRunningTask)
                     .ToArray());
         }
+        /// <summary>
+        /// Contains ServerSideId and ClientSideId
+        /// </summary>
         private List<Tuple<int, int>> FinishedTasksIds
         {
             get
