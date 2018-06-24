@@ -13,11 +13,15 @@ namespace LegionCore.Architecture
         private List<string> _TaskInputPaths = new List<string>();
         private string _TaskOutputPath;
         private int _CurrentTaskParameter;
-        private StreamReader dataInReader;
-        private StreamWriter dataOutWriter;
+        private StreamReader _DataInReader;
+        private StreamWriter _DataOutWriter;
+
+        private int _LastParamId;
 
         public LoadedComponent<LegionTask> Task { get => _Task; }
         public bool NoParametersAvailable { get; set; }
+
+
 
         public ServerTask(LoadedComponent<LegionTask> task, 
             List<string> taskInputPaths, 
@@ -26,7 +30,7 @@ namespace LegionCore.Architecture
             _Task = task;
             _TaskInputPaths = taskInputPaths;
             _TaskOutputPath = taskOutputPath;
-            _CurrentTaskParameter = 0;
+            _CurrentTaskParameter = _LastParamId = 0;
             NoParametersAvailable = false;
             InitStreams();
         }
@@ -37,8 +41,8 @@ namespace LegionCore.Architecture
                 && _TaskInputPaths.Count > 0 &&
                 !string.IsNullOrEmpty(_TaskOutputPath))
             {
-                dataInReader = new StreamReader(_TaskInputPaths[0]);
-                dataOutWriter = new StreamWriter(_TaskOutputPath);
+                _DataInReader = new StreamReader(_TaskInputPaths[0]);
+                _DataOutWriter = new StreamWriter(_TaskOutputPath);
 
             }
         }
@@ -67,13 +71,13 @@ namespace LegionCore.Architecture
 
         internal void CheckNextInputParameters()
         {
-            if (dataInReader.EndOfStream)
+            if (_DataInReader.EndOfStream)
             {
                 if (_CurrentTaskParameter + 1 < _TaskInputPaths.Count)
                 {
                     _CurrentTaskParameter++;
-                    dataInReader.Close();
-                    dataInReader = new StreamReader(
+                    _DataInReader.Close();
+                    _DataInReader = new StreamReader(
                        _TaskInputPaths[_CurrentTaskParameter]);
                 } 
                 else
@@ -86,13 +90,15 @@ namespace LegionCore.Architecture
 
         internal LegionDataIn GetDataIn()
         {
-            lock (dataInReader)
+            lock (_DataInReader)
             {
                 CheckNextInputParameters();
-                if(!dataInReader.EndOfStream)
+                if(!_DataInReader.EndOfStream)
                 {
                     LegionDataIn dataIn = DataIn;
-                    dataIn.LoadFromStream(dataInReader);
+                    IdManagement.SetId(dataIn, _LastParamId);
+                    _LastParamId++;
+                    dataIn.LoadFromStream(_DataInReader);
                     return dataIn;
                 }
 
@@ -102,19 +108,21 @@ namespace LegionCore.Architecture
 
         internal void SaveResults(IEnumerable<LegionDataOut> dataOut)
         {
-            lock (dataOutWriter)
+            lock (_DataOutWriter)
             {
                 foreach (var data in dataOut)
                 {
-                    data.SaveToStream(dataOutWriter);
+                    _DataOutWriter.Write(IdManagement.GetId(data) + " -> ");
+                    data.SaveToStream(_DataOutWriter);
+                    _DataOutWriter.Flush();
                 }
             }
         }
 
         public void Dispose()
         {
-            dataInReader?.Dispose();
-            dataOutWriter?.Dispose();
+            _DataInReader?.Dispose();
+            _DataOutWriter?.Dispose();
         }
     }
 

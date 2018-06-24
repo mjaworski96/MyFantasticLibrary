@@ -78,7 +78,7 @@ namespace LegionCore.Architecture
             {
                 Wait();
                 List<Tuple<int, int>> finishedTasksIds = FinishedTasksIds;
-                SendOutputDataToServer(finishedTasksIds.Select(x => x.Item2));
+                SendOutputDataToServer(finishedTasksIds.Select(x => x.Item2).ToList());
                 ReinitializeTasksParameters(finishedTasksIds);
                 finished = CheckIfFinish();
             }
@@ -211,12 +211,18 @@ namespace LegionCore.Architecture
                 return ids;
             }
         }
-        private void SendOutputDataToServer(IEnumerable<int> finishedTasksIds)
+        private void SendOutputDataToServer(List<int> finishedTasksIds)
         {
             List<Tuple<int, LegionDataOut>> dataOut = _Tasks
                     .Where(task => finishedTasksIds.Contains(task.ClientSideId))
                     .Select(task => Tuple.Create(task.ServerSideId, task.Result))
                     .ToList();
+            for (int i = 0; i < dataOut.Count; i++)
+            {
+                IdManagement.SetId(dataOut[i].Item2,
+                    _Tasks[finishedTasksIds[i]].ParameterId);
+            }
+            
 
             _Communicator.SaveResults(dataOut);
         }
