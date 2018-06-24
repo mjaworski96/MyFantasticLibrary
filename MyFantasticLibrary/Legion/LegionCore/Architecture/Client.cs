@@ -81,13 +81,12 @@ namespace LegionCore.Architecture
                 List<Tuple<int, int>> finishedTasksIds = FinishedTasksIds;
                 SendOutputDataToServer(finishedTasksIds.Select(x => x.Item2));
                 ReinitializeTasksParameters(finishedTasksIds, ref noMoreParameters);
-                CheckIfFinish(ref finished);
+                finished = CheckIfFinish();
             }
             _LoggingManager.LogInformation("[ Client ] Legion Client finished working.");
         }
         private List<int> ListOfRequiredTasksParameters(int taskId)
         {
-
             List<int> result = new List<int>();
             for (int i = 0; i < TaskCount; i++)
             {
@@ -115,10 +114,11 @@ namespace LegionCore.Architecture
             return true;
         }
 
-        private void CheckIfFinish(ref bool finished)
+        private bool CheckIfFinish()
         {
             if (_Tasks.Count(x => x.IsCompleted && !x.Enabled) == _Tasks.Count())
-                finished = true;
+                return true;
+            return false;
         }
 
         private void ReinitializeTasksParameters(List<Tuple<int, int>> finishedTasksIds, ref bool noMoreParameters)
@@ -164,7 +164,6 @@ namespace LegionCore.Architecture
                     {
                         workerTask.Run(dataIn);
                         _LoggingManager.LogInformation("[ Client ] Started new task.");
-                        //workerTask = newTask;
                         return true;
                     }
                     _LoggingManager.LogInformation("[ Client ] New task not available.");
