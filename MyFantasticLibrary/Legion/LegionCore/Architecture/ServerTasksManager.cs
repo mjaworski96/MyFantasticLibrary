@@ -1,6 +1,7 @@
 ﻿using ComponentsLoader;
 using ConfigurationManager;
 using LegionContract;
+using LegionCore.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +13,32 @@ namespace LegionCore.Architecture
         private int _CurrentTaskId;
         private List<ServerTask> _Tasks;
         private Configuration _Configuration;
+        private LoggingManager _Logger;
 
         public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
             get
             {
+                if (_Tasks[_CurrentTaskId].NoParametersAvailable)
+                {
+                    if(_CurrentTaskId < _Tasks.Count - 1)
+                    {
+                        _Logger.LogInformation("[ Server ] Started new task");
+                        _CurrentTaskId++;
+                    }
+                    else
+                    {
+                        _Logger.LogInformation("[ Server ] No more tasks");
+                    }
+                }
+                   
                 return Tuple.Create(_CurrentTaskId, _Tasks[_CurrentTaskId].Task);
             }
         }
 
         internal ServerTasksManager(string configFilename = "config.cfg")
         {
+            _Logger = LoggingManager.Instance;
             _CurrentTaskId = 0;
             _Tasks = new List<ServerTask>();
             _Configuration = new Configuration(configFilename);
@@ -70,6 +86,7 @@ namespace LegionCore.Architecture
             IEnumerable<int> finishedTasks = dataOut.Select(x => x.Item1).Distinct();
             foreach (var item in finishedTasks)
             {
+                _Logger.LogInformation("[ Server ] " + item);
                 if (_Tasks.Count > item)
                     _Tasks[item].SaveResults(dataOut
                         .Where(x => x.Item1 == item)

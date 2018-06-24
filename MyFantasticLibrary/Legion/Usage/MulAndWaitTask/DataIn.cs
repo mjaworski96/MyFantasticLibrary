@@ -11,7 +11,7 @@ namespace MulAndWaitTask
 
         public override void LoadFromStream(StreamReader streamReader)
         {
-            string[] data = streamReader.ReadLine().Split(',');
+            string[] data = streamReader.ReadLine().Split(' ');
             A = int.Parse(data[0]);
             B = int.Parse(data[1]);
             C = int.Parse(data[2]);

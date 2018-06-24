@@ -48,7 +48,7 @@ namespace LegionCore.Architecture
             {
                 Exception exc = new LegionException("Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.", e);
                 _Communicator.RaiseError(exc);
-                _LoggingManager.LogCritical("Can not initialize Legion Client. Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
+                _LoggingManager.LogCritical("[ Client ] Can not initialize Legion Client. Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
                 throw exc;
             }
         }
@@ -61,7 +61,7 @@ namespace LegionCore.Architecture
             {
                 Init(out _Tasks[i], loadedComponent, i);
             }
-            _LoggingManager.LogInformation("Legion Client initialization completed.");
+            _LoggingManager.LogInformation("[ Client ] Legion Client initialization completed.");
 
         }
 
@@ -69,7 +69,7 @@ namespace LegionCore.Architecture
         {
             if (!InitTasks())
             {
-                _LoggingManager.LogWarning("No params available.");
+                _LoggingManager.LogWarning("[ Client ] No params available.");
                 return;
             }
             bool noMoreParameters = false;
@@ -78,13 +78,12 @@ namespace LegionCore.Architecture
             while (!finished)
             {
                 Wait();
-
-                CheckIfFinish(noMoreParameters, ref finished);
                 List<Tuple<int, int>> finishedTasksIds = FinishedTasksIds;
                 SendOutputDataToServer(finishedTasksIds.Select(x => x.Item2));
-                ReinitializeTasks(finishedTasksIds, ref noMoreParameters);
+                ReinitializeTasksParameters(finishedTasksIds, ref noMoreParameters);
+                CheckIfFinish(ref finished);
             }
-            _LoggingManager.LogInformation("Legion Client finished working.");
+            _LoggingManager.LogInformation("[ Client ] Legion Client finished working.");
         }
         private List<int> ListOfRequiredTasksParameters(int taskId)
         {
@@ -112,17 +111,17 @@ namespace LegionCore.Architecture
             {
                 _Tasks[i].Run(dataIn[i]);
             }
-            _LoggingManager.LogInformation("Legion Client initialized.");
+            _LoggingManager.LogInformation("[ Client ] Legion Client initialized.");
             return true;
         }
 
-        private void CheckIfFinish(bool noMoreParameters, ref bool finished)
+        private void CheckIfFinish(ref bool finished)
         {
-            if (noMoreParameters && _Tasks.Count(x => x.IsCompleted) == _Tasks.Count())
+            if (_Tasks.Count(x => x.IsCompleted && !x.Enabled) == _Tasks.Count())
                 finished = true;
         }
 
-        private void ReinitializeTasks(List<Tuple<int, int>> finishedTasksIds, ref bool noMoreParameters)
+        private void ReinitializeTasksParameters(List<Tuple<int, int>> finishedTasksIds, ref bool noMoreParameters)
         {
             List<LegionDataIn> dataIn =
                 _Communicator.GetDataIn(finishedTasksIds
@@ -131,7 +130,7 @@ namespace LegionCore.Architecture
             if (dataIn.Where(x => x != null).ToList().Count != finishedTasksIds.Count)
             {
                 noMoreParameters = true;
-                _LoggingManager.LogInformation("No more parameters left.");
+                _LoggingManager.LogInformation("[ Client ] No more parameters left.");
             }
 
             bool availableNewTasks = true;
@@ -140,17 +139,20 @@ namespace LegionCore.Architecture
                 if (dataIn[i] != null)
                     _Tasks[finishedTasksIds[i].Item2].Run(dataIn[i]);
                 else if (availableNewTasks)
-                    availableNewTasks = ReInit(_Tasks[finishedTasksIds[i].Item2]);
+                {
+                    noMoreParameters = availableNewTasks = 
+                        ReInit(ref _Tasks[finishedTasksIds[i].Item2]);
+                }
+                    
             }
-            //noMoreParameters = availableNewTasks;
-            _LoggingManager.LogInformation("Tasks reinitialized.");
+            _LoggingManager.LogInformation("[ Client ] Tasks reinitialized.");
         }
 
-        private bool ReInit(WorkerTask workerTask)
+        private bool ReInit(ref WorkerTask workerTask)
         {
             Tuple<int, LoadedComponent<LegionTask>> loadedComponent
            = _Communicator.CurrentTask;
-            if (loadedComponent != null)
+            if (loadedComponent != null && loadedComponent.Item1 != workerTask.ServerSideId)
             {
                 try
                 {
@@ -161,10 +163,11 @@ namespace LegionCore.Architecture
                     if (dataIn != null)
                     {
                         workerTask.Run(dataIn);
-                        _LoggingManager.LogInformation("Started new task.");
+                        _LoggingManager.LogInformation("[ Client ] Started new task.");
+                        //workerTask = newTask;
                         return true;
                     }
-                    _LoggingManager.LogInformation("New task not available.");
+                    _LoggingManager.LogInformation("[ Client ] New task not available.");
                     return false;
                 }
                 catch (LegionException)
@@ -172,7 +175,7 @@ namespace LegionCore.Architecture
                     return false;
                 }
             }
-            _LoggingManager.LogInformation("New task not available.");
+            _LoggingManager.LogInformation("[ Client ] New task not available.");
             return false;
         }
 
@@ -191,7 +194,7 @@ namespace LegionCore.Architecture
                    .Where(task => task.IsCompleted && task.Enabled)
                    .Select(task => Tuple.Create(task.ServerSideId, task.ClientSideId))
                    .ToList();
-                _LoggingManager.LogInformation("Tasks finished: " + ids.Count);
+                _LoggingManager.LogInformation("[ Client ] Tasks finished: " + ids.Count);
                 foreach (var task in ids)
                 {
                     _Tasks.Where(t => t.ClientSideId == task.Item2).FirstOrDefault().Enabled = false;

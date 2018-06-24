@@ -10,7 +10,7 @@ namespace LegionCore.Architecture
         private Task<LegionDataOut> _MyRunningTask;
         public bool Enabled { get; set; }
 
-        public bool IsCompleted { get => _MyRunningTask.IsCompleted; }
+        public bool IsCompleted { get => _MyRunningTask?.IsCompleted ?? true; }
 
         internal WorkerTask(LegionTask myTask)
         {
