@@ -61,7 +61,8 @@ namespace LegionCore.Architecture
                     .Select(x => x.Value)
                     .ToList();
 
-                _Tasks.Add(new ServerTask(component, paramsIn, task.GetField("data_out").Value));
+                _Tasks.Add(new ServerTask(component, paramsIn, task.GetField("data_out").Value,
+                    task.GetField("ordered_data_out").Value));
             }
         }
         internal List<LegionDataIn> GetDataIn(List<int> tasks)
