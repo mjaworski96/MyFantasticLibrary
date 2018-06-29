@@ -12,15 +12,16 @@ namespace LegionCore.Architecture
     internal class ServerTask: IDisposable
     {
         private LoadedComponent<LegionTask> _Task;
-        private List<string> _TaskInputPaths = new List<string>();
+        private List<string> _TaskInputPaths;
         private string _TaskOutputPath;
         private int _CurrentTaskParameter;
         private StreamReader _DataInReader;
         private StreamWriter _DataOutWriter;
-        private string OrderedOutputPath;
+        private string _OrderedOutputPath;
         private int _LastParamId;
         private List<LegionDataOut> _DataOut;
         private LoggingManager _Logger;
+        private int _CountOfSavedData;
 
         public LoadedComponent<LegionTask> Task { get => _Task; }
         public bool NoParametersAvailable { get; set; }
@@ -33,15 +34,31 @@ namespace LegionCore.Architecture
             string taskOutputOrderedPath)
         {
             _Logger = LoggingManager.Instance;
+            _TaskInputPaths = new List<string>();
             _Task = task;
             _TaskInputPaths = taskInputPaths;
             _TaskOutputPath = taskOutputPath;
-            _CurrentTaskParameter = _LastParamId = 0;
+            _CurrentTaskParameter = _LastParamId = _CountOfSavedData = 0;
             NoParametersAvailable = false;
-            OrderedOutputPath = taskOutputOrderedPath;
-            if (OrderedOutputPath != null)
+            _OrderedOutputPath = taskOutputOrderedPath;
+            if (_OrderedOutputPath != null)
                 _DataOut = new List<LegionDataOut>();
             InitStreams();
+        }
+
+        internal bool CheckIfFinish()
+        {
+            lock (_DataInReader)
+            {
+                lock(_DataOutWriter)
+                {
+                    CheckNextInputParameters();
+                    if (_DataInReader.EndOfStream && _CountOfSavedData == _LastParamId)
+                        return true;
+                    else
+                        return false;
+                } 
+            }
         }
 
         private void InitStreams()
@@ -124,6 +141,7 @@ namespace LegionCore.Architecture
                     _DataOutWriter.Write(IdManagement.GetId(data) + " -> ");
                     data.SaveToStream(_DataOutWriter);
                     _DataOutWriter.Flush();
+                    _CountOfSavedData++;
                     if (_DataOut != null)
                         _DataOut.Add(data);
                 }
@@ -133,16 +151,16 @@ namespace LegionCore.Architecture
         }
         private void SaveResultsWithOrder()
         {
-            lock(OrderedOutputPath)
+            lock(_OrderedOutputPath)
             {
-                using(StreamWriter ordered = new StreamWriter(OrderedOutputPath))
+                using(StreamWriter ordered = new StreamWriter(_OrderedOutputPath))
                 {
                     foreach (var data in _DataOut.OrderBy(x => IdManagement.GetId(x)))
                     {
                         data.SaveToStream(ordered);
                     }
                 }
-                _Logger.LogInformation("[ Server ] Saved output data with order");
+                _Logger.LogInformation("[ Server ] Saved output data with order.");
             }
         }
         public void Dispose()

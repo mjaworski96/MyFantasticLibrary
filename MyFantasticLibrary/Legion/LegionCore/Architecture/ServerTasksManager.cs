@@ -14,6 +14,7 @@ namespace LegionCore.Architecture
         private List<ServerTask> _Tasks;
         private Configuration _Configuration;
         private LoggingManager _Logger;
+        private Server _Server;
 
         public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
@@ -23,12 +24,12 @@ namespace LegionCore.Architecture
                 {
                     if(_CurrentTaskId < _Tasks.Count - 1)
                     {
-                        _Logger.LogInformation("[ Server ] Started new task");
+                        _Logger.LogInformation("[ Server ] Started new task.");
                         _CurrentTaskId++;
                     }
                     else
                     {
-                        _Logger.LogInformation("[ Server ] No more tasks");
+                        _Logger.LogInformation("[ Server ] No more tasks.");
                     }
                 }
                    
@@ -36,14 +37,24 @@ namespace LegionCore.Architecture
             }
         }
 
-        internal ServerTasksManager(string configFilename = "config.cfg")
+        internal ServerTasksManager(Server server, string configFilename = "config.cfg")
         {
+            _Server = server;
             _Logger = LoggingManager.Instance;
             _CurrentTaskId = 0;
             _Tasks = new List<ServerTask>();
             _Configuration = new Configuration(configFilename);
             InitTasks();
             
+        }
+        internal void CheckIfFinish()
+        {
+            foreach (var task in _Tasks)
+            {
+                if (!task.CheckIfFinish())
+                    return;
+            }
+            _Server.Finish();
         }
         private void InitTasks()
         {
@@ -92,6 +103,7 @@ namespace LegionCore.Architecture
                         .Where(x => x.Item1 == item)
                         .Select(x => x.Item2));
             }
+            CheckIfFinish();
         }
 
         public void Dispose()

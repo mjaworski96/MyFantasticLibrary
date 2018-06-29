@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using ComponentsLoader;
 using ConfigurationManager;
 using LegionContract;
@@ -14,7 +16,7 @@ namespace LegionCore.Architecture
     {
         private ServerTasksManager _ServerTasksManager;
         private LoggingManager _LoggingManager;
-
+        private Semaphore _EndSemaphore;
         public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
             get
@@ -23,12 +25,30 @@ namespace LegionCore.Architecture
             }
         }
 
-        public Server(string configFilename = "config.cfg")
+        public Server(Semaphore endSemaphore, string configFilename = "config.cfg")
         {
             _LoggingManager = LoggingManager.Instance;
-            _ServerTasksManager = new ServerTasksManager(configFilename);
+            _ServerTasksManager = new ServerTasksManager(this, configFilename);
+            _EndSemaphore = endSemaphore;
         }
-
+        internal void Finish()
+        {
+            _EndSemaphore.Release();
+        }
+        private static void Work(Semaphore semaphore, Server server)
+        {
+            using (server)
+            {
+                semaphore.WaitOne();
+                LoggingManager.Instance.LogInformation("[ Server ] Legion server finished working.");
+            }           
+        }
+        public static Tuple<Task, Server> StartNew(string configFilename = "config.cfg")
+        {
+            Semaphore semaphore = new Semaphore(0, Int32.MaxValue);
+            Server server = new Server(semaphore, configFilename);
+            return Tuple.Create(Task.Run(() => Work(semaphore, server)), server);
+        }
         internal void RaiseError(Exception exc)
         {
             _LoggingManager.LogCritical(exc.Message);
