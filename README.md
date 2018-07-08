@@ -17,11 +17,11 @@ Technology: .NET Standard 2.0
 	- Provides: 
 		- FileLogger - logs data to file.
 		- ConsoleLogger - logs data to console.
-		- NullLogger - logs all messages.
+		- NullLogger - ignores all messages.
 	- Dependencies:
 		- ConfigurationManager 1.1.0
 	
-* ConfigurationManager - allows to load/save config using .NET Standard 2.0, Version: 1.1.0
+* ConfigurationManager - allows to load/save configuration using .NET Standard 2.0, Version: 1.1.0
 	- Provides:
 		- Configuration - loads/saves configuration to/from file.
 		

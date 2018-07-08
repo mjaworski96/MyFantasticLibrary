@@ -39,5 +39,10 @@ namespace LegionCore.InMemoryCommunication
         {
             _Server.RaiseError(exc);
         }
+
+        internal void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
+        {
+            _Server.RaiseInitializationError(exceptionTaskId);
+        }
     }
 }

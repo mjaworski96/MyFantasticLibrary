@@ -35,6 +35,11 @@ namespace LegionCore.InMemoryCommunication
             _ServerManager.RaiseError(exc);
         }
 
+        public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
+        {
+            _ServerManager.RaiseInitializationError(exceptionTaskId);
+        }
+
         public void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
             _ServerManager.SaveResults(dataOut);

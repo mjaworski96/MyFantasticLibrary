@@ -47,7 +47,7 @@ namespace LegionCore.Architecture
             catch (NullReferenceException e)
             {
                 Exception exc = new LegionException("Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.", e);
-                _Communicator.RaiseError(exc);
+                _Communicator.RaiseInitializationError(Tuple.Create(exc, loadedComponent.Item1));
                 _LoggingManager.LogCritical("[ Client ] Can not initialize Legion Client. Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
                 throw exc;
             }

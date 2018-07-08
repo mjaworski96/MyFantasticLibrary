@@ -8,45 +8,66 @@ using System.Linq;
 
 namespace LegionCore.Architecture
 {
-    internal class ServerTasksManager: IDisposable
+    internal class ServerTasksManager : IDisposable
     {
         private int _CurrentTaskId;
         private List<ServerTask> _Tasks;
         private Configuration _Configuration;
         private LoggingManager _Logger;
         private Server _Server;
-
+        private object _CurrentTaskIdLock;
         public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
             get
             {
-                if (_Tasks[_CurrentTaskId].NoParametersAvailable)
+                lock (_CurrentTaskIdLock)
                 {
-                    if(_CurrentTaskId < _Tasks.Count - 1)
+                    if (_Tasks[_CurrentTaskId].NoParametersAvailable)
                     {
-                        _Logger.LogInformation("[ Server ] Started new task.");
-                        _CurrentTaskId++;
+                        if (_CurrentTaskId < _Tasks.Count - 1)
+                        {
+                            _Logger.LogInformation("[ Server ] Started new task.");
+                            _CurrentTaskId++;
+                        }
+                        else
+                        {
+                            _Logger.LogInformation("[ Server ] No more tasks.");
+                        }
                     }
-                    else
-                    {
-                        _Logger.LogInformation("[ Server ] No more tasks.");
-                    }
+
+                    return Tuple.Create(_CurrentTaskId, _Tasks[_CurrentTaskId].Task);
                 }
-                   
-                return Tuple.Create(_CurrentTaskId, _Tasks[_CurrentTaskId].Task);
+
             }
         }
 
         internal ServerTasksManager(Server server, string configFilename = "config.cfg")
         {
+            _CurrentTaskIdLock = new object();
             _Server = server;
             _Logger = LoggingManager.Instance;
             _CurrentTaskId = 0;
             _Tasks = new List<ServerTask>();
             _Configuration = new Configuration(configFilename);
             InitTasks();
-            
+
         }
+
+        internal void OnInitializationError(int invalidTaskId)
+        {
+            lock (_CurrentTaskIdLock)
+            {
+                if (_CurrentTaskId == invalidTaskId)
+                {
+                    _Tasks[_CurrentTaskId].Error = true;
+                    if (_CurrentTaskId < _Tasks.Count - 1)
+                        _CurrentTaskId++;
+                    CheckIfFinish();
+                }
+                    
+            }
+        }
+
         internal void CheckIfFinish()
         {
             foreach (var task in _Tasks)
@@ -90,7 +111,7 @@ namespace LegionCore.Architecture
                     result.Add(null);
                 }
             }
-            
+
             return result;
         }
         internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)

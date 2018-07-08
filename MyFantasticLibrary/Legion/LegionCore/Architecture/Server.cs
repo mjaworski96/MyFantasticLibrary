@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using ComponentsLoader;
-using ConfigurationManager;
 using LegionContract;
 using LegionCore.Logging;
 
@@ -43,6 +39,13 @@ namespace LegionCore.Architecture
                 LoggingManager.Instance.LogInformation("[ Server ] Legion server finished working.");
             }           
         }
+
+        internal void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
+        {
+            _ServerTasksManager.OnInitializationError(exceptionTaskId.Item2);
+            RaiseError(exceptionTaskId.Item1);
+        }
+
         public static Tuple<Task, Server> StartNew(string configFilename = "config.cfg")
         {
             Semaphore semaphore = new Semaphore(0, Int32.MaxValue);

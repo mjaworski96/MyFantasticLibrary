@@ -48,6 +48,9 @@ namespace LegionCore.Architecture
 
         internal bool CheckIfFinish()
         {
+            if (Error)
+                return true;
+
             lock (_DataInReader)
             {
                 lock(_DataOutWriter)
@@ -94,6 +97,7 @@ namespace LegionCore.Architecture
             }
         }
 
+        public bool Error { get; internal set; }
 
         internal void CheckNextInputParameters()
         {
