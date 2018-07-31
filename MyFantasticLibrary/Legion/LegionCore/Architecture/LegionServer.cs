@@ -8,7 +8,7 @@ using LegionCore.Logging;
 
 namespace LegionCore.Architecture
 {
-    public class Server : IDisposable
+    public class LegionServer : IDisposable
     {
         private ServerTasksManager _ServerTasksManager;
         private LoggingManager _LoggingManager;
@@ -21,7 +21,7 @@ namespace LegionCore.Architecture
             }
         }
 
-        public Server(Semaphore endSemaphore, string configFilename = "config.cfg")
+        public LegionServer(Semaphore endSemaphore, string configFilename = "config.cfg")
         {
             _LoggingManager = LoggingManager.Instance;
             _ServerTasksManager = new ServerTasksManager(this, configFilename);
@@ -31,7 +31,7 @@ namespace LegionCore.Architecture
         {
             _EndSemaphore.Release();
         }
-        private static void Work(Semaphore semaphore, Server server)
+        private static void Work(Semaphore semaphore, LegionServer server)
         {
             using (server)
             {
@@ -46,10 +46,10 @@ namespace LegionCore.Architecture
             RaiseError(exceptionTaskId.Item1);
         }
 
-        public static Tuple<Task, Server> StartNew(string configFilename = "config.cfg")
+        public static Tuple<Task, LegionServer> StartNew(string configFilename = "config.cfg")
         {
             Semaphore semaphore = new Semaphore(0, Int32.MaxValue);
-            Server server = new Server(semaphore, configFilename);
+            LegionServer server = new LegionServer(semaphore, configFilename);
             return Tuple.Create(Task.Run(() => Work(semaphore, server)), server);
         }
         internal void RaiseError(Exception exc)

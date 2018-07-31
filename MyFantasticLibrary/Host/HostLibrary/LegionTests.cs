@@ -10,7 +10,7 @@ namespace HostLibrary
 
         public void Test()
         {
-            Server server = Server.StartNew().Item2;
+            LegionServer server = LegionServer.StartNew().Item2;
             InMemoryServerManager serverManager = new InMemoryServerManager(server);
             IClientCommunicator communicator = new InMemoryClientCommunicator(serverManager);
             while(!RunClient(communicator));
@@ -19,7 +19,7 @@ namespace HostLibrary
         {
             try
             {
-                Client client = new Client(communicator);
+                LegionClient client = new LegionClient(communicator);
                 client.Init();
                 client.Run();
                 return true;

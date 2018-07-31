@@ -14,7 +14,7 @@ namespace LegionCore.Architecture
         private List<ServerTask> _Tasks;
         private Configuration _Configuration;
         private LoggingManager _Logger;
-        private Server _Server;
+        private LegionServer _Server;
         private object _CurrentTaskIdLock;
         public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
@@ -41,7 +41,7 @@ namespace LegionCore.Architecture
             }
         }
 
-        internal ServerTasksManager(Server server, string configFilename = "config.cfg")
+        internal ServerTasksManager(LegionServer server, string configFilename = "config.cfg")
         {
             _CurrentTaskIdLock = new object();
             _Server = server;

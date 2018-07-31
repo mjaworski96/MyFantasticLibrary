@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace LegionCore.Architecture
 {
-    public class Client
+    public class LegionClient
     {
         private LoggingManager _LoggingManager;
         private WorkerTask[] _Tasks;
         private IClientCommunicator _Communicator;
         public int TaskCount { get => _Tasks.Length; }
 
-        private Client(IClientCommunicator communicator)
+        private LegionClient(IClientCommunicator communicator)
         {
             _LoggingManager = LoggingManager.Instance;
             _Communicator = communicator;
         }
 
-        public Client(IClientCommunicator communicator, int tasksCount)
+        public LegionClient(IClientCommunicator communicator, int tasksCount)
             : this(communicator)
         {
             _Tasks = new WorkerTask[tasksCount];
         }
-        public Client(IClientCommunicator communicatoror, string configFilename = "config.cfg")
+        public LegionClient(IClientCommunicator communicatoror, string configFilename = "config.cfg")
             : this(communicatoror)
         {
             Configuration configuration = new Configuration(configFilename);

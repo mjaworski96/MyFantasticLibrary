@@ -9,9 +9,9 @@ namespace LegionCore.InMemoryCommunication
 {
     public class InMemoryServerManager
     {
-        private Server _Server;
+        private LegionServer _Server;
 
-        public InMemoryServerManager(Server server)
+        public InMemoryServerManager(LegionServer server)
         {
             _Server = server;
         }
