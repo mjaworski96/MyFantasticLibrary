@@ -64,7 +64,7 @@ namespace LegionCore.Architecture
                         _CurrentTaskId++;
                     CheckIfFinish();
                 }
-                    
+
             }
         }
 
@@ -86,7 +86,6 @@ namespace LegionCore.Architecture
                 LoadedComponent<LegionTask> component =
                     Loader.GetComponentsFromConfiguration<LegionTask>(fields).First();
 
-
                 List<string> paramsIn = task
                     .GetField("data_in")
                     .Fields
@@ -102,17 +101,36 @@ namespace LegionCore.Architecture
             List<LegionDataIn> result = new List<LegionDataIn>(tasks.Count);
             foreach (var item in tasks)
             {
-                if (_Tasks.Count > item)
+                try
                 {
-                    result.Add(_Tasks[item].GetDataIn());
+                    if (_Tasks.Count > item)
+                    {
+                        result.Add(_Tasks[item].GetDataIn());
+                    }
+                    else
+                    {
+                        result.Add(null);
+                    }
                 }
-                else
+                catch (Exception exc)
                 {
-                    result.Add(null);
+                    HandleParameterLoadError(item, exc);
                 }
+
             }
 
             return result;
+        }
+        internal void HandleParameterLoadError(int id, Exception exc)
+        {
+            string msg = "Task initialization error: " + exc.Message;
+            _Logger.LogError(msg + "\n" + exc.StackTrace);
+            LegionDataOut errorData = new LegionErrorDataOut(msg);
+            IdManagement.SetId(errorData, id);
+            SaveResults(new List<Tuple<int, LegionDataOut>>()
+            {
+                Tuple.Create(id, errorData)
+            });
         }
         internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {

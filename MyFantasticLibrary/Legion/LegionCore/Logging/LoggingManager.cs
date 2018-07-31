@@ -49,7 +49,7 @@ namespace LegionCore.Logging
         {
             AddToQueue(LogType.Warning, msg, addUtcTime);
         }
-        public void LogError(LogType type, string msg, bool addUtcTime = true)
+        public void LogError(string msg, bool addUtcTime = true)
         {
             AddToQueue(LogType.Error, msg, addUtcTime);
         }
