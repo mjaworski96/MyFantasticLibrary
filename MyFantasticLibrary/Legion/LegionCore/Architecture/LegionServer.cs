@@ -13,6 +13,8 @@ namespace LegionCore.Architecture
         private ServerTasksManager _ServerTasksManager;
         private LoggingManager _LoggingManager;
         private Semaphore _EndSemaphore;
+        //private bool _ServerClosed;
+
         public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
             get
@@ -36,12 +38,15 @@ namespace LegionCore.Architecture
             using (server)
             {
                 semaphore.WaitOne();
+                //server._ServerClosed = true;
                 LoggingManager.Instance.LogInformation("[ Server ] Legion server finished working.");
             }           
         }
 
         internal void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
         {
+            //if (_ServerClosed)
+               // return;
             _ServerTasksManager.OnInitializationError(exceptionTaskId.Item2);
             RaiseError(exceptionTaskId.Item1);
         }
@@ -59,11 +64,15 @@ namespace LegionCore.Architecture
 
         internal List<LegionDataIn> GetDataIn(List<int> tasks)
         {
+            //if (_ServerClosed)
+                //return ServerTasksManager.GetEmptyDataIn(tasks);
             return _ServerTasksManager.GetDataIn(tasks);
         }
 
         internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
+            //if (_ServerClosed)
+                //return;
             _ServerTasksManager.SaveResults(dataOut);
         }
 

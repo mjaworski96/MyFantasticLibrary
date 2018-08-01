@@ -93,8 +93,17 @@ namespace LegionCore.Architecture
                     .ToList();
 
                 _Tasks.Add(new ServerTask(component, paramsIn, task.GetField("data_out").Value,
-                    task.GetField("ordered_data_out").Value));
+                    task.GetField("ordered_data_out").Value, long.Parse(task.GetField("timeout").Value ?? "0")));
             }
+        }
+        internal static List<LegionDataIn> GetEmptyDataIn(List<int> tasks)
+        {
+            List<LegionDataIn> result = new List<LegionDataIn>(tasks.Count);
+            foreach (var item in tasks)
+            {
+                result.Add(null);
+            }
+            return result;
         }
         internal List<LegionDataIn> GetDataIn(List<int> tasks)
         {
