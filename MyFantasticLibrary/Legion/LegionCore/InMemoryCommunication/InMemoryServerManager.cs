@@ -1,6 +1,6 @@
 ﻿using ComponentsLoader;
 using LegionContract;
-using LegionCore.Architecture;
+using LegionCore.Architecture.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;

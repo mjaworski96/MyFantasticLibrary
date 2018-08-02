@@ -1,7 +1,7 @@
-﻿using LegionCore.Architecture;
+﻿using LegionCore.Architecture.Server;
+using LegionCore.Architecture.Client;
 using LegionCore.InMemoryCommunication;
-using System;
-using System.Threading;
+using LegionCore.Architecture;
 
 namespace HostLibrary
 {
