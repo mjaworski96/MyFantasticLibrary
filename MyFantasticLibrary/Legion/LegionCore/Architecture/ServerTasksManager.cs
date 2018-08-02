@@ -22,25 +22,45 @@ namespace LegionCore.Architecture
             {
                 lock (_CurrentTaskIdLock)
                 {
-                    if (_Tasks[_CurrentTaskId].NoParametersAvailable)
-                    {
-                        if (_CurrentTaskId < _Tasks.Count - 1)
-                        {
-                            _Logger.LogInformation("[ Server ] Started new task.");
-                            _CurrentTaskId++;
-                        }
-                        else
-                        {
-                            _Logger.LogInformation("[ Server ] No more tasks.");
-                        }
-                    }
-
-                    return Tuple.Create(_CurrentTaskId, _Tasks[_CurrentTaskId].Task);
+                    return CurrentTimeoutedTask ?? CurrentNormalTask;
                 }
-
             }
         }
 
+        private Tuple<int, LoadedComponent<LegionTask>> CurrentNormalTask
+        {
+            get
+            {
+                if (_Tasks[_CurrentTaskId].NoParametersAvailable && !_Tasks[_CurrentTaskId].HasAnyTimeouts)
+                {
+                    if (_CurrentTaskId < _Tasks.Count - 1)
+                    {
+                        _Logger.LogInformation("[ Server ] Started new task.");
+                        _CurrentTaskId++;
+                    }
+                    else
+                    {
+                        _Logger.LogInformation("[ Server ] No more tasks.");
+                        return null;
+                    }
+                }
+
+                return Tuple.Create(_CurrentTaskId, _Tasks[_CurrentTaskId].Task);
+
+            }
+        }
+        private Tuple<int, LoadedComponent<LegionTask>> CurrentTimeoutedTask
+        {
+            get
+            {
+                for (int i = 0; i < _CurrentTaskId; i++)
+                {
+                    if (_Tasks[i].HasAnyTimeouts)
+                        return Tuple.Create(i, _Tasks[i].Task);
+                }
+                return null;
+            }
+        }
         internal ServerTasksManager(LegionServer server, string configFilename = "config.cfg")
         {
             _CurrentTaskIdLock = new object();
@@ -64,7 +84,6 @@ namespace LegionCore.Architecture
                         _CurrentTaskId++;
                     CheckIfFinish();
                 }
-
             }
         }
 

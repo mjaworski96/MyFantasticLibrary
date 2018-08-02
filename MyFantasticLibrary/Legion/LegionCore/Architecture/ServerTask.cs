@@ -68,7 +68,7 @@ namespace LegionCore.Architecture
                     {
                         if (item.Item2 < now)
                         {
-                            _Logger.LogWarning("Timeout detected for: " + IdManagement.GetId(item.Item1));
+                            _Logger.LogWarning("Timeout detected for parameter with id: " + IdManagement.GetId(item.Item1));
                             return true;
                         }
                             

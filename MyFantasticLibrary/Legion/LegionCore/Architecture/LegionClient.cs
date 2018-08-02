@@ -159,7 +159,7 @@ namespace LegionCore.Architecture
         {
             Tuple<int, LoadedComponent<LegionTask>> loadedComponent
            = _Communicator.CurrentTask;
-            if (loadedComponent != null && loadedComponent.Item1 != workerTask.ServerSideId)
+            if (loadedComponent != null)
             {
                 try
                 {
