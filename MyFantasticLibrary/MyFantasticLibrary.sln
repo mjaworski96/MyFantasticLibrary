@@ -47,23 +47,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LegionTests", "Legion\Legio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingTests", "Logger\LoggingTests\LoggingTests.csproj", "{69516DDF-ED10-43FC-9726-0DCD0950EE0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractClassContract", "Components\Usage\AbstractClassContract\AbstractClassContract.csproj", "{05027D56-DB25-4ECE-960A-3B1D63D5C0E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractClassContract", "Components\Usage\AbstractClassContract\AbstractClassContract.csproj", "{05027D56-DB25-4ECE-960A-3B1D63D5C0E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Components\Usage\Calculator\Calculator.csproj", "{4F37F05C-19CE-4443-AD88-D82D941E779F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "Components\Usage\Calculator\Calculator.csproj", "{4F37F05C-19CE-4443-AD88-D82D941E779F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LowerManipulator", "Components\Usage\LowerManipulator\LowerManipulator.csproj", "{EC62A3AF-0E3F-43DC-8604-DA755DB0F125}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LowerManipulator", "Components\Usage\LowerManipulator\LowerManipulator.csproj", "{EC62A3AF-0E3F-43DC-8604-DA755DB0F125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCalculator", "Components\Usage\MyCalculator\MyCalculator.csproj", "{9CF541F7-2F53-45B5-AB80-3B23C307036C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCalculator", "Components\Usage\MyCalculator\MyCalculator.csproj", "{9CF541F7-2F53-45B5-AB80-3B23C307036C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCalculator2", "Components\Usage\MyCalculator2\MyCalculator2.csproj", "{42C41FD8-44BA-4C61-A3F0-D792ED319DF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCalculator2", "Components\Usage\MyCalculator2\MyCalculator2.csproj", "{42C41FD8-44BA-4C61-A3F0-D792ED319DF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReversingManipulator", "Components\Usage\ReversingManipulator\ReversingManipulator.csproj", "{5D0C59AB-E258-4821-BC89-C9C45ED49C11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReversingManipulator", "Components\Usage\ReversingManipulator\ReversingManipulator.csproj", "{5D0C59AB-E258-4821-BC89-C9C45ED49C11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractClassContractImplementation", "Components\Usage\AbstractClassContractImplementation\AbstractClassContractImplementation.csproj", "{821573D2-165A-4C89-8E36-36137704CF99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractClassContractImplementation", "Components\Usage\AbstractClassContractImplementation\AbstractClassContractImplementation.csproj", "{821573D2-165A-4C89-8E36-36137704CF99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringManipulator", "Components\Usage\StringManipulator\StringManipulator.csproj", "{4D38465D-F577-49BE-BBC6-43A7CE9FB822}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringManipulator", "Components\Usage\StringManipulator\StringManipulator.csproj", "{4D38465D-F577-49BE-BBC6-43A7CE9FB822}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpperManipulator", "Components\Usage\UpperManipulator\UpperManipulator.csproj", "{8DF3AEDB-A4A6-4965-A8DE-3771AC79CF04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpperManipulator", "Components\Usage\UpperManipulator\UpperManipulator.csproj", "{8DF3AEDB-A4A6-4965-A8DE-3771AC79CF04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AplicationInformationExchange", "AplicationInformationExchange", "{54F40633-6A61-4C53-9B1B-0ADD39490B21}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AplicationInformationExchange", "AplicationInformationExchange\AplicationInformationExchange\AplicationInformationExchange.csproj", "{D3215D85-7F29-4708-BF8A-A8F8FE4CE905}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AplicationInformationExchangeTests", "AplicationInformationExchange\AplicationInformationExchangeTests\AplicationInformationExchangeTests.csproj", "{B89A0B3E-F1F9-4AEF-ADEE-22C11FD5BFA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -167,6 +173,14 @@ Global
 		{8DF3AEDB-A4A6-4965-A8DE-3771AC79CF04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DF3AEDB-A4A6-4965-A8DE-3771AC79CF04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DF3AEDB-A4A6-4965-A8DE-3771AC79CF04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3215D85-7F29-4708-BF8A-A8F8FE4CE905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3215D85-7F29-4708-BF8A-A8F8FE4CE905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3215D85-7F29-4708-BF8A-A8F8FE4CE905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3215D85-7F29-4708-BF8A-A8F8FE4CE905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89A0B3E-F1F9-4AEF-ADEE-22C11FD5BFA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89A0B3E-F1F9-4AEF-ADEE-22C11FD5BFA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89A0B3E-F1F9-4AEF-ADEE-22C11FD5BFA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89A0B3E-F1F9-4AEF-ADEE-22C11FD5BFA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,6 +212,8 @@ Global
 		{821573D2-165A-4C89-8E36-36137704CF99} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
 		{4D38465D-F577-49BE-BBC6-43A7CE9FB822} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
 		{8DF3AEDB-A4A6-4965-A8DE-3771AC79CF04} = {E5AB38F3-F142-41B9-82B5-7F1F99EFA0A2}
+		{D3215D85-7F29-4708-BF8A-A8F8FE4CE905} = {54F40633-6A61-4C53-9B1B-0ADD39490B21}
+		{B89A0B3E-F1F9-4AEF-ADEE-22C11FD5BFA1} = {54F40633-6A61-4C53-9B1B-0ADD39490B21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {34D23819-9ACD-4281-A47E-770A118CEAAD}
