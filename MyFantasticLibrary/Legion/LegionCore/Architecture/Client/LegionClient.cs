@@ -56,7 +56,7 @@ namespace LegionCore.Architecture.Client
         {
 
             Tuple<int, LoadedComponent<LegionTask>> loadedComponent
-            = _Communicator.CurrentTask;
+            = _Communicator.GetCurrentTask();
             for (int i = 0; i < _Tasks.Length; i++)
             {
                 Init(out _Tasks[i], loadedComponent, i);
@@ -158,7 +158,7 @@ namespace LegionCore.Architecture.Client
         private bool ReInit(ref WorkerTask workerTask)
         {
             Tuple<int, LoadedComponent<LegionTask>> loadedComponent
-           = _Communicator.CurrentTask;
+           = _Communicator.GetCurrentTask();
             if (loadedComponent != null)
             {
                 try

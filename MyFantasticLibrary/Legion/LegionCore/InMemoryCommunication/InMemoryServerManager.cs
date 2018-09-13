@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LegionCore.InMemoryCommunication
 {
-    public class InMemoryServerManager
+    public class InMemoryServerManager : IServerCommunicator
     {
         private LegionServer _Server;
 
@@ -16,31 +16,27 @@ namespace LegionCore.InMemoryCommunication
             _Server = server;
         }
 
-        internal Tuple<int, LoadedComponent<LegionTask>> CurrentTask
+        public Tuple<int, LoadedComponent<LegionTask>> GetCurrentTask()
         {
-            get
-            {
-                return _Server.CurrentTask;
-            }
-            
+            return _Server.CurrentTask;
         }
 
-        internal List<LegionDataIn> GetDataIn(List<int> tasks)
+        public List<LegionDataIn> GetDataIn(List<int> tasks)
         {
             return _Server.GetDataIn(tasks);
         }
 
-        internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
+        public void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
             _Server.SaveResults(dataOut);
         }
 
-        internal void RaiseError(Exception exc)
+        public void RaiseError(Exception exc)
         {
             _Server.RaiseError(exc);
         }
 
-        internal void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
+        public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
         {
             _Server.RaiseInitializationError(exceptionTaskId);
         }

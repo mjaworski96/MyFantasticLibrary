@@ -9,10 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NetworkCommunication\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\AplicationInformationExchange\AplicationInformationExchange\AplicationInformationExchange.csproj" />
     <ProjectReference Include="..\..\Components\ComponentContract\ComponentContract.csproj" />
     <ProjectReference Include="..\..\Components\ComponentsLoader\ComponentsLoader.csproj" />
     <ProjectReference Include="..\..\Logger\Logging\Logging.csproj" />

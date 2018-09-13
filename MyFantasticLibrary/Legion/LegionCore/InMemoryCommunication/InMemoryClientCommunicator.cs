@@ -16,13 +16,9 @@ namespace LegionCore.InMemoryCommunication
             _ServerManager = serverManager;
         }
 
-        public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
+        public Tuple<int, LoadedComponent<LegionTask>> GetCurrentTask()
         {
-            get
-            {
-                return _ServerManager.CurrentTask;
-            }
-            
+                return _ServerManager.GetCurrentTask();
         }
 
         public List<LegionDataIn> GetDataIn(List<int> tasks)
