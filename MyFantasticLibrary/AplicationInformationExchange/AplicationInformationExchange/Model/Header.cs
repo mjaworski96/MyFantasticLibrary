@@ -1,7 +1,9 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace AplicationInformationExchange.Model
 {
+    [Serializable]
     public class Header
     {
         public Header(int statusCode, int operationCode)

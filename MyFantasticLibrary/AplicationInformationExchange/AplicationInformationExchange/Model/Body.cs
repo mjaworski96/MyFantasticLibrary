@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 
 namespace AplicationInformationExchange.Model
 {
+    [Serializable]
     public class Body
     {
         [JsonProperty]

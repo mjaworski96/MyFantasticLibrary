@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace AplicationInformationExchange.Model
 {
+    [Serializable]
     public class Message
     {
         public Header Header { get; set; }

@@ -29,18 +29,30 @@ namespace AplicationInformationExchange.Communication
         {
             Socket socket = Connect();
             Socket client = socket.Accept();
-            Message result = ReadOne(client, bufferSize);
-            client.Send(_Serializer.Serialize(messageFactory.Invoke(result)));
-            return result;
+            using (socket)
+            {
+                using (client)
+                {
+                    Message result = ReadOne(client, bufferSize);
+                    client.Send(_Serializer.Serialize(messageFactory.Invoke(result)));
+                    return result;
+                }
+            }
         }
         public void ReceiveAll()
         {
             Socket socket = Connect();
-            while ( !(endCondition?.Invoke() ?? false))
+            using (socket)
             {
-                Socket client = socket.Accept();
-                Message message = ReadOne(client, bufferSize);      
-                client.Send(_Serializer.Serialize(messageFactory.Invoke(message)));     
+                while (!(endCondition?.Invoke() ?? false))
+                {
+                    Socket client = socket.Accept();
+                    using (client)
+                    {
+                        Message message = ReadOne(client, bufferSize);
+                        client.Send(_Serializer.Serialize(messageFactory.Invoke(message)));
+                    }
+                }
             }      
         }
         private Socket Connect()

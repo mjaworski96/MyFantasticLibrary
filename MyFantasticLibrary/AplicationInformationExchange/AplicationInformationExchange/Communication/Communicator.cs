@@ -8,7 +8,7 @@ namespace AplicationInformationExchange.Communication
 {
     public abstract class Communicator
     {
-        protected JsonSerialization _Serializer = new JsonSerialization();
+        protected ISerialization _Serializer = new JsonSerialization();
         protected string _Address;
         protected int _Port;
 
@@ -22,11 +22,15 @@ namespace AplicationInformationExchange.Communication
         {
             List<byte> bytes = new List<byte>();
             byte[] buffer = new byte[bufferSize];
-            int received = client.Receive(buffer);
-            for (int i = 0; i < received; i++)
+            do
             {
-                bytes.Add(buffer[i]);
-            }
+                int received = client.Receive(buffer);
+                for (int i = 0; i < received; i++)
+                {
+                    bytes.Add(buffer[i]);
+                }
+            } while (client.Available > 0);
+
             return _Serializer.Deserialize(bytes.ToArray());
         }
         protected void CreateSocket(out IPEndPoint endPoint, out Socket socket)

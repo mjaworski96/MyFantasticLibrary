@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
@@ -5,6 +6,7 @@ using Newtonsoft.Json;
 
 namespace AplicationInformationExchange.Model
 {
+    [Serializable]
     public class BodyPage
     {
         public BodyPage(string name)

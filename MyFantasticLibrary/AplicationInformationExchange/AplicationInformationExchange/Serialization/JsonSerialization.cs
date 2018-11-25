@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace AplicationInformationExchange.Serialization
 {
-    public class JsonSerialization
+    public class JsonSerialization : ISerialization
     {
         public byte[] Serialize(Message message) 
         {
