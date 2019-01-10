@@ -1,5 +1,6 @@
 ﻿using ComponentContract;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace ComponentsLoader
@@ -29,7 +30,7 @@ namespace ComponentsLoader
         /// <summary>
         /// Names of references assemblies to component's assembly.
         /// </summary>
-        private AssemblyName[] _referencesAssembliesNames;
+        private AssemblyName[] _referencedAssembliesNames;
 
         /// <summary>
         /// Singleton instance of component.
@@ -68,7 +69,7 @@ namespace ComponentsLoader
             if (_attr == null)
                 throw new NotComponentTypeException();
             _assemblyName = component.Assembly.GetName();
-            _referencesAssembliesNames = component.Assembly.GetReferencedAssemblies();
+            _referencedAssembliesNames = component.Assembly.GetReferencedAssemblies();
         }
         /// <summary>
         /// Name of component.
@@ -91,9 +92,24 @@ namespace ComponentsLoader
         /// </summary>
         public AssemblyName AssemblyName { get => _assemblyName; }
         /// <summary>
-        /// Names of references assemblies to component's assembly.
+        /// Names of referenced assemblies to component's assembly.
         /// </summary>
-        public AssemblyName[] ReferencesAssembliesNames  { get => _referencesAssembliesNames; }
+        public AssemblyName[] ReferencedAssembliesNames  { get => _referencedAssembliesNames; }
+        /// <summary>
+        /// Name of component's assembly and names of referenced assemblies to component's assembly.
+        /// </summary>
+        public IEnumerable<AssemblyName> RequiredAssemblies
+        {
+            get
+            {
+                yield return AssemblyName;
+                foreach (var referenced in ReferencedAssembliesNames)
+                {
+                    yield return referenced;
+                }
+            }
+        }
+
         /// <summary>
         /// ToString() method.
         /// </summary>

@@ -10,9 +10,12 @@ namespace LegionCore.Architecture.Server
 {
     public class LegionServer : IDisposable
     {
+        public bool Finished { get; private set; }
+
         private ServerTasksManager _ServerTasksManager;
         private LoggingManager _LoggingManager;
         private Semaphore _EndSemaphore;
+        
 
         public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
@@ -24,6 +27,7 @@ namespace LegionCore.Architecture.Server
 
         public LegionServer(Semaphore endSemaphore, string configFilename = "config.cfg")
         {
+            Finished = false;
             _LoggingManager = LoggingManager.Instance;
             _ServerTasksManager = new ServerTasksManager(this, configFilename);
             _EndSemaphore = endSemaphore;
@@ -31,6 +35,7 @@ namespace LegionCore.Architecture.Server
         internal void Finish()
         {
             _EndSemaphore.Release();
+            Finished = true;
         }
         private static void Work(Semaphore semaphore, LegionServer server)
         {
