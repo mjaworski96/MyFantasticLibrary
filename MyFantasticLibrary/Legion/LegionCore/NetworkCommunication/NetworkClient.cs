@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using AplicationInformationExchange.Communication;
 using AplicationInformationExchange.Model;
 using ComponentsLoader;
@@ -62,7 +63,10 @@ namespace LegionCore.NetworkCommunication
 
         public List<LegionDataIn> GetDataIn(List<int> tasks)
         {
-            throw new NotImplementedException();
+            Message response = _Sender.Send(Message.FromObject("list", tasks,
+               (int)CodeStatus.OK, (int)OperationCode.GET_DATA_IN));
+
+            return response.Body.GetPage(0).ToObject<List<LegionDataIn>>();
         }
 
         public void RaiseError(Exception exc)

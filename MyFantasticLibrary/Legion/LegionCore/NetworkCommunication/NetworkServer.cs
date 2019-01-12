@@ -55,6 +55,8 @@ namespace LegionCore.NetworkCommunication
                         return GetCurrentTaskMetadata();
                     case OperationCode.GET_CURRENT_TASK_FILES:
                         return GetCurrentTaskFiles(message);
+                    case OperationCode.GET_DATA_IN:
+                        return GetDataIn(message);
                     default:
                         return Message.WithEmptyBody((int)CodeStatus.NO_OPERATION,
                                                      (int)OperationCode.NO_OPERATION);
@@ -100,10 +102,15 @@ namespace LegionCore.NetworkCommunication
             }
             return current;
         }
-
+        public Message GetDataIn(Message request)
+        {
+            List<int> tasksIds = request.Body.GetPage(0).ToObject<List<int>>();
+            return Message.FromObject("dataIn",
+                GetDataIn(tasksIds), (int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
+        }
         public List<LegionDataIn> GetDataIn(List<int> tasks)
         {
-            throw new NotImplementedException();
+            return _Server.GetDataIn(tasks);
         }
 
         public void RaiseError(Exception exc)

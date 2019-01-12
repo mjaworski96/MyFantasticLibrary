@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -43,12 +42,19 @@ namespace AplicationInformationExchange.Model
         {
             return new BodyPage(name)
             {
-                Content = ConvertStringToBytes(JsonConvert.SerializeObject(obj))
+                Content = ConvertStringToBytes(JsonConvert.SerializeObject(obj, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Objects,
+                    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
+                }))
             };
         }
         public T ToObject<T>()
         {
-            return JsonConvert.DeserializeObject<T>(StringContent);
+            return JsonConvert.DeserializeObject<T>(StringContent, new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+            });
         }
         public void ToFile()
         {

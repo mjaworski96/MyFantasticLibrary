@@ -12,25 +12,29 @@ namespace ComponentsLoader
     public class LoadedComponent<T>
     {
         /// <summary>
+        /// Used for singleton sync.
+        /// </summary>
+        private static object _SyncRoot = new Object();
+        /// <summary>
         /// ComponenetAttribute of component.
         /// </summary>
-        private ComponentAttribute _attr;
+        private ComponentAttribute _Attr;
         /// <summary>
         /// Type of component.
         /// </summary>
-        private Type _component;
+        private Type _Component;
         /// <summary>
         /// Singleton instance of component.
         /// </summary>
-        private T _singleton;
+        private T _Singleton;
         /// <summary>
         /// Name of component's assembly.
         /// </summary>
-        private AssemblyName _assemblyName;
+        private AssemblyName _AssemblyName;
         /// <summary>
         /// Names of references assemblies to component's assembly.
         /// </summary>
-        private AssemblyName[] _referencedAssembliesNames;
+        private AssemblyName[] _ReferencedAssembliesNames;
 
         /// <summary>
         /// Singleton instance of component.
@@ -39,9 +43,15 @@ namespace ComponentsLoader
         {
             get
             {
-                if (_singleton == null)
-                    _singleton = NewInstantion;
-                return _singleton;
+                if (_Singleton == null)
+                {
+                    lock (_SyncRoot)
+                    {
+                        if (_Singleton == null)
+                            _Singleton = NewInstantion;
+                    }
+                }
+                return _Singleton;
             }
         }
         /// <summary>
@@ -51,7 +61,7 @@ namespace ComponentsLoader
         {
             get
             {
-                return (T)Activator.CreateInstance(_component);
+                return (T)Activator.CreateInstance(_Component);
             }
         }
 
@@ -62,39 +72,39 @@ namespace ComponentsLoader
         /// <param name="component">Type of component</param>
         public LoadedComponent(Type component)
         {
-            _component = component ?? throw new ArgumentNullException(nameof(component));
-            _attr = (ComponentAttribute)component
+            _Component = component ?? throw new ArgumentNullException(nameof(component));
+            _Attr = (ComponentAttribute)component
                 .GetCustomAttribute(
                 typeof(ComponentAttribute));
-            if (_attr == null)
+            if (_Attr == null)
                 throw new NotComponentTypeException();
-            _assemblyName = component.Assembly.GetName();
-            _referencedAssembliesNames = component.Assembly.GetReferencedAssemblies();
+            _AssemblyName = component.Assembly.GetName();
+            _ReferencedAssembliesNames = component.Assembly.GetReferencedAssemblies();
         }
         /// <summary>
         /// Name of component.
         /// </summary>
-        public string Name { get => _attr.Name; }
+        public string Name { get => _Attr.Name; }
         /// <summary>
         /// Version of component.
         /// </summary>
-        public string Version { get => _attr.Version;  }
+        public string Version { get => _Attr.Version;  }
         /// <summary>
         /// Publisher of component.
         /// </summary>
-        public string Publisher {  get => _attr.Publisher; }
+        public string Publisher {  get => _Attr.Publisher; }
         /// <summary>
         /// Description of component.
         /// </summary>
-        public string Description { get => _attr.Description; }
+        public string Description { get => _Attr.Description; }
         /// <summary>
         /// Name of component's assembly.
         /// </summary>
-        public AssemblyName AssemblyName { get => _assemblyName; }
+        public AssemblyName AssemblyName { get => _AssemblyName; }
         /// <summary>
         /// Names of referenced assemblies to component's assembly.
         /// </summary>
-        public AssemblyName[] ReferencedAssembliesNames  { get => _referencedAssembliesNames; }
+        public AssemblyName[] ReferencedAssembliesNames  { get => _ReferencedAssembliesNames; }
         /// <summary>
         /// Name of component's assembly and names of referenced assemblies to component's assembly.
         /// </summary>
@@ -109,7 +119,6 @@ namespace ComponentsLoader
                 }
             }
         }
-
         /// <summary>
         /// ToString() method.
         /// </summary>
