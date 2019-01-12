@@ -7,5 +7,6 @@ namespace LegionCore.NetworkCommunication
         GET_CURRENT_TASK = 100,
         GET_CURRENT_TASK_FILES = 101,
         GET_DATA_IN = 200,
+        SAVE_RESULTS = 300,
     }
 }

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using AplicationInformationExchange.Communication;
 using AplicationInformationExchange.Model;
 using ComponentsLoader;
 using ConfigurationManager;
 using LegionContract;
+using LegionCore.Architecture;
 using LegionCore.Architecture.Client;
+using LegionCore.Logging;
 
 namespace LegionCore.NetworkCommunication
 {
@@ -15,10 +18,7 @@ namespace LegionCore.NetworkCommunication
     {
         private Sender _Sender;
         private Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>> _KnownComponents;
-        private Tuple<int, LoadedComponent<LegionTask>> GetKnownComponent(string key)
-        {
-            return null;
-        }
+
         public NetworkClient(string configFilename = "config.cfg")
         {
             _KnownComponents = new Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>>();
@@ -30,43 +30,76 @@ namespace LegionCore.NetworkCommunication
 
         public Tuple<int, LoadedComponent<LegionTask>> GetCurrentTask()
         {
-            Message response =
-                _Sender.Send(Message.WithEmptyBody((int)CodeStatus.OK, 
-                (int)OperationCode.GET_CURRENT_TASK));
-            if(response.Header.StatusCode == (int)CodeStatus.OK)
+            try
             {
-                string taskMetadata = response.Body.GetPage(0).ToObject<string>();
-                if (!_KnownComponents.ContainsKey(taskMetadata))
+                Message response =
+               _Sender.Send(Message.WithEmptyBody((int)CodeStatus.OK,
+               (int)OperationCode.GET_CURRENT_TASK));
+                if (response.Header.StatusCode == (int)CodeStatus.OK)
                 {
-                    SaveTaskInMemory(response, taskMetadata);
+                    string taskMetadata = response.Body.GetPage(0).ToObject<string>();
+                    if (!_KnownComponents.ContainsKey(taskMetadata))
+                    {
+                        SaveTaskInMemory(response, taskMetadata);
+                    }
+                    return _KnownComponents[taskMetadata];
                 }
-                return _KnownComponents[taskMetadata];
             }
+            catch (SocketException)
+            {
+                LoggingManager.Instance.LogWarning("Server unavailable");
+            }
+
             return null;
         }
 
         private void SaveTaskInMemory(Message response, string taskMetadata)
         {
-            Message fileRequest = Message.WithEmptyBody((int)CodeStatus.OK,
+            try
+            {
+                Message fileRequest = Message.WithEmptyBody((int)CodeStatus.OK,
                     (int)OperationCode.GET_CURRENT_TASK_FILES);
-            fileRequest.AddPage(BodyPage.FromObject("id", response.Body.GetPage(1).ToObject<int>()));
-            Message dlls = _Sender.Send(fileRequest);
-            try { dlls.ToFiles(); } catch (IOException) { Logging.LoggingManager.Instance.LogError("Save dlls error"); }
-            string[] splitedTaskMetadata = taskMetadata.Split(';');
-            _KnownComponents.Add(taskMetadata,
-                Tuple.Create(
-                     response.Body.GetPage(1).ToObject<int>(),
-                    Loader.GetComponentByNameVersionPublisher<LegionTask>(splitedTaskMetadata[0],
-                    splitedTaskMetadata[1], splitedTaskMetadata[2])
-                    ));
+                fileRequest.AddPage(BodyPage.FromObject("id", response.Body.GetPage(1).ToObject<int>()));
+                Message dlls = _Sender.Send(fileRequest);
+                try
+                {
+                    dlls.ToFiles();
+                }
+                catch (IOException)
+                {
+                    LoggingManager.Instance.LogError("Save dlls error");
+                }
+                string[] splitedTaskMetadata = taskMetadata.Split(';');
+                _KnownComponents.Add(taskMetadata,
+                    Tuple.Create(
+                         response.Body.GetPage(1).ToObject<int>(),
+                        Loader.GetComponentByNameVersionPublisher<LegionTask>(splitedTaskMetadata[0],
+                        splitedTaskMetadata[1], splitedTaskMetadata[2])
+                        ));
+            }
+            catch (SocketException)
+            {
+                LoggingManager.Instance.LogWarning("Server unavailable");
+            }
+            
         }
 
         public List<LegionDataIn> GetDataIn(List<int> tasks)
         {
-            Message response = _Sender.Send(Message.FromObject("list", tasks,
-               (int)CodeStatus.OK, (int)OperationCode.GET_DATA_IN));
+            try
+            {
+                Message response = _Sender.Send(Message.FromObject("list", tasks,
+                    (int)CodeStatus.OK, (int)OperationCode.GET_DATA_IN));
+                if (response.Header.StatusCode == (int)CodeStatus.ERROR)
+                    return tasks.Select(x => (LegionDataIn)null).ToList();
 
-            return response.Body.GetPage(0).ToObject<List<LegionDataIn>>();
+                return response.Body.GetPage(0).ToObject<List<LegionDataIn>>();
+            }
+            catch (SocketException)
+            {
+                LoggingManager.Instance.LogWarning("Server unavailable");
+            }
+            return new List<LegionDataIn>();
         }
 
         public void RaiseError(Exception exc)
@@ -81,7 +114,15 @@ namespace LegionCore.NetworkCommunication
 
         public void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _Sender.Send(Message.FromObject("results", dataOut,
+                (int)CodeStatus.OK, (int)OperationCode.SAVE_RESULTS));
+            }
+            catch (SocketException)
+            {
+                LoggingManager.Instance.LogWarning("Server unavailable");
+            }
         }
     }
 }

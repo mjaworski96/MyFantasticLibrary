@@ -57,12 +57,14 @@ namespace LegionCore.NetworkCommunication
                         return GetCurrentTaskFiles(message);
                     case OperationCode.GET_DATA_IN:
                         return GetDataIn(message);
+                    case OperationCode.SAVE_RESULTS:
+                        return SaveResults(message);
                     default:
                         return Message.WithEmptyBody((int)CodeStatus.NO_OPERATION,
                                                      (int)OperationCode.NO_OPERATION);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 _Logger.LogCritical("Server network communicator critical error!");
                 return Message.WithEmptyBody((int)CodeStatus.ERROR,
@@ -74,6 +76,8 @@ namespace LegionCore.NetworkCommunication
             Message metadata = Message.WithEmptyBody((int)CodeStatus.OK,
                 (int)OperationCode.NO_OPERATION);
             Tuple<int, LoadedComponent<LegionTask>> current = GetCurrentTask();
+            if (current == null)
+                return Message.WithEmptyBody((int)CodeStatus.NO_CONTENT, (int)OperationCode.NO_OPERATION);
             metadata.AddPage(BodyPage.FromObject("name", 
                 current.Item2.Name + ";" + current.Item2.Version + ";" + 
                 current.Item2.Publisher));
@@ -95,6 +99,8 @@ namespace LegionCore.NetworkCommunication
         public Tuple<int, LoadedComponent<LegionTask>> GetCurrentTask()
         {
             Tuple<int, LoadedComponent<LegionTask>> current = _Server.CurrentTask;
+            if (current == null)
+                return null;
             lock(_KnownComponents)
             {
                 if (!_KnownComponents.ContainsKey(current.Item1))
@@ -122,10 +128,16 @@ namespace LegionCore.NetworkCommunication
         {
             throw new NotImplementedException();
         }
+        public Message SaveResults(Message message)
+        {
+            List<Tuple<int, LegionDataOut>> dataOut = message.Body.GetPage(0).ToObject<List<Tuple<int, LegionDataOut>>>();
+            SaveResults(dataOut);
+            return Message.WithEmptyBody((int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
 
+        }
         public void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
-            throw new NotImplementedException();
+            _Server.SaveResults(dataOut);
         }
     }
 }

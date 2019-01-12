@@ -7,5 +7,6 @@ namespace LegionCore.NetworkCommunication
         ERROR = 200,
         FINISHED = 300,
         NO_OPERATION = 400,
+        NO_CONTENT = 500
     }
 }
