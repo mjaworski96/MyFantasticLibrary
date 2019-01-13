@@ -31,9 +31,9 @@ namespace LegionCore.InMemoryCommunication
             _Server.SaveResults(dataOut);
         }
 
-        public void RaiseError(Exception exc)
+        public void RaiseError((int TaskId, int ParameterId, Exception exception) error)
         {
-            _Server.RaiseError(exc);
+            _Server.RaiseError(error);
         }
 
         public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)

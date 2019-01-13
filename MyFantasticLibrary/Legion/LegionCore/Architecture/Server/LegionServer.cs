@@ -10,9 +10,12 @@ namespace LegionCore.Architecture.Server
 {
     public class LegionServer : IDisposable
     {
+        public bool Finished { get; private set; }
+
         private ServerTasksManager _ServerTasksManager;
         private LoggingManager _LoggingManager;
         private Semaphore _EndSemaphore;
+        
 
         public Tuple<int, LoadedComponent<LegionTask>> CurrentTask
         {
@@ -24,6 +27,7 @@ namespace LegionCore.Architecture.Server
 
         public LegionServer(Semaphore endSemaphore, string configFilename = "config.cfg")
         {
+            Finished = false;
             _LoggingManager = LoggingManager.Instance;
             _ServerTasksManager = new ServerTasksManager(this, configFilename);
             _EndSemaphore = endSemaphore;
@@ -31,6 +35,7 @@ namespace LegionCore.Architecture.Server
         internal void Finish()
         {
             _EndSemaphore.Release();
+            Finished = true;
         }
         private static void Work(Semaphore semaphore, LegionServer server)
         {
@@ -44,7 +49,7 @@ namespace LegionCore.Architecture.Server
         internal void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
         {
             _ServerTasksManager.OnInitializationError(exceptionTaskId.Item2);
-            RaiseError(exceptionTaskId.Item1);
+            _LoggingManager.LogCritical("[ Server ] Task initialization error");
         }
 
         public static Tuple<Task, LegionServer> StartNew(string configFilename = "config.cfg")
@@ -53,9 +58,10 @@ namespace LegionCore.Architecture.Server
             LegionServer server = new LegionServer(semaphore, configFilename);
             return Tuple.Create(Task.Run(() => Work(semaphore, server)), server);
         }
-        internal void RaiseError(Exception exc)
+        internal void RaiseError((int TaskId, int ParameterId, Exception Exception) error)
         {
-            _LoggingManager.LogCritical(exc.Message);
+            _LoggingManager.LogError($"[ Server ] Task execution error (taskId: {error.TaskId}, parameterId: {error.ParameterId}): " +
+                $"{error.Exception.Message} \n {error.Exception.StackTrace}");
         }
 
         internal List<LegionDataIn> GetDataIn(List<int> tasks)

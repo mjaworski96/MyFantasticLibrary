@@ -57,12 +57,14 @@ namespace LegionCore.Architecture.Client
 
             Tuple<int, LoadedComponent<LegionTask>> loadedComponent
             = _Communicator.GetCurrentTask();
-            for (int i = 0; i < _Tasks.Length; i++)
+            if(loadedComponent != null)
             {
-                Init(out _Tasks[i], loadedComponent, i);
-            }
-            _LoggingManager.LogInformation("[ Client ] Legion Client initialization completed.");
-
+                for (int i = 0; i < _Tasks.Length; i++)
+                {
+                    Init(out _Tasks[i], loadedComponent, i);
+                }
+                _LoggingManager.LogInformation("[ Client ] Legion Client initialization completed.");
+            }    
         }
 
         public void Run()
@@ -82,7 +84,7 @@ namespace LegionCore.Architecture.Client
                 ReinitializeTasksParameters(finishedTasksIds);
                 finished = CheckIfFinish();
             }
-            _LoggingManager.LogInformation("[ Client ] Legion Client finished working.");
+            _LoggingManager.LogWarning("[ Client ] Legion Client finished working.");
         }
         private List<int> ListOfRequiredTasksParameters(int taskId)
         {
@@ -219,8 +221,11 @@ namespace LegionCore.Architecture.Client
                     .ToList();
             for (int i = 0; i < dataOut.Count; i++)
             {
-                IdManagement.SetId(dataOut[i].Item2,
-                    _Tasks[finishedTasksIds[i]].ParameterId);
+                if(dataOut[i].Item2 is LegionErrorDataOut legionErrorDataOut)
+                {
+                    _Communicator.RaiseError((dataOut[i].Item1, IdManagement.GetId(dataOut[i].Item2),
+                        legionErrorDataOut.Exception));
+                }
             }
             
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using LegionContract;
+using LegionCore.Logging;
 
 namespace LegionCore.Architecture.Server
 {
@@ -48,7 +49,20 @@ namespace LegionCore.Architecture.Server
             CheckNextInputParameters();
             if (CurrentParameterSource.ParametersAvailable())
             {
-                return CurrentParameterSource.GetNormalDataIn(DataInCore, ref _LastParameterId);
+                LegionDataIn dataIn;
+                try
+                {
+                    dataIn = CurrentParameterSource.GetNormalDataIn(DataInCore);
+                }
+                catch(Exception e)
+                {
+                    string msg = "Task parameter initialization error: " + e.Message;
+                    LoggingManager.Instance.LogError(msg + "\n" + e.StackTrace);
+                    dataIn = new LegionErrorDataIn(e);
+                }
+                IdManagement.SetId(dataIn, _LastParameterId);
+                _LastParameterId++;
+                return dataIn;
             }
             return null;
         }

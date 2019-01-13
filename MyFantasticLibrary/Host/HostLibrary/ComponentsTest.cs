@@ -11,7 +11,7 @@ namespace HostLibrary
             LoadedComponent<IStringManipulator> reversing =
                 Loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator");
             Console.WriteLine(reversing.AssemblyName);
-            foreach (var item in reversing.ReferencesAssembliesNames)
+            foreach (var item in reversing.ReferencedAssembliesNames)
             {
                 Console.WriteLine(item.Name);
             }

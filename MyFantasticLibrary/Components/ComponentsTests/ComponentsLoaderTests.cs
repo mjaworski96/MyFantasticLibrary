@@ -149,10 +149,10 @@ namespace ComponentsTests
             LoadedComponent<IStringManipulator> component =
                 Loader.GetComponentByName<IStringManipulator>("Reversing String Manipulator");
             Assert.AreEqual("ReversingManipulator", component.AssemblyName.Name);
-            Assert.AreEqual(3, component.ReferencesAssembliesNames.Length);
-            Assert.AreEqual("netstandard", component.ReferencesAssembliesNames[0].Name);
-            Assert.AreEqual("ComponentContract", component.ReferencesAssembliesNames[1].Name);
-            Assert.AreEqual("StringManipulator", component.ReferencesAssembliesNames[2].Name);
+            Assert.AreEqual(3, component.ReferencedAssembliesNames.Length);
+            Assert.AreEqual("netstandard", component.ReferencedAssembliesNames[0].Name);
+            Assert.AreEqual("ComponentContract", component.ReferencedAssembliesNames[1].Name);
+            Assert.AreEqual("StringManipulator", component.ReferencedAssembliesNames[2].Name);
         }
         [TestMethod]
         [ExpectedException(typeof(NotComponentTypeException))]
