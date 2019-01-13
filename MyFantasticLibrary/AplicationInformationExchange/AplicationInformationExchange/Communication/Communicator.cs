@@ -6,20 +6,44 @@ using AplicationInformationExchange.Serialization;
 
 namespace AplicationInformationExchange.Communication
 {
+    /// <summary>
+    /// Abstract socket communicator
+    /// </summary>
     public abstract class Communicator
     {
+        /// <summary>
+        /// Used for serializing and deserializing while sending it via socket.
+        /// </summary>
         protected ISerialization _Serializer = new JsonSerialization();
+        /// <summary>
+        /// IP address
+        /// </summary>
         protected string _Address;
+        /// <summary>
+        /// Used TCP port
+        /// </summary>
         protected int _Port;
+        /// <summary>
+        /// How many data can be received by once.
+        /// </summary>
         protected int _BufferSize;
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="address">IP address</param>
+        /// <param name="port">TCP port</param>
+        /// <param name="bufferSize">Bufer size</param>
         protected Communicator(string address, int port, int bufferSize)
         {
             _Address = address;
             _Port = port;
             _BufferSize = bufferSize;
         }
-
+        /// <summary>
+        /// Read one message
+        /// </summary>
+        /// <param name="client">Socket to get data</param>
+        /// <returns>Received message</returns>
         protected Message ReadOne(Socket client)
         {
             List<byte> bytes = new List<byte>();
@@ -35,6 +59,11 @@ namespace AplicationInformationExchange.Communication
 
             return _Serializer.Deserialize(bytes.ToArray());
         }
+        /// <summary>
+        /// Creates TCP socket.
+        /// </summary>
+        /// <param name="endPoint">Used ip endpoint</param>
+        /// <param name="socket">Created socket</param>
         protected void CreateSocket(out IPEndPoint endPoint, out Socket socket)
         {
             IPAddress ip = IPAddress.Parse(_Address);

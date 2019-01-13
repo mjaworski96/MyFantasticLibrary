@@ -4,5 +4,412 @@
         <name>AplicationInformationExchange</name>
     </assembly>
     <members>
+        <member name="T:AplicationInformationExchange.Communication.Communicator">
+            <summary>
+            Abstract socket communicator
+            </summary>
+        </member>
+        <member name="F:AplicationInformationExchange.Communication.Communicator._Serializer">
+            <summary>
+            Used for serializing and deserializing while sending it via socket.
+            </summary>
+        </member>
+        <member name="F:AplicationInformationExchange.Communication.Communicator._Address">
+            <summary>
+            IP address
+            </summary>
+        </member>
+        <member name="F:AplicationInformationExchange.Communication.Communicator._Port">
+            <summary>
+            Used TCP port
+            </summary>
+        </member>
+        <member name="F:AplicationInformationExchange.Communication.Communicator._BufferSize">
+            <summary>
+            How many data can be received by once.
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Communicator.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="address">IP address</param>
+            <param name="port">TCP port</param>
+            <param name="bufferSize">Bufer size</param>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Communicator.ReadOne(System.Net.Sockets.Socket)">
+            <summary>
+            Read one message
+            </summary>
+            <param name="client">Socket to get data</param>
+            <returns>Received message</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Communicator.CreateSocket(System.Net.IPEndPoint@,System.Net.Sockets.Socket@)">
+            <summary>
+            Creates TCP socket.
+            </summary>
+            <param name="endPoint">Used ip endpoint</param>
+            <param name="socket">Created socket</param>
+        </member>
+        <member name="T:AplicationInformationExchange.Communication.Receiver">
+            <summary>
+            Receiver - can receive information and send response.
+            </summary>
+        </member>
+        <member name="F:AplicationInformationExchange.Communication.Receiver._MessageFactory">
+            <summary>
+            Response <see cref="T:AplicationInformationExchange.Model.Message"/> factory
+            </summary>
+        </member>
+        <member name="F:AplicationInformationExchange.Communication.Receiver._EndCondition">
+            <summary>
+            Specifies when ReceiveAll() method ends.
+            </summary>
+        </member>
+        <member name="F:AplicationInformationExchange.Communication.Receiver._QueueMaxSize">
+            <summary>
+            How many hosts can be connected by once.
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Receiver.#ctor(System.String,System.Int32,System.Func{AplicationInformationExchange.Model.Message,AplicationInformationExchange.Model.Message},System.Func{System.Boolean},System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="address">IP address of sender</param>
+            <param name="port">TCP port of sender</param>
+            <param name="messageFactory">Response message factory</param>
+            <param name="endCondition">ReceiveAll() method end condition</param>
+            <param name="bufferSize">Buffer size</param>
+            <param name="queueMaxSize">Queue max size</param>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Receiver.ReceiveOne">
+            <summary>
+            Receives one <see cref="T:AplicationInformationExchange.Model.Message"/> from <see cref="T:AplicationInformationExchange.Communication.Sender"/>
+            </summary>
+            <returns>Received <see cref="T:AplicationInformationExchange.Model.Message"/></returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Receiver.ReceiveAll">
+            <summary>
+            Receive all <see cref="T:AplicationInformationExchange.Model.Message"/> from <see cref="T:AplicationInformationExchange.Communication.Sender"/>.
+            Method ends when endCondition is true. This method use _MessageFactory.
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Receiver.Connect">
+            <summary>
+            Connect with sender
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:AplicationInformationExchange.Communication.Sender">
+            <summary>
+            Sender - can send information and receive response.
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Sender.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="address">IP address</param>
+            <param name="port">TCP port</param>
+            <param name="bufferSize">Buffer size</param>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Sender.Send(AplicationInformationExchange.Model.Message)">
+            <summary>
+            Send message
+            </summary>
+            <param name="message">Message to send</param>
+            <returns>Response</returns>
+        </member>
+        <member name="T:AplicationInformationExchange.Model.Body">
+            <summary>
+            Body of message
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.Body.BodyContent">
+            <summary>
+            Body pages. Body is divided into <see cref="T:AplicationInformationExchange.Model.BodyPage"/>
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.Body.PagesCount">
+            <summary>
+            Pages count
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.Body.IsEmpty">
+            <summary>
+            True if body contains no pages
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.Body.Pages">
+            <summary>
+            Pages of body
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Body.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Body.Add(AplicationInformationExchange.Model.BodyPage)">
+            <summary>
+            Add page to body
+            </summary>
+            <param name="bodyPage">Page to add</param>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Body.GetPage(System.Int32)">
+            <summary>
+            Get page
+            </summary>
+            <param name="index">Index of page</param>
+            <returns>Page with given index (if exists) or null (if index is out of range)</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Body.Empty">
+            <summary>
+            Creates empty body/
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Body.FromFiles(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates body from files
+            </summary>
+            <param name="filenames">Filenames to create body</param>
+            <returns>Body with multiple pages (one page per file)</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Body.FromObject(System.String,System.Object)">
+            <summary>
+            Creates body from object
+            </summary>
+            <param name="name">Name of page</param>
+            <param name="obj">Object to create body</param>
+            <returns>Body with one page</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Body.ToFiles">
+            <summary>
+            Saves body to files.
+            </summary>
+        </member>
+        <member name="T:AplicationInformationExchange.Model.BodyPage">
+            <summary>
+            Parts of body
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.BodyPage.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">Name of page</param>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.BodyPage.Name">
+            <summary>
+            Name of page
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.BodyPage.Content">
+            <summary>
+            Body page content
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.BodyPage.StringContent">
+            <summary>
+            String version of <see cref="P:AplicationInformationExchange.Model.BodyPage.Content"/>
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.BodyPage.ConvertStringToBytes(System.String)">
+            <summary>
+            Converst <see cref="T:System.String"/> to byte array/>
+            </summary>
+            <param name="str">String to convert</param>
+            <returns>Byte array created from given string</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.BodyPage.FromString(System.String,System.String)">
+            <summary>
+            Creates body page from string
+            </summary>
+            <param name="name">Name of page</param>
+            <param name="content">Body content</param>
+            <returns>BodyPage created from given string</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.BodyPage.FromFile(System.String)">
+            <summary>
+            Creates page from given file
+            </summary>
+            <param name="filename">Path to file and page name</param>
+            <returns>BodyPage created from file</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.BodyPage.FromObject(System.String,System.Object)">
+            <summary>
+            Creates page from object (serialized using JSON"/> )
+            </summary>
+            <param name="name">Name of page</param>
+            <param name="obj">Object to create page</param>
+            <returns>BodyPage created from given object</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.BodyPage.ToObject``1">
+            <summary>
+            Get object from content (JSON)
+            </summary>
+            <typeparam name="T">Type of object</typeparam>
+            <returns>Object from content</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.BodyPage.ToFile">
+            <summary>
+            Saves page to file
+            </summary>
+        </member>
+        <member name="T:AplicationInformationExchange.Model.Header">
+            <summary>
+            Header of message
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Header.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="statusCode">Status of message</param>
+            <param name="operationCode">Operation code</param>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.Header.StatusCode">
+            <summary>
+            Status code of message
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.Header.OperationCode">
+            <summary>
+            Operation code of message.
+            It specify what should be done with messaege.
+            </summary>
+        </member>
+        <member name="T:AplicationInformationExchange.Model.Message">
+            <summary>
+            Message that can be sended
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.Message.Header">
+            <summary>
+            Header of message
+            </summary>
+        </member>
+        <member name="P:AplicationInformationExchange.Model.Message.Body">
+            <summary>
+            Body of message
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Message.WithEmptyBody(System.Int32,System.Int32)">
+            <summary>
+            Creates message with empty body.
+            </summary>
+            <param name="statusCode">Status of message</param>
+            <param name="operationCode">Operation code</param>
+            <returns>Message with empty body</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Message.WithStringContent(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Creates message from string
+            </summary>
+            <param name="pageName">Name of body page</param>
+            <param name="content">String content</param>
+            <param name="statusCode">Status of message</param>
+            <param name="operationCode">Operation code</param>
+            <returns>Message with one page</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Message.WithByteContent(System.String,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Creates message from byte array.
+            </summary>
+            <param name="pageName">name of body page</param>
+            <param name="content">Byte array content</param>
+            <param name="statusCode">Status of message</param>
+            <param name="operationCode">Operation code</param>
+            <returns>Message with one page</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Message.FromFiles(System.Collections.Generic.IEnumerable{System.String},System.Int32,System.Int32)">
+            <summary>
+            Creates message from files
+            </summary>
+            <param name="filenames">Filenames to create message</param>
+            <param name="statusCode">Status of message</param>
+            <param name="operationCode">Operation code</param>
+            <returns>Message with multiple pages (one page per file) </returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Message.FromObject(System.String,System.Object,System.Int32,System.Int32)">
+            <summary>
+            Creates message from object
+            </summary>
+            <param name="name">Name of body page</param>
+            <param name="obj">Object to create message</param>
+            <param name="statusCode">Status of message</param>
+            <param name="operationCode">Operation code</param>
+            <returns>Message with one page</returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Message.AddPage(AplicationInformationExchange.Model.BodyPage)">
+            <summary>
+            Add page to body
+            </summary>
+            <param name="page">Page to add</param>
+        </member>
+        <member name="M:AplicationInformationExchange.Model.Message.ToFiles">
+            <summary>
+            Saves all body pages to files (one file per page).
+            File names are same as body pages names.
+            </summary>
+        </member>
+        <member name="T:AplicationInformationExchange.Serialization.BinarySerialization">
+            <summary>
+            Serialization to binary format
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Serialization.BinarySerialization.Deserialize(System.Byte[])">
+            <summary>
+            Deserialize message from byte array.
+            </summary>
+            <param name="content">Byte array to deserialize</param>
+            <returns>Deserialized <see cref="T:AplicationInformationExchange.Model.Message"/></returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Serialization.BinarySerialization.Serialize(AplicationInformationExchange.Model.Message)">
+            <summary>
+            Serialize message to byte array.
+            </summary>
+            <param name="message"><see cref="T:AplicationInformationExchange.Model.Message"/> to serialize</param>
+            <returns>Bytes array with serialized <see cref="T:AplicationInformationExchange.Model.Message"/></returns>
+        </member>
+        <member name="T:AplicationInformationExchange.Serialization.ISerialization">
+            <summary>
+            Provides serialization
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Serialization.ISerialization.Deserialize(System.Byte[])">
+            <summary>
+            Deserialize message from byte array.
+            </summary>
+            <param name="content">Byte array to deserialize</param>
+            <returns>Deserialized <see cref="T:AplicationInformationExchange.Model.Message"/></returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Serialization.ISerialization.Serialize(AplicationInformationExchange.Model.Message)">
+            <summary>
+            Serialize message to byte array.
+            </summary>
+            <param name="message"><see cref="T:AplicationInformationExchange.Model.Message"/> to serialize</param>
+            <returns>Bytes array with serialized <see cref="T:AplicationInformationExchange.Model.Message"/></returns>
+        </member>
+        <member name="T:AplicationInformationExchange.Serialization.JsonSerialization">
+            <summary>
+            Serialization to JSON format
+            </summary>
+        </member>
+        <member name="M:AplicationInformationExchange.Serialization.JsonSerialization.Serialize(AplicationInformationExchange.Model.Message)">
+            <summary>
+            Serialize message to byte array.
+            </summary>
+            <param name="message"><see cref="T:AplicationInformationExchange.Model.Message"/> to serialize</param>
+            <returns>Bytes array with serialized <see cref="T:AplicationInformationExchange.Model.Message"/></returns>
+        </member>
+        <member name="M:AplicationInformationExchange.Serialization.JsonSerialization.Deserialize(System.Byte[])">
+            <summary>
+            Deserialize message from byte array.
+            </summary>
+            <param name="content">Byte array to deserialize</param>
+            <returns>Deserialized <see cref="T:AplicationInformationExchange.Model.Message"/></returns>
+        </member>
     </members>
 </doc>
