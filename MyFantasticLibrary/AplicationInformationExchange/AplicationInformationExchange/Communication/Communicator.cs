@@ -11,17 +11,19 @@ namespace AplicationInformationExchange.Communication
         protected ISerialization _Serializer = new JsonSerialization();
         protected string _Address;
         protected int _Port;
+        protected int _BufferSize;
 
-        protected Communicator(string address, int port)
+        protected Communicator(string address, int port, int bufferSize)
         {
-            this._Address = address;
-            this._Port = port;
+            _Address = address;
+            _Port = port;
+            _BufferSize = bufferSize;
         }
 
-        protected Message ReadOne(Socket client, int bufferSize)
+        protected Message ReadOne(Socket client)
         {
             List<byte> bytes = new List<byte>();
-            byte[] buffer = new byte[bufferSize];
+            byte[] buffer = new byte[_BufferSize];
             do
             {
                 int received = client.Receive(buffer);

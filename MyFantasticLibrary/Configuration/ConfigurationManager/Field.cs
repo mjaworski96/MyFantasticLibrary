@@ -128,15 +128,6 @@ namespace ConfigurationManager
             {
                 return new XElement(Key ?? "config", Fields.Select(x => x.Save(xmlDocument)));
             }
-            XElement element = new XElement(Key, Value);
-
-            foreach (var field in Fields)
-            {
-                element.Add(field.Save(xmlDocument));
-            }
-
-            return element;
-
         }
         /// <summary>
         /// Saves Field to xml file.

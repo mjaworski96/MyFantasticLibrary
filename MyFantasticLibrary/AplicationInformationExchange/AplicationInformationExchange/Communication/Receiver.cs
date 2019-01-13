@@ -10,19 +10,17 @@ namespace AplicationInformationExchange.Communication
 {
     public class Receiver: Communicator
     {
-        private Func<Message, Message> messageFactory;
-        private Func<bool> endCondition;
-        private int bufferSize;
-        private int queueMaxSize;
+        private Func<Message, Message> _MessageFactory;
+        private Func<bool> _EndCondition;
+        private int _QueueMaxSize;
 
         public Receiver(string address, int port, Func<Message, Message> messageFactory, Func<bool> endCondition = null, 
             int bufferSize = 10240, int queueMaxSize = 10)
-                : base(address, port)
+                : base(address, port, bufferSize)
         {
-            this.messageFactory = messageFactory;
-            this.endCondition = endCondition;
-            this.bufferSize = bufferSize;
-            this.queueMaxSize = queueMaxSize;
+            this._MessageFactory = messageFactory;
+            this._EndCondition = endCondition;
+            this._QueueMaxSize = queueMaxSize;
         }
 
         public Message ReceiveOne()
@@ -33,8 +31,8 @@ namespace AplicationInformationExchange.Communication
             {
                 using (client)
                 {
-                    Message result = ReadOne(client, bufferSize);
-                    client.Send(_Serializer.Serialize(messageFactory.Invoke(result)));
+                    Message result = ReadOne(client);
+                    client.Send(_Serializer.Serialize(_MessageFactory.Invoke(result)));
                     return result;
                 }
             }
@@ -44,13 +42,13 @@ namespace AplicationInformationExchange.Communication
             Socket socket = Connect();
             using (socket)
             {
-                while (!(endCondition?.Invoke() ?? false))
+                while (!(_EndCondition?.Invoke() ?? false))
                 {
                     Socket client = socket.Accept();
                     using (client)
                     {
-                        Message message = ReadOne(client, bufferSize);
-                        client.Send(_Serializer.Serialize(messageFactory.Invoke(message)));
+                        Message message = ReadOne(client);
+                        client.Send(_Serializer.Serialize(_MessageFactory.Invoke(message)));
                     }
                 }
             }      
@@ -59,7 +57,7 @@ namespace AplicationInformationExchange.Communication
         {
             CreateSocket(out IPEndPoint endPoint, out Socket socket);
             socket.Bind(endPoint);
-            socket.Listen(queueMaxSize);
+            socket.Listen(_QueueMaxSize);
             return socket;
         }
     }

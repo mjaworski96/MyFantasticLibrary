@@ -8,10 +8,8 @@ namespace AplicationInformationExchange.Communication
 {
     public class Sender: Communicator
     {
-        private int _BufferSize;
-        public Sender(string address, int port, int bufferSize = 10240) : base(address, port)
+        public Sender(string address, int port, int bufferSize = 10240) : base(address, port, bufferSize)
         {
-            _BufferSize = bufferSize;
         }
 
         public Message Send(Message message)
@@ -21,7 +19,7 @@ namespace AplicationInformationExchange.Communication
             {
                 socket.Connect(endPoint);
                 socket.Send(_Serializer.Serialize(message));
-                return ReadOne(socket, _BufferSize);
+                return ReadOne(socket);
             }
         }
     }

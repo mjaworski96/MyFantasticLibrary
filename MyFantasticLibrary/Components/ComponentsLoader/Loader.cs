@@ -174,12 +174,26 @@ namespace ComponentsLoader
         /// </summary>
         /// <exception cref="ArgumentException">Thrown if configPath is null or empty.</exception>
         /// <typeparam name="T">Type of component.</typeparam>
+        /// <param name="configPath">Path to configuration file (xml)</param>
         /// <returns>List of <see cref="LoadedComponent{T}"/> from configuration.</returns>
         public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(string configPath = "config.xml")
         {
             return GetComponentsFromConfiguration<T>(new Configuration(configPath).GetListOfFields("components"));
         }
-
+        /// <summary>
+        /// Gets components defined as part of configuration file. Structure of components section:
+        /// <components>
+        ///     <type>Full name of component base type or interface, Assembly with this type or interface</type>
+        ///     <name>Name of component</name>
+        ///     <version>Version of component</version>
+        ///     <publisher>Publisher of component</publisher>
+        ///     <directory>Directory with component</directory>
+        /// </components>
+        /// Version, publiser, directory are optional.
+        /// </summary>
+        /// <typeparam name="T">Type of component.</typeparam>
+        /// <param name="componentsInformation">Part of configuration file (xml) with components configuration.</param>
+        /// <returns>List of <see cref="LoadedComponent{T}"/> from configuration.</returns>
         public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(List<Field> componentsInformation)
         {
             List<LoadedComponent<T>> components = new List<LoadedComponent<T>>();
