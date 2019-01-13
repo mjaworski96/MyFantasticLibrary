@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using AplicationInformationExchange.Model;
 using AplicationInformationExchange.Serialization;
+using ConfigurationManager;
 
 namespace AplicationInformationExchange.Communication
 {
@@ -33,17 +34,34 @@ namespace AplicationInformationExchange.Communication
         /// <param name="address">IP address</param>
         /// <param name="port">TCP port</param>
         /// <param name="bufferSize">Bufer size</param>
-        protected Communicator(string address, int port, int bufferSize)
+        protected Communicator(string address, int port, int bufferSize = 10240)
         {
             _Address = address;
             _Port = port;
             _BufferSize = bufferSize;
         }
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configFilename">Path to filename with configuration</param>
+        protected Communicator(string configFilename = "config.xml")
+        {
+            Configuration configuration = new Configuration(configFilename);
+            _Address = configuration.GetString("aie.address");
+            _Port = int.Parse(configuration.GetString("aie.port"));
+            string bufferSize = configuration.GetString("aie.buffersize");
+            if(string.IsNullOrWhiteSpace(bufferSize))
+            {
+                bufferSize = "10240";
+            }
+            _BufferSize = int.Parse(bufferSize);
+        }
+        /// <summary>
         /// Read one message
         /// </summary>
         /// <param name="client">Socket to get data</param>
         /// <returns>Received message</returns>
+
         protected Message ReadOne(Socket client)
         {
             List<byte> bytes = new List<byte>();

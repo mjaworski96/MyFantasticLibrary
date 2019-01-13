@@ -21,6 +21,11 @@ namespace AplicationInformationExchange.Communication
         {
         }
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configFilePath">Path to config file</param>
+        public Sender(string configFilePath): base(configFilePath) { }
+        /// <summary>
         /// Send message
         /// </summary>
         /// <param name="message">Message to send</param>

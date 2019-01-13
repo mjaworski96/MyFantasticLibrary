@@ -37,6 +37,12 @@
             <param name="port">TCP port</param>
             <param name="bufferSize">Bufer size</param>
         </member>
+        <member name="M:AplicationInformationExchange.Communication.Communicator.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configFilename">Path to filename with configuration</param>
+        </member>
         <member name="M:AplicationInformationExchange.Communication.Communicator.ReadOne(System.Net.Sockets.Socket)">
             <summary>
             Read one message
@@ -82,6 +88,14 @@
             <param name="bufferSize">Buffer size</param>
             <param name="queueMaxSize">Queue max size</param>
         </member>
+        <member name="M:AplicationInformationExchange.Communication.Receiver.#ctor(System.String,System.Func{AplicationInformationExchange.Model.Message,AplicationInformationExchange.Model.Message},System.Func{System.Boolean})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configFilePath">PAth to file with configuration</param>
+            <param name="messageFactory">Response message factory</param>
+            <param name="endCondition">ReceiveAll() method end condition</param>
+        </member>
         <member name="M:AplicationInformationExchange.Communication.Receiver.ReceiveOne">
             <summary>
             Receives one <see cref="T:AplicationInformationExchange.Model.Message"/> from <see cref="T:AplicationInformationExchange.Communication.Sender"/>
@@ -112,6 +126,12 @@
             <param name="address">IP address</param>
             <param name="port">TCP port</param>
             <param name="bufferSize">Buffer size</param>
+        </member>
+        <member name="M:AplicationInformationExchange.Communication.Sender.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configFilePath">Path to config file</param>
         </member>
         <member name="M:AplicationInformationExchange.Communication.Sender.Send(AplicationInformationExchange.Model.Message)">
             <summary>

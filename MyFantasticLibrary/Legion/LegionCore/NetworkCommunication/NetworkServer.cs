@@ -31,9 +31,7 @@ namespace LegionCore.NetworkCommunication
             _KnownComponents = new Dictionary<int, LoadedComponent<LegionTask>>();
             _Server = server;
             Configuration configuration = new Configuration(configFilename);
-            _Receiver = new Receiver(
-                configuration.GetString("legion.network.address"),
-                int.Parse(configuration.GetString("legion.network.port")),
+            _Receiver = new Receiver(configFilename,
                 Communication,
                 Finished);
         }

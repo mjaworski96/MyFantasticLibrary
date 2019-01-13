@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using AplicationInformationExchange.Model;
 using AplicationInformationExchange.Serialization;
+using ConfigurationManager;
 
 namespace AplicationInformationExchange.Communication
 {
@@ -35,12 +36,31 @@ namespace AplicationInformationExchange.Communication
         /// <param name="bufferSize">Buffer size</param>
         /// <param name="queueMaxSize">Queue max size</param>
         public Receiver(string address, int port, Func<Message, Message> messageFactory, Func<bool> endCondition = null, 
-            int bufferSize = 10240, int queueMaxSize = 10)
+            int bufferSize = 10240, int queueMaxSize = 100)
                 : base(address, port, bufferSize)
         {
             this._MessageFactory = messageFactory;
             this._EndCondition = endCondition;
             this._QueueMaxSize = queueMaxSize;
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configFilePath">PAth to file with configuration</param>
+        /// <param name="messageFactory">Response message factory</param>
+        /// <param name="endCondition">ReceiveAll() method end condition</param>
+        public Receiver(string configFilePath, Func<Message, Message> messageFactory, Func<bool> endCondition = null)
+                : base(configFilePath)
+        {
+            this._MessageFactory = messageFactory;
+            this._EndCondition = endCondition;
+            Configuration configuration = new Configuration(configFilePath);
+            string queueSize = configuration.GetString("aie.queue");
+            if (string.IsNullOrWhiteSpace(queueSize))
+            {
+                queueSize = "100";
+            }
+            this._QueueMaxSize = int.Parse(queueSize);
         }
         /// <summary>
         /// Receives one <see cref="Message"/> from <see cref="Sender"/>

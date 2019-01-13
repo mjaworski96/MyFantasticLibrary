@@ -39,9 +39,11 @@
 		<client>
 			<workers>12</workers>
 		</client>
-		<network>
-			<address>127.0.0.1</address>
-			<port>6000</port>
-		</network>
 	</legion>
+  <aie>
+    <address>127.0.0.1</address>
+    <port>6000</port>
+    <buffersize>20000</buffersize>
+    <queue>23</queue>
+  </aie>
 </config>

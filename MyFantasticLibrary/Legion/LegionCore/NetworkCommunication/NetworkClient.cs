@@ -23,9 +23,7 @@ namespace LegionCore.NetworkCommunication
         {
             _KnownComponents = new Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>>();
             Configuration configuration = new Configuration(configFilename);
-            _Sender = new Sender(
-                configuration.GetString("legion.network.address"),
-                int.Parse(configuration.GetString("legion.network.port")));
+            _Sender = new Sender(configFilename);
         }
 
         public Tuple<int, LoadedComponent<LegionTask>> GetCurrentTask()
