@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace ConfigurationManager
 {
@@ -22,11 +22,6 @@ namespace ConfigurationManager
         /// Value of Field.
         /// </summary>
         private string _value;
-        /// <summary>
-        /// If true, children will not have keys.
-        /// </summary>
-        private bool list;
-
         /// <summary>
         /// Intializes new instance of Field.
         /// </summary>
@@ -119,234 +114,74 @@ namespace ConfigurationManager
             return new string('\t', count - 1);
         }
         /// <summary>
-        /// Saves Field to <see cref="StreamWriter"/>
+        /// Saves configuration to xml file.
         /// </summary>
-        /// <param name="sw"><see cref="StreamWriter"/> to save Field.</param>
-        /// <param name="depth">Depth of currently saved children.</param>
-        private void Save(StreamWriter sw, int depth)
+        /// <param name="xmlDocument"></param>
+        /// <returns>Xml element of current field</returns>
+        private XElement Save(XDocument xmlDocument)
         {
-            if (depth == 0)
+            if(Value != null)
             {
-                foreach (var item in _fields)
+                return new XElement(Key ?? "config", Value);
+            }
+            else
+            {
+                return new XElement(Key ?? "config", Fields.Select(x => x.Save(xmlDocument)));
+            }
+            XElement element = new XElement(Key, Value);
+
+            foreach (var field in Fields)
+            {
+                element.Add(field.Save(xmlDocument));
+            }
+
+            return element;
+
+        }
+        /// <summary>
+        /// Saves Field to xml file.
+        /// </summary>
+        /// <param name="path">Path to xml configuration file.</param>
+        public void Save(string path)
+        {
+            XDocument xmlDocument = new XDocument();
+            xmlDocument.Add(Save(xmlDocument));
+            xmlDocument.Save(path);
+        }
+
+        /// <summary>
+        /// Loads field from xml element.
+        /// </summary>
+        /// <param name="xmlElement">Xml element to load field.</param>
+        private void Load(XElement xmlElement)
+        {
+            Key = xmlElement.Name.ToString();
+            if (xmlElement.HasElements)
+            {
+                _fields = new List<Field>();
+                foreach (var child in xmlElement.Elements())
                 {
-                    item.Save(sw, 1);
+                    Field childField = new Field();
+                    childField.Load(child);
+                    _fields.Add(childField);
                 }
             }
             else
             {
-                char separatorBegin, separatorEnd;
-                if (!list)
-                {
-                    separatorBegin = '{';
-                    separatorEnd = '}';
-                }
-                else
-                {
-                    separatorBegin = '[';
-                    separatorEnd = ']';
-                }
-                if (_fields != null)
-                {
-                    if (_key != "")
-                        sw.WriteLine(Tabs(depth) + _key + "=" + separatorBegin);
-                    else
-                        sw.WriteLine(Tabs(depth) + separatorBegin);
-                    foreach (var item in _fields)
-                    {
-                        item.Save(sw, depth + 1);
-                    }
-                    sw.WriteLine(Tabs(depth) + separatorEnd);
-                }
-                else
-                {
-                    if (_key != "")
-                        sw.WriteLine(Tabs(depth) + _key + "=" + _value);
-                    else
-                        sw.WriteLine(Tabs(depth) + _value);
-                }
+                Value = xmlElement.Value;
             }
 
 
         }
+
         /// <summary>
-        /// Saves Field to file.
+        /// Loads Field from xml file.
         /// </summary>
-        /// <param name="path">Path to configuration file.</param>
-        public void Save(string path)
-        {
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                Save(sw, 0);
-            }
-        }
-        /// <summary>
-        /// Removes white spaces from begining and ending of string.
-        /// </summary>
-        /// <param name="toCut">String to be cuted.</param>
-        /// <returns>String without  begining and ending white spaces.</returns>
-        private static string CutWhiteSpaces(string toCut)
-        {
-            int forwardSpaces = 0;
-            int backwardSpaces = 0;
-            int iter = 0;
-            while (iter < toCut.Length && (toCut[iter] == ' ' || toCut[iter] == '\t'))
-            {
-                forwardSpaces++;
-                iter++;
-            }
-            iter = toCut.Length - 1;
-            while (iter >= forwardSpaces && (toCut[iter] == ' ' || toCut[iter] == '\t'))
-            {
-                backwardSpaces++;
-                iter--;
-            }
-            int length = toCut.Length - forwardSpaces - backwardSpaces;
-            if (length <= 0 || forwardSpaces + length > toCut.Length)
-                return toCut;
-            return toCut.Substring(forwardSpaces, length);
-        }
-        /// <summary>
-        /// Contect part of array with separator.
-        /// </summary>
-        /// <param name="cuted">Array to be cuted.</param>
-        /// <param name="startIndex">Startin index.</param>
-        /// <param name="separator">Separator between parts of array.</param>
-        /// <returns>String builded with cuted strings and separators.</returns>
-        private static string ConnectCuttedStrings(string[] cuted, int startIndex, char separator)
-        {
-            string str = "";
-
-            for (int i = startIndex; i < cuted.Length; i++)
-            {
-                str += cuted[i];
-                if (i != cuted.Length - 1)
-                    str += separator;
-            }
-
-            return str;
-        }
-
-        private static bool IsNotOnlyWhitespace(string toCheck)
-        {
-            foreach (char spell in toCheck)
-            {
-                if (!CheckChar(spell, ' ', '\t'))
-                    return true;
-            }
-            return false;
-        }
-        
-        /// <summary>
-        /// Loads field from <see cref="StreamReader"/>
-        /// </summary>
-        /// <param name="sr"><see cref="StreamReader"/> that contains Field information.</param>
-        /// <param name="listItem">If true, element doesn't have to have key.</param>
-        private void Load(StreamReader sr, bool listItem)
-        {
-            while (!sr.EndOfStream)
-            {
-                string line = CutWhiteSpaces(sr.ReadLine());
-                if (line == "}" || line == "]")
-                    return;
-                if (line == "\t")
-                    continue;
-                string[] keyValue = line.Split('=');
-                string key;
-                string value;
-                if (!listItem && keyValue.Length < 2)
-                    continue;
-                else if (listItem)
-                {
-                    key = "";
-                    value = CutWhiteSpaces(ConnectCuttedStrings(keyValue, 0, '='));
-                }
-                else
-                {
-                    key = CutWhiteSpaces(keyValue[0]);
-                    value = CutWhiteSpaces(ConnectCuttedStrings(keyValue, 1, '='));
-                }
-
-                
-                if (CheckChar(value[value.Length - 1], '}', ']'))
-                    return;
-                Field field;
-                if (value[0] == '{')
-                {
-                    field = new Field();
-                    field._key = key;
-                    field.Load(sr, false);
-                }
-                else if (value[0] == '[')
-                {
-                    field = new Field();
-                    field._key = key;
-                    field.list = true;
-                    field.Load(sr, true);
-                }
-                else
-                {
-                    field = new Field(key, value);
-                }
-                if(IsNotOnlyWhitespace(value)) _fields.Add(field);
-            }
-        }
-        /// <summary>
-        /// Checks if array contains element.
-        /// </summary>
-        /// <param name="toCheck">Element to be searched in array.</param>
-        /// <param name="searched">Array to search.</param>
-        /// <returns>True if array contains element, false if not.</returns>
-        private static bool CheckChar(char toCheck, params char[] searched)
-        {
-            if (searched.Contains(toCheck)) return true;
-            return false;
-        }
-        /// <summary>
-        /// Parses data in <see cref="StreamReader"/> to configuration format.
-        /// </summary>
-        /// <param name="sr"><see cref="StreamReader"/> with information about Field.</param>
-        /// <returns><see cref="Stream"/> with parsed data.</returns>
-        private static Stream Parse(StreamReader sr)
-        {
-            Stream stream = new MemoryStream();
-            StreamWriter writer = new StreamWriter(stream);
-            bool beginBracklet = false;
-            bool endBracklet = false;
-            bool endLine = false;
-            string line = "";
-            while (!sr.EndOfStream)
-            {
-                line += sr.ReadLine() + '\n';
-            }
-            foreach (char item in line)
-            {
-                if ((beginBracklet || endBracklet) && !CheckChar(item, '\n'))
-                    writer.Write('\n');
-                if (CheckChar(item, '}', ']') && !endLine)
-                    writer.Write('\n');
-
-                beginBracklet = CheckChar(item, '{', '[');
-                endBracklet = CheckChar(item, '}', ']');
-                if (!(endLine && CheckChar(item, '\n')))
-                    writer.Write(item);
-
-                endLine = CheckChar(item, '\n');
-            }
-
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
-        /// <summary>
-        /// Loads Field from file.
-        /// </summary>
-        /// <param name="path">Path to file.</param>
+        /// <param name="path">Path to xml file.</param>
         public void Load(string path)
         {
-            using (StreamReader sr = new StreamReader(path))
-            {
-                Load(new StreamReader(Parse(sr)), false);
-            }
+            XDocument xmlDocument = XDocument.Load(path);
+            Load(xmlDocument.Root);
         }
     }
 }

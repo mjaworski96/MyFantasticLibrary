@@ -61,7 +61,7 @@ namespace LegionCore.Architecture.Server
                 return null;
             }
         }
-        internal ServerTasksManager(LegionServer server, string configFilename = "config.cfg")
+        internal ServerTasksManager(LegionServer server, string configFilename = "config.xml")
         {
             _CurrentTaskIdLock = new object();
             _Server = server;

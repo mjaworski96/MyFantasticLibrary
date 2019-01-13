@@ -4,20 +4,9 @@ using System.Collections.Generic;
 namespace ConfigurationManager
 {
     /// <summary>
-    /// Configuration. Contains data in Key-Value format. Can contain list of data without keys.
-    /// Cnfiguration file format:
-    /// simple=simpleValue
-    /// complex = {
-    ///     nestedKey = val
-    ///     nested = value
-    /// }
-    /// list = [
-    ///     simpleListItem
-    ///     complexListItem = {
-    ///     nested = 1
-    ///     parameter = param
-    ///     }
-    /// ]
+    /// Configuration. Contains data in Key-Value format.
+    /// File format is xml, root element name is ignored.
+    /// If element contains childs, text value is ignored.
     /// </summary>
     public class Configuration
     {
@@ -46,9 +35,15 @@ namespace ConfigurationManager
         /// <summary>
         /// Intializes new instance of Configuration.
         /// </summary>
+        /// <exception cref="ArgumentException">Thrown if path is null or empty.</exception>
         /// <param name="path">Path to file with initial configuration.</param>
         public Configuration(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException("Parameter path can not be empty.", nameof(path));
+            }
+
             configuration.Load(path);
         }
         /// <summary>
@@ -110,7 +105,7 @@ namespace ConfigurationManager
         {
             if (string.IsNullOrEmpty(path))
             {
-                throw new ArgumentException("Parameter message can not be empty.", nameof(path));
+                throw new ArgumentException("Parameter path can not be empty.", nameof(path));
             }
 
             configuration = new Field();

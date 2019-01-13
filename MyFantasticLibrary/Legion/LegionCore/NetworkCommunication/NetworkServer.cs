@@ -25,7 +25,7 @@ namespace LegionCore.NetworkCommunication
         private LegionServer _Server;
         private Dictionary<int, LoadedComponent<LegionTask>> _KnownComponents;
         private LoggingManager _Logger;
-        public NetworkServer(LegionServer server, string configFilename = "config.cfg")
+        public NetworkServer(LegionServer server, string configFilename = "config.xml")
         {
             _Logger = LoggingManager.Instance;
             _KnownComponents = new Dictionary<int, LoadedComponent<LegionTask>>();

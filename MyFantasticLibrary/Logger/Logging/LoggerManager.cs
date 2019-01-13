@@ -15,9 +15,9 @@ namespace Logging
         {
             /// <summary>
             /// Path to configuration file. Must be set before first use of DefaultLogger.
-            /// Defaut value is config.cfg.
+            /// Defaut value is config.xml.
             /// </summary>
-            public static string ConfigFilePath { get; set; } = "config.cfg";
+            public static string ConfigFilePath { get; set; } = "config.xml";
         }
 
         /// <summary>

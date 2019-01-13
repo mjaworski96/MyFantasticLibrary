@@ -27,7 +27,7 @@ namespace LegionCore.Architecture.Client
         {
             _Tasks = new WorkerTask[tasksCount];
         }
-        public LegionClient(IClientCommunicator communicatoror, string configFilename = "config.cfg")
+        public LegionClient(IClientCommunicator communicatoror, string configFilename = "config.xml")
             : this(communicatoror)
         {
             Configuration configuration = new Configuration(configFilename);

@@ -6,7 +6,7 @@ namespace HostLibrary
     {
         public void Test()
         {
-            LoggerManager.Config.ConfigFilePath = "config.cfg";
+            LoggerManager.Config.ConfigFilePath = "config.xml";
 
             using (Logger logger = LoggerManager.Default)
             {

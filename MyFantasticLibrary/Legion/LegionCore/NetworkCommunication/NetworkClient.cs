@@ -19,7 +19,7 @@ namespace LegionCore.NetworkCommunication
         private Sender _Sender;
         private Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>> _KnownComponents;
 
-        public NetworkClient(string configFilename = "config.cfg")
+        public NetworkClient(string configFilename = "config.xml")
         {
             _KnownComponents = new Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>>();
             Configuration configuration = new Configuration(configFilename);

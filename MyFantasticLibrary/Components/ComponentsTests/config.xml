@@ -1,0 +1,34 @@
+﻿<config>
+	<components>
+		<item>
+			<type>Calculator.ICalculator, Calculator</type>
+			<name>My Calculator2</name>
+			<version>2.0</version>
+			<publisher>MJayJ II</publisher>
+		</item>
+		<item>
+			<type>Calculator.ICalculator, Calculator</type>
+			<name>My Calculator</name>
+			<version>1.0</version>
+			<publisher>MJayJ</publisher>
+		</item>
+		<item>
+			<type>Calculator.ICalculator, Calculator</type>
+			<name>My Calculator</name>
+		</item>
+		<item>
+			<type>StringManipulator.IStringManipulator, StringManipulator</type>
+			<name>Reversing String Manipulator</name>
+			<directory>.</directory>
+		</item>
+		<item>
+			<type>StringManipulator.IStringManipulator, StringManipulator</type>
+			<name>Uppercase String Manipulator</name>
+		</item>
+		<item>
+			<type>StringManipulator.IStringManipulator, StringManipulator</type>
+			<name>Lowercase String Manipulator</name>
+			<publisher>MJayJ</publisher>
+		</item>
+	</components>
+</config>

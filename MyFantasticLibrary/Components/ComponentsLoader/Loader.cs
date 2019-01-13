@@ -163,19 +163,19 @@ namespace ComponentsLoader
         }
         /// <summary>
         /// Gets components defined in configuration file. Structure of components section:
-        /// components = [
-        /// {
-        ///     type = Full name of component base type or interface, Assembly with this type or interface
-        ///     name = Name of component
-        ///     version = Version of component
-        ///     publisher = Publisher of component
-        /// }
-        /// Version and publiser are optional.
+        /// <components>
+        ///     <type>Full name of component base type or interface, Assembly with this type or interface</type>
+        ///     <name>Name of component</name>
+        ///     <version>Version of component</version>
+        ///     <publisher>Publisher of component</publisher>
+        ///     <directory>Directory with component</directory>
+        /// </components>
+        /// Version, publiser, directory are optional.
         /// </summary>
         /// <exception cref="ArgumentException">Thrown if configPath is null or empty.</exception>
         /// <typeparam name="T">Type of component.</typeparam>
         /// <returns>List of <see cref="LoadedComponent{T}"/> from configuration.</returns>
-        public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(string configPath = "config.cfg")
+        public static List<LoadedComponent<T>> GetComponentsFromConfiguration<T>(string configPath = "config.xml")
         {
             return GetComponentsFromConfiguration<T>(new Configuration(configPath).GetListOfFields("components"));
         }

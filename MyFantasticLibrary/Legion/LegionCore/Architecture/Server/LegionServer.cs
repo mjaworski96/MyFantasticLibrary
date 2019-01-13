@@ -25,7 +25,7 @@ namespace LegionCore.Architecture.Server
             }
         }
 
-        public LegionServer(Semaphore endSemaphore, string configFilename = "config.cfg")
+        public LegionServer(Semaphore endSemaphore, string configFilename = "config.xml")
         {
             Finished = false;
             _LoggingManager = LoggingManager.Instance;
@@ -52,7 +52,7 @@ namespace LegionCore.Architecture.Server
             _LoggingManager.LogCritical("[ Server ] Task initialization error");
         }
 
-        public static Tuple<Task, LegionServer> StartNew(string configFilename = "config.cfg")
+        public static Tuple<Task, LegionServer> StartNew(string configFilename = "config.xml")
         {
             Semaphore semaphore = new Semaphore(0, Int32.MaxValue);
             LegionServer server = new LegionServer(semaphore, configFilename);
