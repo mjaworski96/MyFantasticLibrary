@@ -13,7 +13,7 @@ namespace ConfigurationManager
         /// <summary>
         /// Configuration. Key-Value format.
         /// </summary>
-        Field configuration = new Field();
+        Field _Configuration = new Field();
         /// <summary>
         /// Gets string asigned with key.
         /// </summary>
@@ -30,7 +30,7 @@ namespace ConfigurationManager
         /// <returns><see cref="Field"/> asigned with key.</returns>
         public Field GetField(string key)
         {
-            return configuration.GetField(key);
+            return _Configuration.GetField(key);
         }
         /// <summary>
         /// Intializes new instance of Configuration.
@@ -44,7 +44,7 @@ namespace ConfigurationManager
                 throw new ArgumentException("Parameter path can not be empty.", nameof(path));
             }
 
-            configuration.Load(path);
+            _Configuration.Load(path);
         }
         /// <summary>
         /// Initializes new instance of Configuration.
@@ -60,7 +60,7 @@ namespace ConfigurationManager
         /// <returns>Field asigned to key</returns>
         public List<Field> GetListOfFields(string key)
         {
-            return configuration.GetField(key)?.Fields ?? new List<Field>();
+            return _Configuration.GetField(key)?.Fields ?? new List<Field>();
         }
         /// <summary>
         /// Sets string asigned with key.
@@ -108,8 +108,8 @@ namespace ConfigurationManager
                 throw new ArgumentException("Parameter path can not be empty.", nameof(path));
             }
 
-            configuration = new Field();
-            configuration.Load(path);
+            _Configuration = new Field();
+            _Configuration.Load(path);
         }
         /// <summary>
         /// Saves configuration to file.
@@ -123,7 +123,7 @@ namespace ConfigurationManager
                 throw new ArgumentException("message", nameof(path));
             }
 
-            configuration?.Save(path);
+            _Configuration?.Save(path);
         }
     }
 }

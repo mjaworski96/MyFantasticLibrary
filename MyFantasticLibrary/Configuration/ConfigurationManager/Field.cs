@@ -13,15 +13,15 @@ namespace ConfigurationManager
         /// <summary>
         /// Children fields.
         /// </summary>
-        private List<Field> _fields;
+        private List<Field> _Fields;
         /// <summary>
         /// Key of Field.
         /// </summary>
-        private string _key;
+        private string _Key;
         /// <summary>
         /// Value of Field.
         /// </summary>
-        private string _value;
+        private string _Value;
         /// <summary>
         /// Intializes new instance of Field.
         /// </summary>
@@ -29,15 +29,15 @@ namespace ConfigurationManager
         /// <param name="value">Value of field</param>
         public Field(string key, string value)
         {
-            _key = key;
-            _value = value;
+            _Key = key;
+            _Value = value;
         }
         /// <summary>
         /// Intializes new instance of Field.
         /// </summary>
         public Field()
         {
-            _fields = new List<Field>();
+            _Fields = new List<Field>();
         }
         /// <summary>
         /// Gets Field asigned with key.
@@ -49,12 +49,12 @@ namespace ConfigurationManager
         public Field GetField(string key, int depth = 0)
         {
             string[] keys = key.Split('.');
-            Field field = _fields.Where(f => f._key == keys[depth]).FirstOrDefault();
+            Field field = _Fields.Where(f => f._Key == keys[depth]).FirstOrDefault();
             if (field == null)
             {
                 field = new Field();
-                field._key = keys[depth];
-                _fields.Add(field);
+                field._Key = keys[depth];
+                _Fields.Add(field);
             }
 
             if (depth == keys.Length - 1)
@@ -69,11 +69,11 @@ namespace ConfigurationManager
         {
             get
             {
-                return _value;
+                return _Value;
             }
             set
             {
-                _value = value;
+                _Value = value;
             }
         }
         /// <summary>
@@ -83,11 +83,11 @@ namespace ConfigurationManager
         {
             get
             {
-                return _key;
+                return _Key;
             }
             set
             {
-                _key = value;
+                _Key = value;
             }
         }
         /// <summary>
@@ -97,11 +97,11 @@ namespace ConfigurationManager
         {
             get
             {
-                return _fields;
+                return _Fields;
             }
             set
             {
-                _fields = value;
+                _Fields = value;
             }
         }
         /// <summary>
@@ -158,12 +158,12 @@ namespace ConfigurationManager
             Key = xmlElement.Name.ToString();
             if (xmlElement.HasElements)
             {
-                _fields = new List<Field>();
+                _Fields = new List<Field>();
                 foreach (var child in xmlElement.Elements())
                 {
                     Field childField = new Field();
                     childField.Load(child);
-                    _fields.Add(childField);
+                    _Fields.Add(childField);
                 }
             }
             else
