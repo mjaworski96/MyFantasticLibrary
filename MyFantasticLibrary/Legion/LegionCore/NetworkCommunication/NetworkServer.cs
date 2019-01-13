@@ -59,6 +59,10 @@ namespace LegionCore.NetworkCommunication
                         return GetDataIn(message);
                     case OperationCode.SAVE_RESULTS:
                         return SaveResults(message);
+                    case OperationCode.RAISE_ERROR:
+                        return RaiseError(message);
+                    case OperationCode.RAISE_INITIALIZATION_ERROR:
+                        return RaiseInitializationError(message);
                     default:
                         return Message.WithEmptyBody((int)CodeStatus.NO_OPERATION,
                                                      (int)OperationCode.NO_OPERATION);
@@ -118,15 +122,26 @@ namespace LegionCore.NetworkCommunication
         {
             return _Server.GetDataIn(tasks);
         }
-
-        public void RaiseError(Exception exc)
+        public Message RaiseError(Message request)
         {
-            throw new NotImplementedException();
+            (int TaskId, int ParameterId, Exception exception) error 
+                = request.Body.GetPage(0).ToObject<(int TaskId, int ParameterId, Exception exception)>();
+            RaiseError(error);
+            return Message.WithEmptyBody((int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
         }
-
+        public void RaiseError((int TaskId, int ParameterId, Exception exception) error)
+        {
+            _Server.RaiseError(error);
+        }
+        public Message RaiseInitializationError(Message request)
+        {
+            Tuple<Exception, int> exceptionTaskId = request.Body.GetPage(0).ToObject<Tuple<Exception, int>>();
+            RaiseInitializationError(exceptionTaskId);
+            return Message.WithEmptyBody((int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
+        }
         public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
         {
-            throw new NotImplementedException();
+            _Server.RaiseInitializationError(exceptionTaskId);
         }
         public Message SaveResults(Message message)
         {

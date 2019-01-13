@@ -26,9 +26,9 @@ namespace LegionCore.InMemoryCommunication
             return _ServerManager.GetDataIn(tasks);
         }
 
-        public void RaiseError(Exception exc)
+        public void RaiseError((int TaskId, int ParameterId, Exception exception) error)
         {
-            _ServerManager.RaiseError(exc);
+            _ServerManager.RaiseError(error);
         }
 
         public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)

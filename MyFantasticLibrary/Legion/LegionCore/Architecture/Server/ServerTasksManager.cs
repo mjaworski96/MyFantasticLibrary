@@ -129,35 +129,28 @@ namespace LegionCore.Architecture.Server
             List<LegionDataIn> result = new List<LegionDataIn>(tasks.Count);
             foreach (var item in tasks)
             {
-                try
+                if (_Tasks.Count > item)
                 {
-                    if (_Tasks.Count > item)
-                    {
-                        result.Add(_Tasks[item].GetDataIn());
-                    }
+                    LegionDataIn dataIn = _Tasks[item].GetDataIn();
+                    if (dataIn is LegionErrorDataIn errorDataIn)
+                        HandleTaskParameterError(item, IdManagement.GetId(errorDataIn), errorDataIn.TransformToDataOut());
                     else
-                    {
-                        result.Add(null);
-                    }
+                        result.Add(dataIn);
                 }
-                catch (Exception exc)
+                else
                 {
-                    HandleParameterLoadError(item, exc);
+                    result.Add(null);
                 }
-
             }
 
             return result;
         }
-        internal void HandleParameterLoadError(int id, Exception exc)
+        internal void HandleTaskParameterError(int taskId, int parameterId, LegionErrorDataOut errorData)
         {
-            string msg = "Task initialization error: " + exc.Message;
-            _Logger.LogError(msg + "\n" + exc.StackTrace);
-            LegionDataOut errorData = new LegionErrorDataOut(msg);
-            IdManagement.SetId(errorData, id);
+            IdManagement.SetId(errorData, parameterId);
             SaveResults(new List<Tuple<int, LegionDataOut>>()
             {
-                Tuple.Create(id, errorData)
+                Tuple.Create(taskId, errorData as LegionDataOut)
             });
         }
         internal void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)

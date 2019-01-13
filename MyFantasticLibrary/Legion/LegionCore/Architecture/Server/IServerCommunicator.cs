@@ -14,7 +14,7 @@ namespace LegionCore.Architecture.Server
 
         void SaveResults(List<Tuple<int, LegionDataOut>> dataOut);
 
-        void RaiseError(Exception exc);
+        void RaiseError((int TaskId, int ParameterId, Exception exception) error);
 
         void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId);
     }

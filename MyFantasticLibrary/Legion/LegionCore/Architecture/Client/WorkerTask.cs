@@ -1,4 +1,5 @@
 ﻿using LegionContract;
+using LegionCore.Architecture.Error;
 using System;
 using System.Threading.Tasks;
 
@@ -8,7 +9,6 @@ namespace LegionCore.Architecture.Client
     {
         private LegionTask _MyTask;
         private Task<LegionDataOut> _MyRunningTask;
-        
 
         internal WorkerTask(LegionTask myTask)
         {
@@ -19,7 +19,19 @@ namespace LegionCore.Architecture.Client
         {
             Enabled = true;
             ParameterId = IdManagement.GetId(dataIn);
-            _MyRunningTask = Task.Run(() => _MyTask.Run(dataIn));
+            _MyRunningTask = Task.Run(() => {
+                LegionDataOut dataOut = null;
+                try
+                {
+                    dataOut = _MyTask.Run(dataIn);
+                }
+                catch(Exception exc)
+                {
+                    dataOut = new LegionExecutionErrorDataOut(exc);
+                }
+                IdManagement.SetId(dataOut, ParameterId);
+                return dataOut;
+            });
             return _MyRunningTask;
         }
         public bool Enabled { get; set; }

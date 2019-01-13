@@ -49,7 +49,7 @@ namespace LegionCore.Architecture.Server
         internal void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
         {
             _ServerTasksManager.OnInitializationError(exceptionTaskId.Item2);
-            RaiseError(exceptionTaskId.Item1);
+            _LoggingManager.LogCritical("[ Server ] Task initialization error");
         }
 
         public static Tuple<Task, LegionServer> StartNew(string configFilename = "config.cfg")
@@ -58,9 +58,10 @@ namespace LegionCore.Architecture.Server
             LegionServer server = new LegionServer(semaphore, configFilename);
             return Tuple.Create(Task.Run(() => Work(semaphore, server)), server);
         }
-        internal void RaiseError(Exception exc)
+        internal void RaiseError((int TaskId, int ParameterId, Exception Exception) error)
         {
-            _LoggingManager.LogCritical(exc.Message);
+            _LoggingManager.LogError($"[ Server ] Task execution error (taskId: {error.TaskId}, parameterId: {error.ParameterId}): " +
+                $"{error.Exception.Message} \n {error.Exception.StackTrace}");
         }
 
         internal List<LegionDataIn> GetDataIn(List<int> tasks)

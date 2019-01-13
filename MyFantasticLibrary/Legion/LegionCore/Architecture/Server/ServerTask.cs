@@ -117,7 +117,7 @@ namespace LegionCore.Architecture.Server
         internal bool CheckIfFinish()
         {
             if (Error)
-                return false;
+                return true;
 
             lock (_ParametersManager)
             {
@@ -182,7 +182,8 @@ namespace LegionCore.Architecture.Server
         private LegionDataIn GetNormalDataIn()
         {
             LegionDataIn dataIn =  _ParametersManager.GetNormalDataIn(DataIn);
-            AddTaskToTimeoutList(dataIn);
+            if(!(dataIn is LegionErrorDataIn))
+                AddTaskToTimeoutList(dataIn);
             return dataIn;
         }
         private LegionDataIn GetTimeoutDataIn()

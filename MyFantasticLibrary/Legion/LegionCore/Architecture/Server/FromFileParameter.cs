@@ -34,13 +34,11 @@ namespace LegionCore.Architecture.Server
                 return false;
             return !_File.EndOfStream;
         }
-        public LegionDataIn GetNormalDataIn(LegionDataIn DataInCore, ref int id)
+        public LegionDataIn GetNormalDataIn(LegionDataIn DataInCore)
         {
             if (ParametersAvailable())
             {
                 LegionDataIn dataIn = DataInCore;
-                IdManagement.SetId(dataIn, id);
-                id++;
                 dataIn.LoadFromStream(_File);
                 return dataIn;
             }

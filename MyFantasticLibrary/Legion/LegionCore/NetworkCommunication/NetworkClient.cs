@@ -47,7 +47,7 @@ namespace LegionCore.NetworkCommunication
             }
             catch (SocketException)
             {
-                LoggingManager.Instance.LogWarning("Server unavailable");
+                LoggingManager.Instance.LogError("[ Client ] Server unavailable");
             }
 
             return null;
@@ -67,21 +67,26 @@ namespace LegionCore.NetworkCommunication
                 }
                 catch (IOException)
                 {
-                    LoggingManager.Instance.LogError("Save dlls error");
+                    LoggingManager.Instance.LogError("[ Client ] Save .dll error");
                 }
-                string[] splitedTaskMetadata = taskMetadata.Split(';');
-                _KnownComponents.Add(taskMetadata,
-                    Tuple.Create(
-                         response.Body.GetPage(1).ToObject<int>(),
-                        Loader.GetComponentByNameVersionPublisher<LegionTask>(splitedTaskMetadata[0],
-                        splitedTaskMetadata[1], splitedTaskMetadata[2])
-                        ));
+                AddTaskToDictionary(response, taskMetadata);
             }
             catch (SocketException)
             {
-                LoggingManager.Instance.LogWarning("Server unavailable");
+                LoggingManager.Instance.LogError("[ Client ] Server unavailable");
             }
             
+        }
+
+        private void AddTaskToDictionary(Message response, string taskMetadata)
+        {
+            string[] splitedTaskMetadata = taskMetadata.Split(';');
+            _KnownComponents.Add(taskMetadata,
+                Tuple.Create(
+                     response.Body.GetPage(1).ToObject<int>(),
+                    Loader.GetComponentByNameVersionPublisher<LegionTask>(splitedTaskMetadata[0],
+                    splitedTaskMetadata[1], splitedTaskMetadata[2])
+                    ));
         }
 
         public List<LegionDataIn> GetDataIn(List<int> tasks)
@@ -97,19 +102,35 @@ namespace LegionCore.NetworkCommunication
             }
             catch (SocketException)
             {
-                LoggingManager.Instance.LogWarning("Server unavailable");
+                LoggingManager.Instance.LogError("[ Client ] Server unavailable");
             }
             return new List<LegionDataIn>();
         }
 
-        public void RaiseError(Exception exc)
+        public void RaiseError((int TaskId, int ParameterId, Exception exception) error)
         {
-            throw new NotImplementedException();
+           try
+            {
+                _Sender.Send(Message.FromObject("error", error,
+                    (int)CodeStatus.ERROR, (int)OperationCode.RAISE_ERROR));
+            }
+            catch (SocketException)
+            {
+                LoggingManager.Instance.LogError("[ Client ] Server unavailable");
+            }
         }
 
         public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _Sender.Send(Message.FromObject("error", exceptionTaskId,
+                    (int)CodeStatus.ERROR, (int)OperationCode.RAISE_INITIALIZATION_ERROR));
+            }
+            catch (SocketException)
+            {
+                LoggingManager.Instance.LogError("[ Client ] Server unavailable");
+            }
         }
 
         public void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
@@ -121,7 +142,7 @@ namespace LegionCore.NetworkCommunication
             }
             catch (SocketException)
             {
-                LoggingManager.Instance.LogWarning("Server unavailable");
+                LoggingManager.Instance.LogError("[ Client ] Server unavailable");
             }
         }
     }
