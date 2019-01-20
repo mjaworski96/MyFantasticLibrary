@@ -13,12 +13,7 @@ namespace ComponentsLoader
     /// </summary>
     public static class Loader
     {
-        /// <summary>
-        /// Gets <see cref="ComponentAttribute"/> of component.
-        /// </summary>
-        /// <param name="componentType">Type of component.</param>
-        /// <returns><see cref="ComponentAttribute"/> of component.</returns>
-        internal static ComponentAttribute GetComponentAttribute(Type componentType)
+        private static ComponentAttribute GetComponentAttribute(Type componentType)
         {
             return (ComponentAttribute)componentType.GetCustomAttribute(typeof(ComponentAttribute));
         }
@@ -32,11 +27,6 @@ namespace ComponentsLoader
         {
             return (T)Activator.CreateInstance(toInstantialize);
         }
-        /// <summary>
-        /// Loads all assemblies from selected directory.
-        /// </summary>
-        /// <param name="directoryPath">Name of directory with components.</param>
-        /// <returns>List of assemblies.</returns>
         private static List<Assembly> LoadAssemblies(string directoryPath = ".")
         {
             List<Assembly> assemblies = new List<Assembly>();

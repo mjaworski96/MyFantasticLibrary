@@ -11,9 +11,6 @@ namespace AplicationInformationExchange.Model
     [Serializable]
     public class Body
     {
-        /// <summary>
-        /// Body pages. Body is divided into <see cref="BodyPage"/>
-        /// </summary>
         [JsonProperty]
         private List<BodyPage> BodyContent { get; set; }
         /// <summary>

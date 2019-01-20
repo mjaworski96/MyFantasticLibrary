@@ -15,8 +15,8 @@ namespace ConfigurationTests
             Assert.AreEqual("value1", configuration.GetString("key1"));
             Assert.AreEqual("value3", configuration.GetString("key2.key3"));
             Assert.AreEqual(2, configuration.GetListOfFields("list").Count);
-            Assert.AreEqual(2, configuration.GetListOfFields("list")[0].Fields.Count);
-            Assert.AreEqual(3, configuration.GetListOfFields("list")[1].Fields.Count);
+            Assert.AreEqual(2, configuration.GetListOfFields("list")[0].Childrens.Count);
+            Assert.AreEqual(3, configuration.GetListOfFields("list")[1].Childrens.Count);
             Assert.AreEqual("1", configuration.GetListOfFields("list")[0].GetField("a").Value);
             Assert.AreEqual("2", configuration.GetListOfFields("list")[1].GetField("c").Value);
         }

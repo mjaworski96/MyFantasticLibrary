@@ -48,11 +48,7 @@ namespace ComponentsLoader
 
             return components;
         }
-        /// <summary>
-        /// Creates information about components from configuration.
-        /// </summary>
-        /// <param name="components"><see cref="List{T}"/> of <see cref="Field"/> with information about components.</param>
-        /// <returns>List&lt;Tuple&lt;Type, string, string, string, string>>  with components parameters.</returns>
+        
         internal static List<Tuple<Type, string, string, string, string>> Create(List<Field> components)
         {
             List<Tuple<Type, string, string, string, string>> componentsInfo = new List<Tuple<Type, string, string, string, string>>();

@@ -11,29 +11,11 @@ namespace ComponentsLoader
     /// <typeparam name="T">Base type or interface of component.</typeparam>
     public class LoadedComponent<T>
     {
-        /// <summary>
-        /// Used for singleton sync.
-        /// </summary>
         private static object _SyncRoot = new Object();
-        /// <summary>
-        /// ComponenetAttribute of component.
-        /// </summary>
         private ComponentAttribute _Attr;
-        /// <summary>
-        /// Type of component.
-        /// </summary>
         private Type _Component;
-        /// <summary>
-        /// Singleton instance of component.
-        /// </summary>
         private T _Singleton;
-        /// <summary>
-        /// Name of component's assembly.
-        /// </summary>
         private AssemblyName _AssemblyName;
-        /// <summary>
-        /// Names of references assemblies to component's assembly.
-        /// </summary>
         private AssemblyName[] _ReferencedAssembliesNames;
 
         /// <summary>

@@ -39,11 +39,6 @@ namespace Logging
             }
             return logObject;
         }
-        /// <summary>
-        /// Gets logger from configuration.
-        /// </summary>
-        /// <param name="config"><see cref="Configuration"/> with logger information.</param>
-        /// <returns>Initialized logger.</returns>
         internal static Logger Create(Configuration config)
         {
             string parameter = config.GetString("logger.parameter");

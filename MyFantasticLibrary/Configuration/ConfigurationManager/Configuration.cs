@@ -10,9 +10,6 @@ namespace ConfigurationManager
     /// </summary>
     public class Configuration
     {
-        /// <summary>
-        /// Configuration. Key-Value format.
-        /// </summary>
         Field _Configuration = new Field();
         /// <summary>
         /// Gets string asigned with key.
@@ -60,7 +57,7 @@ namespace ConfigurationManager
         /// <returns>Field asigned to key</returns>
         public List<Field> GetListOfFields(string key)
         {
-            return _Configuration.GetField(key)?.Fields ?? new List<Field>();
+            return _Configuration.GetField(key)?.Childrens ?? new List<Field>();
         }
         /// <summary>
         /// Sets string asigned with key.
@@ -82,7 +79,7 @@ namespace ConfigurationManager
         public void SetFields(string key, List<Field> fields)
         {
             Field field = GetField(key);
-            field.Fields = fields;
+            field.Childrens = fields;
         }
         /// <summary>
         /// Sets <see cref="Field"/> asiged with key.
@@ -94,7 +91,7 @@ namespace ConfigurationManager
             Field f = GetField(key);
             f.Key = field.Key;
             f.Value = field.Value;
-            f.Fields = field.Fields;
+            f.Childrens = field.Childrens;
         }
         /// <summary>
         /// Loads configuration from file.

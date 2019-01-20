@@ -8,9 +8,6 @@ namespace Logging
     /// </summary>
     public class ConsoleLogger : Logger
     {
-        /// <summary>
-        /// Colors assigned to standard outputs.
-        /// </summary>
         private Dictionary<LogType, ConsoleColor> _colors;
         /// <summary>
         /// Initializes new instance of ConsoleLogger. 

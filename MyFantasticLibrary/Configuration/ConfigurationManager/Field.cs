@@ -10,17 +10,8 @@ namespace ConfigurationManager
     /// </summary>
     public class Field
     {
-        /// <summary>
-        /// Children fields.
-        /// </summary>
-        private List<Field> _Fields;
-        /// <summary>
-        /// Key of Field.
-        /// </summary>
+        private List<Field> _Childrens;
         private string _Key;
-        /// <summary>
-        /// Value of Field.
-        /// </summary>
         private string _Value;
         /// <summary>
         /// Intializes new instance of Field.
@@ -37,7 +28,7 @@ namespace ConfigurationManager
         /// </summary>
         public Field()
         {
-            _Fields = new List<Field>();
+            _Childrens = new List<Field>();
         }
         /// <summary>
         /// Gets Field asigned with key.
@@ -49,12 +40,12 @@ namespace ConfigurationManager
         public Field GetField(string key, int depth = 0)
         {
             string[] keys = key.Split('.');
-            Field field = _Fields.Where(f => f._Key == keys[depth]).FirstOrDefault();
+            Field field = _Childrens.Where(f => f._Key == keys[depth]).FirstOrDefault();
             if (field == null)
             {
                 field = new Field();
                 field._Key = keys[depth];
-                _Fields.Add(field);
+                _Childrens.Add(field);
             }
 
             if (depth == keys.Length - 1)
@@ -93,31 +84,18 @@ namespace ConfigurationManager
         /// <summary>
         /// Children fields.
         /// </summary>
-        public List<Field> Fields
+        public List<Field> Childrens
         {
             get
             {
-                return _Fields;
+                return _Childrens;
             }
             set
             {
-                _Fields = value;
+                _Childrens = value;
             }
         }
-        /// <summary>
-        /// Creates string with tabs.
-        /// </summary>
-        /// <param name="count">Count of tabs.</param>
-        /// <returns>String that contains tabs.</returns>
-        private static string Tabs(int count)
-        {
-            return new string('\t', count - 1);
-        }
-        /// <summary>
-        /// Saves configuration to xml file.
-        /// </summary>
-        /// <param name="xmlDocument"></param>
-        /// <returns>Xml element of current field</returns>
+
         private XElement Save(XDocument xmlDocument)
         {
             if(Value != null)
@@ -126,7 +104,7 @@ namespace ConfigurationManager
             }
             else
             {
-                return new XElement(Key ?? "config", Fields.Select(x => x.Save(xmlDocument)));
+                return new XElement(Key ?? "config", Childrens.Select(x => x.Save(xmlDocument)));
             }
         }
         /// <summary>
@@ -140,21 +118,17 @@ namespace ConfigurationManager
             xmlDocument.Save(path);
         }
 
-        /// <summary>
-        /// Loads field from xml element.
-        /// </summary>
-        /// <param name="xmlElement">Xml element to load field.</param>
         private void Load(XElement xmlElement)
         {
             Key = xmlElement.Name.ToString();
             if (xmlElement.HasElements)
             {
-                _Fields = new List<Field>();
+                _Childrens = new List<Field>();
                 foreach (var child in xmlElement.Elements())
                 {
                     Field childField = new Field();
                     childField.Load(child);
-                    _Fields.Add(childField);
+                    _Childrens.Add(childField);
                 }
             }
             else

@@ -99,7 +99,7 @@ namespace LegionCore.Architecture.Server
         private void InitTasks()
         {
             Field legionServerTasksField = _Configuration.GetField("legion.server.tasks");
-            foreach (Field task in legionServerTasksField.Fields)
+            foreach (Field task in legionServerTasksField.Childrens)
             {
                 List<Field> fields = new List<Field>() { task.GetField("component") };
                 LoadedComponent<LegionTask> component =
@@ -107,7 +107,7 @@ namespace LegionCore.Architecture.Server
 
                 List<string> paramsIn = task
                     .GetField("data_in")
-                    .Fields
+                    .Childrens
                     .Select(x => x.Value)
                     .ToList();
 

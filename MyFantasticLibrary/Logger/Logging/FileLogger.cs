@@ -8,13 +8,7 @@ namespace Logging
     /// </summary>
     public class FileLogger : Logger
     {
-        /// <summary>
-        /// File to print message.
-        /// </summary>
         private StreamWriter file;
-        /// <summary>
-        /// Name of file to print messages
-        /// </summary>
         private string parameter;
         /// <summary>
         /// Initializes new instance of FileLogger.

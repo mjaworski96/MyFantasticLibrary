@@ -14,17 +14,8 @@ namespace AplicationInformationExchange.Communication
     /// </summary>
     public class Receiver: Communicator
     {
-        /// <summary>
-        /// Response <see cref="Message"/> factory
-        /// </summary>
         private Func<Message, Message> _MessageFactory;
-        /// <summary>
-        /// Specifies when ReceiveAll() method ends.
-        /// </summary>
         private Func<bool> _EndCondition;
-        /// <summary>
-        /// How many hosts can be connected by once.
-        /// </summary>
         private int _QueueMaxSize;
         /// <summary>
         /// Constructor
