@@ -39,8 +39,7 @@ namespace HostLibrary
         private void TestInMemory()
         {
             LegionServer server = LegionServer.StartNew().Item2;
-            InMemoryServerManager serverManager = new InMemoryServerManager(server);
-            IClientCommunicator communicator = new InMemoryClientCommunicator(serverManager);
+            IClientCommunicator communicator = new InMemoryClientCommunicator(server);
             while (!RunClient(communicator));
         }
 

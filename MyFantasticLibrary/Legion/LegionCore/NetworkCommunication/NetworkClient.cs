@@ -14,18 +14,27 @@ using LegionCore.Logging;
 
 namespace LegionCore.NetworkCommunication
 {
+    /// <summary>
+    /// Network client-server communicator
+    /// </summary>
     public class NetworkClient : IClientCommunicator
     {
         private Sender _Sender;
         private Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>> _KnownComponents;
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configFilename">Path to file with configuration</param>
         public NetworkClient(string configFilename = "config.xml")
         {
             _KnownComponents = new Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>>();
             Configuration configuration = new Configuration(configFilename);
             _Sender = new Sender(configFilename);
         }
-
+        /// <summary>
+        /// Get current taksk
+        /// </summary>
+        /// <returns><see cref="LoadedComponent{T}"/> with current task</returns>
         public Tuple<int, LoadedComponent<LegionTask>> GetCurrentTask()
         {
             try
@@ -86,7 +95,11 @@ namespace LegionCore.NetworkCommunication
                     splitedTaskMetadata[1], splitedTaskMetadata[2])
                     ));
         }
-
+        /// <summary>
+        /// Gets input data
+        /// </summary>
+        /// <param name="tasks">Ids of tasks</param>
+        /// <returns>Input data for tasks</returns>
         public List<LegionDataIn> GetDataIn(List<int> tasks)
         {
             try
@@ -104,7 +117,10 @@ namespace LegionCore.NetworkCommunication
             }
             return new List<LegionDataIn>();
         }
-
+        /// <summary>
+        /// Send error
+        /// </summary>
+        /// <param name="error">Task id, parameter id and exception that causes error</param>
         public void RaiseError((int TaskId, int ParameterId, Exception exception) error)
         {
            try
@@ -117,7 +133,10 @@ namespace LegionCore.NetworkCommunication
                 LoggingManager.Instance.LogError("[ Client ] Server unavailable");
             }
         }
-
+        /// <summary>
+        /// Send initialization error
+        /// </summary>
+        /// <param name="exceptionTaskId">Exception that causes error and task id</param>
         public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
         {
             try
@@ -130,7 +149,10 @@ namespace LegionCore.NetworkCommunication
                 LoggingManager.Instance.LogError("[ Client ] Server unavailable");
             }
         }
-
+        /// <summary>
+        /// Send results
+        /// </summary>
+        /// <param name="dataOut">Task id and result</param>
         public void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
         {
             try

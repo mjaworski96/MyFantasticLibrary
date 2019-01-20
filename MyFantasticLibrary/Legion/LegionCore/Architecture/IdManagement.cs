@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace LegionCore.Architecture
 {
+    /// <summary>
+    /// IdentifiedById getter and setter.
+    /// </summary>
     public static class IdManagement
     {
         private static FieldInfo GetFieldInfo(IdentifiedById id)

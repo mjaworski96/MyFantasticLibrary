@@ -9,27 +9,28 @@ using System.Threading.Tasks;
 
 namespace LegionCore.Architecture.Client
 {
+    /// <summary>
+    /// Legion client
+    /// </summary>
     public class LegionClient
     {
         private LoggingManager _LoggingManager;
         private WorkerTask[] _Tasks;
         private IClientCommunicator _Communicator;
+        /// <summary>
+        /// Count of hosted tasks
+        /// </summary>
         public int TaskCount { get => _Tasks.Length; }
 
-        private LegionClient(IClientCommunicator communicator)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="communicator">Communicator instance</param>
+        /// <param name="configFilename">Path to file with configuration</param>
+        public LegionClient(IClientCommunicator communicator, string configFilename = "config.xml")
         {
             _LoggingManager = LoggingManager.Instance;
             _Communicator = communicator;
-        }
-
-        public LegionClient(IClientCommunicator communicator, int tasksCount)
-            : this(communicator)
-        {
-            _Tasks = new WorkerTask[tasksCount];
-        }
-        public LegionClient(IClientCommunicator communicatoror, string configFilename = "config.xml")
-            : this(communicatoror)
-        {
             Configuration configuration = new Configuration(configFilename);
             int tasksCount = int.Parse(configuration.GetString("legion.client.workers"));
             _Tasks = new WorkerTask[tasksCount];
@@ -52,9 +53,11 @@ namespace LegionCore.Architecture.Client
                 throw exc;
             }
         }
+        /// <summary>
+        /// Initializes client
+        /// </summary>
         public void Init()
         {
-
             Tuple<int, LoadedComponent<LegionTask>> loadedComponent
             = _Communicator.GetCurrentTask();
             if(loadedComponent != null)
@@ -67,6 +70,9 @@ namespace LegionCore.Architecture.Client
             }    
         }
 
+        /// <summary>
+        /// Run hosted tasks
+        /// </summary>
         public void Run()
         {
             if (!InitTasks())
@@ -86,23 +92,13 @@ namespace LegionCore.Architecture.Client
             }
             _LoggingManager.LogWarning("[ Client ] Legion Client finished working.");
         }
-        private List<int> ListOfRequiredTasksParameters(int taskId)
-        {
-            List<int> result = new List<int>();
-            for (int i = 0; i < TaskCount; i++)
-            {
-                result.Add(taskId);
-            }
-            return result;
-
-        }
         private bool InitTasks()
         {
             int? taskId = _Tasks.FirstOrDefault()?.ServerSideId;
             if (taskId == null) return false;
 
             List<LegionDataIn> dataIn = _Communicator.GetDataIn(
-                ListOfRequiredTasksParameters(taskId.Value));
+                Enumerable.Range(0, TaskCount).Select(x => taskId.Value).ToList());
 
             if (dataIn.Count == 0)
                 return false;
@@ -115,14 +111,12 @@ namespace LegionCore.Architecture.Client
             _LoggingManager.LogInformation("[ Client ] Legion Client initialized.");
             return true;
         }
-
         private bool CheckIfFinish()
         {
             if (_Tasks.Count(x => x.IsCompleted && !x.Enabled) == _Tasks.Count())
                 return true;
             return false;
         }
-
         private void ReinitializeTasksParameters(List<Tuple<int, int>> finishedTasksIds)
         {
             List<LegionDataIn> dataIn =
@@ -144,7 +138,6 @@ namespace LegionCore.Architecture.Client
                 ReinitializeDisabledTasks();
             _LoggingManager.LogInformation("[ Client ] Tasks reinitialized.");
         }
-
         private void ReinitializeDisabledTasks()
         {
             List<int> tasksIds = _Tasks.Where(x => !x.Enabled)
@@ -156,7 +149,6 @@ namespace LegionCore.Architecture.Client
                     break;
             }
         }
-
         private bool ReInit(ref WorkerTask workerTask)
         {
             Tuple<int, LoadedComponent<LegionTask>> loadedComponent
@@ -186,7 +178,6 @@ namespace LegionCore.Architecture.Client
             _LoggingManager.LogInformation("[ Client ] New task not available.");
             return false;
         }
-
         private void Wait()
         {
             Task.WaitAny(_Tasks
@@ -194,9 +185,6 @@ namespace LegionCore.Architecture.Client
                     .Select(task => task.MyRunningTask)
                     .ToArray());
         }
-        /// <summary>
-        /// Contains ServerSideId and ClientSideId
-        /// </summary>
         private List<Tuple<int, int>> FinishedTasksIds
         {
             get

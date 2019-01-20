@@ -12,7 +12,10 @@ using LegionCore.Logging;
 
 namespace LegionCore.NetworkCommunication
 {
-    public class NetworkServer : IServerCommunicator
+    /// <summary>
+    /// Legion server network manager
+    /// </summary>
+    public class NetworkServer
     {
         private static readonly string[] BANNED_ASSEMBLIES =
         {
@@ -25,6 +28,11 @@ namespace LegionCore.NetworkCommunication
         private LegionServer _Server;
         private Dictionary<int, LoadedComponent<LegionTask>> _KnownComponents;
         private LoggingManager _Logger;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="server"><see cref="LegionServer"/> to send network requests</param>
+        /// <param name="configFilename">Path to file with config</param>
         public NetworkServer(LegionServer server, string configFilename = "config.xml")
         {
             _Logger = LoggingManager.Instance;
@@ -35,6 +43,10 @@ namespace LegionCore.NetworkCommunication
                 Communication,
                 Finished);
         }
+        /// <summary>
+        /// Start task that host server
+        /// </summary>
+        /// <returns>Task</returns>
         public Task Start()
         {
             return Task.Run(() => _Receiver.ReceiveAll());
@@ -98,6 +110,10 @@ namespace LegionCore.NetworkCommunication
                 (int)CodeStatus.OK,
                 (int)OperationCode.NO_OPERATION);
         }
+        /// <summary>
+        /// Get current task with id
+        /// </summary>
+        /// <returns>Current task id and <see cref="LoadedComponent{T}"/> with task</returns>
         public Tuple<int, LoadedComponent<LegionTask>> GetCurrentTask()
         {
             Tuple<int, LoadedComponent<LegionTask>> current = _Server.CurrentTask;
@@ -110,47 +126,51 @@ namespace LegionCore.NetworkCommunication
             }
             return current;
         }
+        /// <summary>
+        /// Get current data in
+        /// </summary>
+        /// <param name="request"><see cref="Message"/> with task data</param>
+        /// <returns><see cref="Message"/> with input data</returns>
         public Message GetDataIn(Message request)
         {
             List<int> tasksIds = request.Body.GetPage(0).ToObject<List<int>>();
             return Message.FromObject("dataIn",
-                GetDataIn(tasksIds), (int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
+                _Server.GetDataIn(tasksIds), (int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
         }
-        public List<LegionDataIn> GetDataIn(List<int> tasks)
-        {
-            return _Server.GetDataIn(tasks);
-        }
+        /// <summary>
+        /// Receive error data
+        /// </summary>
+        /// <param name="request"><see cref="Message"/> with error data</param>
+        /// <returns><see cref="Message"/> with confirmation</returns>
         public Message RaiseError(Message request)
         {
             (int TaskId, int ParameterId, Exception exception) error 
                 = request.Body.GetPage(0).ToObject<(int TaskId, int ParameterId, Exception exception)>();
-            RaiseError(error);
+            _Server.RaiseError(error);
             return Message.WithEmptyBody((int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
         }
-        public void RaiseError((int TaskId, int ParameterId, Exception exception) error)
-        {
-            _Server.RaiseError(error);
-        }
+        /// <summary>
+        /// Receive initialization error data
+        /// </summary>
+        /// <param name="request"><see cref="Message"/> with initialization error data</param>
+        /// <returns><see cref="Message"/> with confirmation</returns>
         public Message RaiseInitializationError(Message request)
         {
             Tuple<Exception, int> exceptionTaskId = request.Body.GetPage(0).ToObject<Tuple<Exception, int>>();
-            RaiseInitializationError(exceptionTaskId);
+            _Server.RaiseInitializationError(exceptionTaskId);
             return Message.WithEmptyBody((int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
         }
-        public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
-        {
-            _Server.RaiseInitializationError(exceptionTaskId);
-        }
+        /// <summary>
+        /// Receive task results
+        /// </summary>
+        /// <param name="message"><see cref="Message"/> with task results</param>
+        /// <returns><see cref="Message"/> with confirmation</returns>
         public Message SaveResults(Message message)
         {
             List<Tuple<int, LegionDataOut>> dataOut = message.Body.GetPage(0).ToObject<List<Tuple<int, LegionDataOut>>>();
-            SaveResults(dataOut);
+            _Server.SaveResults(dataOut);
             return Message.WithEmptyBody((int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
 
-        }
-        public void SaveResults(List<Tuple<int, LegionDataOut>> dataOut)
-        {
-            _Server.SaveResults(dataOut);
         }
     }
 }

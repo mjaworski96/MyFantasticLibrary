@@ -5,12 +5,36 @@ using LegionContract;
 
 namespace LegionCore.Architecture.Client
 {
+    /// <summary>
+    /// Intrface for client-server communication
+    /// </summary>
     public interface IClientCommunicator
     {
+        /// <summary>
+        /// Gets current task
+        /// </summary>
+        /// <returns>Id of currently runned task (server side) and <see cref="LoadedComponent{T}"/> with task</returns>
         Tuple<int, LoadedComponent<LegionTask>> GetCurrentTask();
+        /// <summary>
+        /// Send error that occurs when client is initialized
+        /// </summary>
+        /// <param name="exceptionTaskId">Exception and taks id (server side)</param>
         void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId);
+        /// <summary>
+        /// Send error that occurs when running task
+        /// </summary>
+        /// <param name="error">TaskId (server side), parameter id, and exception</param>
         void RaiseError((int TaskId, int ParameterId, Exception exception) error);
+        /// <summary>
+        /// Gets data in for tasks
+        /// </summary>
+        /// <param name="tasks">Id of tasks(server side)</param>
+        /// <returns>Input data for tasks</returns>
         List<LegionDataIn> GetDataIn(List<int> tasks);
+        /// <summary>
+        /// Sends results
+        /// </summary>
+        /// <param name="dataOut">Id of task (server side) and result</param>
         void SaveResults(List<Tuple<int, LegionDataOut>> dataOut);
     }
 }
