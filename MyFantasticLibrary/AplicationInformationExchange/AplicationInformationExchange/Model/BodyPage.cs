@@ -100,9 +100,11 @@ namespace AplicationInformationExchange.Model
         /// <summary>
         /// Saves page to file
         /// </summary>
-        public void ToFile()
+        /// /// <param name="directory">Directory path to save file</param>
+        public void ToFile(string directory = ".")
         {
-            File.WriteAllBytes(Name, Content);
+            Directory.CreateDirectory(directory);
+            File.WriteAllBytes(Path.Combine(directory, Name), Content);
         }
     }
 }

@@ -92,11 +92,12 @@ namespace AplicationInformationExchange.Model
         /// <summary>
         /// Saves body to files.
         /// </summary>
-        public void ToFiles()
+        /// <param name="directory">Directory path to save files</param>
+        public void ToFiles(string directory = ".")
         {
             foreach (var page in BodyContent)
             {
-                page.ToFile();
+                page.ToFile(directory);
             }
         }
     }

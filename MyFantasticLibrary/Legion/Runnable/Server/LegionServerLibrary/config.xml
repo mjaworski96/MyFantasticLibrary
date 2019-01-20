@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <logger>
+    <type>Logging.ConsoleLogger</type>
+    <parameter>Green;Yellow;Red;Red</parameter>
+    <filter>Information</filter>
+  </logger>
+  <legion>
+    <server>
+      <tasks>
+        <item>
+          <component>
+            <type>LegionContract.LegionTask, LegionContract</type>
+            <name></name>
+            <directory></directory>
+          </component>
+          <dataIn>
+            <item></item>
+          </dataIn>
+          <dataOut></dataOut>
+          <orderedDataOut></orderedDataOut>
+          <timeout></timeout>
+        </item>
+      </tasks>
+    </server>
+  </legion>
+  <aie>
+    <address>127.0.0.1</address>
+    <port>6000</port>
+    <buffersize>20000</buffersize>
+    <queue>100</queue>
+  </aie>
+</config>

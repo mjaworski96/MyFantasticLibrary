@@ -13,11 +13,11 @@
 						<name>Error Task</name>
 						<directory>.</directory>
 					</component>
-					<data_in>
+					<dataIn>
 						<item>data_in.txt</item>
-					</data_in>
-					<data_out>data_out.txt</data_out>
-					<ordered_data_out>ordered_data_out.txt</ordered_data_out>
+					</dataIn>
+					<dataOut>data_out.txt</dataOut>
+					<orderedDataOut>ordered_data_out.txt</orderedDataOut>
 					<timeout>10000</timeout>
 				</item>
 			</tasks>

@@ -21,6 +21,7 @@ namespace LegionCore.NetworkCommunication
     {
         private Sender _Sender;
         private Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>> _KnownComponents;
+        private string _ComponentsDirectory;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -30,6 +31,8 @@ namespace LegionCore.NetworkCommunication
             _KnownComponents = new Dictionary<string, Tuple<int, LoadedComponent<LegionTask>>>();
             Configuration configuration = new Configuration(configFilename);
             _Sender = new Sender(configFilename);
+            _ComponentsDirectory
+                = configuration.GetString("legion.client.componentsPath");
         }
         /// <summary>
         /// Get current taksk
@@ -70,7 +73,7 @@ namespace LegionCore.NetworkCommunication
                 Message dlls = _Sender.Send(fileRequest);
                 try
                 {
-                    dlls.ToFiles();
+                    dlls.ToFiles(_ComponentsDirectory);
                 }
                 catch (IOException)
                 {
@@ -92,7 +95,7 @@ namespace LegionCore.NetworkCommunication
                 Tuple.Create(
                      response.Body.GetPage(1).ToObject<int>(),
                     Loader.GetComponentByNameVersionPublisher<LegionTask>(splitedTaskMetadata[0],
-                    splitedTaskMetadata[1], splitedTaskMetadata[2])
+                    splitedTaskMetadata[1], splitedTaskMetadata[2], _ComponentsDirectory)
                     ));
         }
         /// <summary>

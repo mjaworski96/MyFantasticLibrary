@@ -116,9 +116,10 @@ namespace AplicationInformationExchange.Model
         /// Saves all body pages to files (one file per page).
         /// File names are same as body pages names.
         /// </summary>
-        public void ToFiles()
+        /// <param name="directory">Directory path to save files</param>
+        public void ToFiles(string directory = ".")
         {
-            Body.ToFiles();
+            Body.ToFiles(directory);
         }
     }
 }

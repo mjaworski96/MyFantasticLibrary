@@ -106,13 +106,13 @@ namespace LegionCore.Architecture.Server
                     Loader.GetComponentsFromConfiguration<LegionTask>(fields).First();
 
                 List<string> paramsIn = task
-                    .GetField("data_in")
+                    .GetField("dataIn")
                     .Childrens
                     .Select(x => x.Value)
                     .ToList();
 
-                _Tasks.Add(new ServerTask(component, paramsIn, task.GetField("data_out").Value,
-                    task.GetField("ordered_data_out").Value, long.Parse(task.GetField("timeout").Value ?? "0")));
+                _Tasks.Add(new ServerTask(component, paramsIn, task.GetField("dataOut").Value,
+                    task.GetField("orderedDataOut").Value, long.Parse(task.GetField("timeout").Value ?? "0")));
             }
         }
         internal static List<LegionDataIn> GetEmptyDataIn(List<int> tasks)
