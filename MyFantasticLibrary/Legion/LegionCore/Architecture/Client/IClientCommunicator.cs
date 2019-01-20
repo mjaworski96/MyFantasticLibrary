@@ -18,13 +18,13 @@ namespace LegionCore.Architecture.Client
         /// <summary>
         /// Send error that occurs when client is initialized
         /// </summary>
-        /// <param name="exceptionTaskId">Exception and taks id (server side)</param>
-        void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId);
+        /// <param name="error">Id (server side) and exception that causes error</param>
+        void RaiseInitializationError(Tuple<int, Exception> error);
         /// <summary>
         /// Send error that occurs when running task
         /// </summary>
-        /// <param name="error">TaskId (server side), parameter id, and exception</param>
-        void RaiseError((int TaskId, int ParameterId, Exception exception) error);
+        /// <param name="error">TaskId (server side), parameter id, and exception that causes error</param>
+        void RaiseError(Tuple<int, int, Exception> error);
         /// <summary>
         /// Gets data in for tasks
         /// </summary>

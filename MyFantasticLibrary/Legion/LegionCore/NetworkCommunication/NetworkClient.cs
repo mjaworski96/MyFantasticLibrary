@@ -121,7 +121,7 @@ namespace LegionCore.NetworkCommunication
         /// Send error
         /// </summary>
         /// <param name="error">Task id, parameter id and exception that causes error</param>
-        public void RaiseError((int TaskId, int ParameterId, Exception exception) error)
+        public void RaiseError(Tuple<int, int, Exception> error)
         {
            try
             {
@@ -136,12 +136,12 @@ namespace LegionCore.NetworkCommunication
         /// <summary>
         /// Send initialization error
         /// </summary>
-        /// <param name="exceptionTaskId">Exception that causes error and task id</param>
-        public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
+        /// <param name="error">Exception that causes error and task id</param>
+        public void RaiseInitializationError(Tuple<int, Exception> error)
         {
             try
             {
-                _Sender.Send(Message.FromObject("error", exceptionTaskId,
+                _Sender.Send(Message.FromObject("error", error,
                     (int)CodeStatus.ERROR, (int)OperationCode.RAISE_INITIALIZATION_ERROR));
             }
             catch (SocketException)

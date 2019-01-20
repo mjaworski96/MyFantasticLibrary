@@ -54,10 +54,12 @@ namespace LegionCore.Architecture.Server
             }           
         }
 
-        internal void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
+        internal void RaiseInitializationError(Tuple<int, Exception> error)
         {
-            _ServerTasksManager.OnInitializationError(exceptionTaskId.Item2);
-            _LoggingManager.LogCritical("[ Server ] Task initialization error");
+            _ServerTasksManager.OnInitializationError(error.Item1);
+            _LoggingManager.LogCritical($"[ Server ] Task (id = {error.Item1})initialization error, " +
+                $"exception: {error.Item2.Message}\n caused by: {error.Item2?.InnerException.Message}" +
+                $"\n{error.Item2?.InnerException.StackTrace}");
         }
         /// <summary>
         /// Starts new server
@@ -70,10 +72,10 @@ namespace LegionCore.Architecture.Server
             LegionServer server = new LegionServer(semaphore, configFilename);
             return Tuple.Create(Task.Run(() => Work(semaphore, server)), server);
         }
-        internal void RaiseError((int TaskId, int ParameterId, Exception Exception) error)
+        internal void RaiseError(Tuple<int, int, Exception> error)
         {
-            _LoggingManager.LogError($"[ Server ] Task execution error (taskId: {error.TaskId}, parameterId: {error.ParameterId}): " +
-                $"{error.Exception.Message} \n {error.Exception.StackTrace}");
+            _LoggingManager.LogError($"[ Server ] Task execution error (taskId: {error.Item1}, parameterId: {error.Item2}): " +
+                $"{error.Item3.Message} \n {error.Item3.StackTrace}");
         }
 
         internal List<LegionDataIn> GetDataIn(List<int> tasks)

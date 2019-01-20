@@ -45,11 +45,11 @@ namespace LegionCore.Architecture.Client
                 workerTask.ServerSideId = loadedComponent.Item1;
                 workerTask.ClientSideId = id;
             }
-            catch (NullReferenceException e)
+            catch (Exception e)
             {
-                Exception exc = new LegionException("Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.", e);
-                _Communicator.RaiseInitializationError(Tuple.Create(exc, loadedComponent.Item1));
-                _LoggingManager.LogCritical("[ Client ] Can not initialize Legion Client. Your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
+                Exception exc = new LegionException("Task initialization error. Remember that your clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.", e);
+                _Communicator.RaiseInitializationError(Tuple.Create(loadedComponent.Item1, exc));
+                _LoggingManager.LogCritical("[ Client ] Can not initialize Legion Client. Remember that clases must inherit directly from LegionTask, LegionDataIn or LegionDataOut.");
                 throw exc;
             }
         }
@@ -211,7 +211,9 @@ namespace LegionCore.Architecture.Client
             {
                 if(dataOut[i].Item2 is LegionErrorDataOut legionErrorDataOut)
                 {
-                    _Communicator.RaiseError((dataOut[i].Item1, IdManagement.GetId(dataOut[i].Item2),
+                    _Communicator.RaiseError(Tuple.Create(
+                        dataOut[i].Item1, 
+                        IdManagement.GetId(dataOut[i].Item2),
                         legionErrorDataOut.Exception));
                 }
             }

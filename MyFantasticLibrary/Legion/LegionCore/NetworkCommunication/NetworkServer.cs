@@ -144,8 +144,8 @@ namespace LegionCore.NetworkCommunication
         /// <returns><see cref="Message"/> with confirmation</returns>
         public Message RaiseError(Message request)
         {
-            (int TaskId, int ParameterId, Exception exception) error 
-                = request.Body.GetPage(0).ToObject<(int TaskId, int ParameterId, Exception exception)>();
+            Tuple<int, int, Exception> error 
+                = request.Body.GetPage(0).ToObject<Tuple<int, int, Exception>>();
             _Server.RaiseError(error);
             return Message.WithEmptyBody((int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
         }
@@ -156,7 +156,7 @@ namespace LegionCore.NetworkCommunication
         /// <returns><see cref="Message"/> with confirmation</returns>
         public Message RaiseInitializationError(Message request)
         {
-            Tuple<Exception, int> exceptionTaskId = request.Body.GetPage(0).ToObject<Tuple<Exception, int>>();
+            Tuple<int, Exception> exceptionTaskId = request.Body.GetPage(0).ToObject<Tuple<int, Exception>>();
             _Server.RaiseInitializationError(exceptionTaskId);
             return Message.WithEmptyBody((int)CodeStatus.OK, (int)OperationCode.NO_OPERATION);
         }

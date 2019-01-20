@@ -43,17 +43,17 @@ namespace LegionCore.InMemoryCommunication
         /// Send error that occurs when running task
         /// </summary>
         /// <param name="error">TaskId (server side), parameter id, and exception</param>
-        public void RaiseError((int TaskId, int ParameterId, Exception exception) error)
+        public void RaiseError(Tuple<int, int, Exception> error)
         {
             _Server.RaiseError(error);
         }
         /// <summary>
         /// Send error that occurs when client is initialized
         /// </summary>
-        /// <param name="exceptionTaskId">Exception and taks id (server side)</param>
-        public void RaiseInitializationError(Tuple<Exception, int> exceptionTaskId)
+        /// <param name="error">Exception and taks id (server side)</param>
+        public void RaiseInitializationError(Tuple<int, Exception> error)
         {
-            _Server.RaiseInitializationError(exceptionTaskId);
+            _Server.RaiseInitializationError(error);
         }
         /// <summary>
         /// Sends results
