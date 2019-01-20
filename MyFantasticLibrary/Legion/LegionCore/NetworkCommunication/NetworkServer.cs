@@ -44,7 +44,7 @@ namespace LegionCore.NetworkCommunication
                 Finished);
         }
         /// <summary>
-        /// Start task that host server
+        /// Start task that host server, start receiving requests
         /// </summary>
         /// <returns>Task</returns>
         public Task Start()

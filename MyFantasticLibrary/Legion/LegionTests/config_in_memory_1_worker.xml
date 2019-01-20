@@ -15,35 +15,15 @@
 					</component>
 					<data_in>
 						<item>data_in.txt</item>
-						<item>data_in_2.txt</item>
 					</data_in>
 					<data_out>data_out.txt</data_out>
 					<ordered_data_out>ordered_data_out.txt</ordered_data_out>
 					<timeout>10000</timeout>
 				</item>
-				<item>
-					<component>
-						<type>LegionContract.LegionTask, LegionContract</type>
-						<name>Mul And Wait Task</name>
-						<directory>.</directory>
-					</component>
-					<data_in>
-						<item>data_in_mul_task.txt</item>
-					</data_in>
-					<data_out>data_out_mul_task.txt</data_out>
-					<ordered_data_out>ordered_data_out_mul_task</ordered_data_out>
-					<timeout>10000</timeout>
-				</item>
 			</tasks>
 		</server>
 		<client>
-			<workers>12</workers>
+			<workers>1</workers>
 		</client>
 	</legion>
-  <aie>
-    <address>127.0.0.1</address>
-    <port>6000</port>
-    <buffersize>20000</buffersize>
-    <queue>100</queue>
-  </aie>
 </config>

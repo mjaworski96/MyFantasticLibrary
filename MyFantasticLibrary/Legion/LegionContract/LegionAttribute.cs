@@ -10,8 +10,8 @@ namespace LegionContract
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="typeIn">Input data type (must be derived from <see cref="LegionDataIn"></see>/>)</param>
-        /// <param name="typeOut">Result type (must be derived from <see cref="LegionDataOut"></see>/>)</param>
+        /// <param name="typeIn">Input data type (must be inherited from <see cref="LegionDataIn"></see>/>)</param>
+        /// <param name="typeOut">Result type (must be inherited from <see cref="LegionDataOut"></see>/>)</param>
         public LegionAttribute(Type typeIn, Type typeOut)
         {
             TypeIn = typeIn;
@@ -19,7 +19,7 @@ namespace LegionContract
         }
 
         /// <summary>
-        /// Input data type (must be derived from <see cref="LegionDataIn"></see>/>)
+        /// Input data type (must be inherited from <see cref="LegionDataIn"></see>/>)
         /// </summary>
         public Type TypeIn { get; private set; }
         /// <summary>
