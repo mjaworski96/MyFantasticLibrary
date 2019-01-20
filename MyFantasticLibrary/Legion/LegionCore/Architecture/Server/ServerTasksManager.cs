@@ -127,13 +127,17 @@ namespace LegionCore.Architecture.Server
         internal List<LegionDataIn> GetDataIn(List<int> tasks)
         {
             List<LegionDataIn> result = new List<LegionDataIn>(tasks.Count);
-            foreach (var item in tasks)
+            for(int i = 0; i < tasks.Count; i++)
             {
+                int item = tasks[i];
                 if (_Tasks.Count > item)
                 {
                     LegionDataIn dataIn = _Tasks[item].GetDataIn();
                     if (dataIn is LegionErrorDataIn errorDataIn)
+                    {
                         HandleTaskParameterError(item, IdManagement.GetId(errorDataIn), errorDataIn.TransformToDataOut());
+                        i--;
+                    }  
                     else
                         result.Add(dataIn);
                 }

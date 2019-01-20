@@ -125,13 +125,9 @@ namespace LegionCore.Architecture.Server
                 {
                     if (TaskClosed)
                         return true;
+                    _ParametersManager.CheckNextInputParameters();
                     TaskClosed = _ParametersManager.NoParametersAvailable &&
                         _DataOut.Count == _ParametersManager.LastParameterId;
-                    if(TaskClosed)
-                    {
-                        int a = 5;
-                        int b = a + 2;
-                    }
                     return TaskClosed;
                 }
             }
