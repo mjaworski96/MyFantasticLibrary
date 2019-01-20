@@ -24,6 +24,7 @@
 		</server>
 		<client>
 			<workers>15</workers>
+      <componentsPath>.</componentsPath>
 		</client>
 	</legion>
   <aie>
