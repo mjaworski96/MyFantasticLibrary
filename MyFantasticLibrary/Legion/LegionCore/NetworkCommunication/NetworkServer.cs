@@ -80,7 +80,7 @@ namespace LegionCore.NetworkCommunication
             }
             catch (Exception)
             {
-                _Logger.LogCritical("Server network communicator critical error!");
+                _Logger.LogCritical("[ Server ] Server network communicator critical error!");
                 return Message.WithEmptyBody((int)CodeStatus.ERROR,
                                                      (int)OperationCode.NO_OPERATION);
             }
