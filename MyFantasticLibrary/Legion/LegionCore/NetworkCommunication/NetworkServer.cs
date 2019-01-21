@@ -108,7 +108,8 @@ namespace LegionCore.NetworkCommunication
                     .Where(x => !BANNED_ASSEMBLIES.Contains(x.Name))
                     .Select(x => x.Name + ".dll"),
                 (int)CodeStatus.OK,
-                (int)OperationCode.NO_OPERATION);
+                (int)OperationCode.NO_OPERATION,
+                current.BaseDirectory);
         }
         /// <summary>
         /// Get current task with id

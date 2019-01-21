@@ -93,7 +93,7 @@ namespace ComponentsLoader
                         ComponentAttribute attr = GetComponentAttribute(type);
                         if (attr != null)
                         {
-                            components.Add(new LoadedComponent<T>(type));
+                            components.Add(new LoadedComponent<T>(type, directoryPath));
                         }
                     }
                 }

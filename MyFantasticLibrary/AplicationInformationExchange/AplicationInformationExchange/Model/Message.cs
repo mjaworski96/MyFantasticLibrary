@@ -77,10 +77,12 @@ namespace AplicationInformationExchange.Model
         /// <param name="filenames">Filenames to create message</param>
         /// <param name="statusCode">Status of message</param>
         /// <param name="operationCode">Operation code</param>
+        /// <param name="directory">Path to directory with files, if not null of whitespace will be added before filename</param>
         /// <returns>Message with multiple pages (one page per file) </returns>
-        public static Message FromFiles(IEnumerable<string> filenames, int statusCode, int operationCode)
+        public static Message FromFiles(IEnumerable<string> filenames, int statusCode, 
+                    int operationCode, string directory = "")
         {
-            Body body = Body.FromFiles(filenames);
+            Body body = Body.FromFiles(filenames, directory);
             return new Message()
             {
                 Header = new Header(statusCode, operationCode),
@@ -116,8 +118,8 @@ namespace AplicationInformationExchange.Model
         /// Saves all body pages to files (one file per page).
         /// File names are same as body pages names.
         /// </summary>
-        /// <param name="directory">Directory path to save files</param>
-        public void ToFiles(string directory = ".")
+        /// <param name="directory">Directory path to save files, if not null of whitespace will be added before Name</param>
+        public void ToFiles(string directory = "")
         {
             Body.ToFiles(directory);
         }

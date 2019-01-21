@@ -52,7 +52,8 @@ namespace ComponentsLoader
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown if component is null.</exception>
         /// <param name="component">Type of component</param>
-        public LoadedComponent(Type component)
+        /// <param name="baseDirectory">Directory that contains component .dll file</param>
+        public LoadedComponent(Type component, string baseDirectory)
         {
             _Component = component ?? throw new ArgumentNullException(nameof(component));
             _Attr = (ComponentAttribute)component
@@ -62,7 +63,13 @@ namespace ComponentsLoader
                 throw new NotComponentTypeException();
             _AssemblyName = component.Assembly.GetName();
             _ReferencedAssembliesNames = component.Assembly.GetReferencedAssemblies();
+            BaseDirectory = baseDirectory;
         }
+        /// <summary>
+        /// Directory that contains component .dll file
+        /// </summary>
+        public string BaseDirectory { get; set; }
+
         /// <summary>
         /// Name of component.
         /// </summary>

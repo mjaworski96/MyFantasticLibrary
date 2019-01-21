@@ -67,13 +67,14 @@ namespace AplicationInformationExchange.Model
         /// Creates body from files
         /// </summary>
         /// <param name="filenames">Filenames to create body</param>
+        /// <param name="directory">Path to directory with files, if not null of whitespace will be added before filename</param>
         /// <returns>Body with multiple pages (one page per file)</returns>
-        public static Body FromFiles(IEnumerable<string> filenames)
+        public static Body FromFiles(IEnumerable<string> filenames, string directory = "")
         {
             Body body = new Body();
             foreach (var file in filenames)
             {
-                body.Add(BodyPage.FromFile(file));
+                body.Add(BodyPage.FromFile(file, directory));
             }
             return body;
         }
@@ -92,8 +93,8 @@ namespace AplicationInformationExchange.Model
         /// <summary>
         /// Saves body to files.
         /// </summary>
-        /// <param name="directory">Directory path to save files</param>
-        public void ToFiles(string directory = ".")
+        /// <param name="directory">Directory path to save files, if not null of whitespace will be added before Name</param>
+        public void ToFiles(string directory = "")
         {
             foreach (var page in BodyContent)
             {

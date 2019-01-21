@@ -57,7 +57,7 @@ namespace LegionCore.Architecture.Server
         internal void RaiseInitializationError(Tuple<int, Exception> error)
         {
             _ServerTasksManager.OnInitializationError(error.Item1);
-            _LoggingManager.LogCritical($"[ Server ] Task (id = {error.Item1})initialization error, " +
+            _LoggingManager.LogCritical($"[ Server ] Task (id = {error.Item1}) initialization error, " +
                 $"exception: {error.Item2.Message}\n caused by: {error.Item2?.InnerException.Message}" +
                 $"\n{error.Item2?.InnerException.StackTrace}");
         }

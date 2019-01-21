@@ -18,7 +18,6 @@
     <ProjectReference Include="..\..\Components\ComponentsLoader\ComponentsLoader.csproj" />
     <ProjectReference Include="..\..\Logger\Logging\Logging.csproj" />
     <ProjectReference Include="..\LegionContract\LegionContract.csproj" />
-    <ProjectReference Include="..\Usage\BasicTask\BasicTask.csproj" />
   </ItemGroup>
 
 </Project>

@@ -158,7 +158,7 @@ namespace ComponentsTests
         [ExpectedException(typeof(NotComponentTypeException))]
         public void TestCreateLoadedComponentFromNotComponentType()
         {
-            LoadedComponent<ICalculator> component = new LoadedComponent<ICalculator>(typeof(ComponentsLoaderTests));
+            LoadedComponent<ICalculator> component = new LoadedComponent<ICalculator>(typeof(ComponentsLoaderTests), ".");
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]

@@ -60,16 +60,18 @@ namespace AplicationInformationExchange.Model
         /// Creates page from given file
         /// </summary>
         /// <param name="filename">Path to file and page name</param>
+        /// <param name="directory">Path to directory with file, if not null of whitespace will be added before filename</param>
         /// <returns>BodyPage created from file</returns>
-        public static BodyPage FromFile(string filename)
+        public static BodyPage FromFile(string filename, string directory = "")
         {
+            string path = string.IsNullOrWhiteSpace(directory) ? filename : Path.Combine(directory, filename);
             return new BodyPage(filename)
             {
-                Content = File.ReadAllBytes(filename)
+                Content = File.ReadAllBytes(path)
             };
         }
         /// <summary>
-        /// Creates page from object (serialized using JSON"/> )
+        /// Creates page from object (serialized using JSON)
         /// </summary>
         /// <param name="name">Name of page</param>
         /// <param name="obj">Object to create page</param>
@@ -100,10 +102,12 @@ namespace AplicationInformationExchange.Model
         /// <summary>
         /// Saves page to file
         /// </summary>
-        /// /// <param name="directory">Directory path to save file</param>
-        public void ToFile(string directory = ".")
+        /// <param name="directory">Directory path to save file, if not null of whitespace will be added before Name</param>
+        public void ToFile(string directory = "")
         {
-            Directory.CreateDirectory(directory);
+            string path = string.IsNullOrWhiteSpace(directory) ? Name : Path.Combine(directory, Name);
+            if(!string.IsNullOrWhiteSpace(directory))
+                Directory.CreateDirectory(directory);
             File.WriteAllBytes(Path.Combine(directory, Name), Content);
         }
     }
