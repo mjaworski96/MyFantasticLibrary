@@ -7,8 +7,8 @@
   </logger>
   <legion>
     <client>
-      <workers>6</workers>
-      <componentsPath>components/</componentsPath>
+      <workers>4</workers>
+      <componentsPath>./</componentsPath>
     </client>
   </legion>
   <network>
