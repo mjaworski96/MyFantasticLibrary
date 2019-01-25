@@ -20,8 +20,8 @@ namespace LegionTests
         {
             Tuple<Task, LegionServer> server = LegionServer.StartNew(config);
             IClientCommunicator communicator = new InMemoryClientCommunicator(server.Item2);
-            while (!RunClient(communicator, config)) ;
-            Task.WaitAll(server.Item1);
+            Task client = RunClient(communicator, config);
+            Task.WaitAll(server.Item1, client);
             CheckResults(validResultsCount, validResult);
         }
         private void TestNetwork(string config, int validResultsCount, string validResult)
@@ -30,8 +30,8 @@ namespace LegionTests
             NetworkServer serverManager = new NetworkServer(server, config);
             Task serverManagerTask = serverManager.Start();
             IClientCommunicator communicator = new NetworkClient(config);
-            while (!RunClient(communicator, config)) ;
-            Task.WaitAll(serverManagerTask);
+            Task client = RunClient(communicator, config);
+            Task.WaitAll(serverManagerTask, client);
             CheckResults(validResultsCount, validResult);
         }
         private void CheckResults(int validResultsCount, string validResult)
@@ -43,7 +43,7 @@ namespace LegionTests
         [TestMethod, Timeout(20000)]
         public void TestInMemory5Workers()
         {
-            TestInMemory("config_in_memory_5_workers.xml", 10, BASIC_TASK_VALID_RESULT);    
+            TestInMemory("config_in_memory_5_workers.xml", 10, BASIC_TASK_VALID_RESULT);
         }
         [TestMethod, Timeout(20000)]
         public void TestInMemory10Workers()
@@ -75,19 +75,11 @@ namespace LegionTests
         {
             TestInMemory("config_error.xml", 10, ERROR_TASK_VALID_RESULT);
         }
-        private bool RunClient(IClientCommunicator communicator, string config)
+        private async Task RunClient(IClientCommunicator communicator, string config)
         {
-            try
-            {
-                LegionClient client = new LegionClient(communicator, config);
-                client.Init();
-                client.Run();
-                return true;
-            }
-            catch (LegionException)
-            {
-                return false;
-            }
+            LegionClient client = new LegionClient(communicator, config);
+            await client.Run();
+
         }
     }
 }

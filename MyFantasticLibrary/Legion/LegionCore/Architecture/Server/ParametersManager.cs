@@ -56,7 +56,7 @@ namespace LegionCore.Architecture.Server
                 }
                 catch(Exception e)
                 {
-                    string msg = "Task parameter initialization error: " + e.Message;
+                    string msg = "[ Server ] Task parameter initialization error: " + e.Message;
                     LoggingManager.Instance.LogError(msg + "\n" + e.StackTrace);
                     dataIn = new LegionErrorDataIn(e);
                 }

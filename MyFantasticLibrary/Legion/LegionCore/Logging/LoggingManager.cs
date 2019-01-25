@@ -81,6 +81,19 @@ namespace LegionCore.Logging
         {
             AddToQueue(LogType.Critical, msg, addUtcTime);
         }
+        /// <summary>
+        /// Checks if messages queue is empty
+        /// </summary>
+        public bool IsQueueEmpty
+        {
+            get
+            {
+                lock(_Queue)
+                {
+                    return _Queue.Count == 0;
+                }
+            }
+        }
 
         private void AddToQueue(LogType type, string msg, bool addUtcTime)
         {

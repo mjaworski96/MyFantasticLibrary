@@ -70,7 +70,6 @@ namespace LegionCore.Architecture.Server
             _Tasks = new List<ServerTask>();
             _Configuration = new Configuration(configFilename);
             InitTasks();
-
         }
 
         internal void OnInitializationError(int invalidTaskId)
@@ -99,6 +98,7 @@ namespace LegionCore.Architecture.Server
         private void InitTasks()
         {
             Field legionServerTasksField = _Configuration.GetField("legion.server.tasks");
+            int id = 0;
             foreach (Field task in legionServerTasksField.Childrens)
             {
                 List<Field> fields = new List<Field>() { task.GetField("component") };
@@ -112,17 +112,11 @@ namespace LegionCore.Architecture.Server
                     .ToList();
 
                 _Tasks.Add(new ServerTask(component, paramsIn, task.GetField("dataOut").Value,
-                    task.GetField("orderedDataOut").Value, long.Parse(task.GetField("timeout").Value ?? "0")));
+                    task.GetField("orderedDataOut").Value, 
+                    long.Parse(task.GetField("timeout").Value ?? "0"),
+                    id));
+                id++;
             }
-        }
-        internal static List<LegionDataIn> GetEmptyDataIn(List<int> tasks)
-        {
-            List<LegionDataIn> result = new List<LegionDataIn>(tasks.Count);
-            foreach (var item in tasks)
-            {
-                result.Add(null);
-            }
-            return result;
         }
         internal List<LegionDataIn> GetDataIn(List<int> tasks)
         {

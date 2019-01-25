@@ -1,4 +1,5 @@
 ﻿using LegionCore.Architecture.Client;
+using LegionCore.Logging;
 using LegionCore.NetworkCommunication;
 using System;
 using System.Threading.Tasks;
@@ -9,16 +10,20 @@ namespace LegionClientLibrary
     {
         public Task Run()
         {
-            return Task.Run(() =>
-            {
-                LegionClient client = new LegionClient(new NetworkClient());
-                client.Init();
-                client.Run();
-            });
+            LegionClient client = new LegionClient(new NetworkClient());
+            return client.Run();
         }
         public static void Main(string[] args)
         {
-            new LegionRunnableClient().Run().GetAwaiter().GetResult();
+            try
+            {
+                new LegionRunnableClient().Run().GetAwaiter().GetResult();
+                while (!LoggingManager.Instance.IsQueueEmpty) ;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

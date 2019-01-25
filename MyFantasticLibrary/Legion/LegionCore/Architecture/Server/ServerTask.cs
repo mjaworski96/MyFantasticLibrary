@@ -25,6 +25,8 @@ namespace LegionCore.Architecture.Server
         private List<Tuple<LegionDataIn, DateTime>> _TaskWithTimeout;
         private long _TimeoutTime;
 
+        private int _Id;
+
         public LoadedComponent<LegionTask> Task { get => _Task; }
         public bool NoParametersAvailable { get => _ParametersManager.NoParametersAvailable; }
 
@@ -34,13 +36,15 @@ namespace LegionCore.Architecture.Server
             List<string> taskInputPaths,
             string taskOutputPath,
             string taskOutputOrderedPath,
-            long timeoutTime)
+            long timeoutTime,
+            int id)
         {
             _Logger = LoggingManager.Instance;
             _ParametersManager = new ParametersManager(taskInputPaths);
             _Task = task;
             _TaskOutputPath = taskOutputPath;
             _OrderedOutputPath = taskOutputOrderedPath;
+            _Id = id;
 
             _TaskWithTimeout = new List<Tuple<LegionDataIn, DateTime>>();
             if (timeoutTime > 0)
@@ -62,7 +66,11 @@ namespace LegionCore.Architecture.Server
                     {
                         if (item.Item2 < now)
                         {
-                            _Logger.LogWarning("Timeout detected for parameter with id: " + IdManagement.GetId(item.Item1));
+                            _Logger.LogWarning($"[ Server ] Timeout detected " +
+                                $"taskId: {_Id}, " +
+                                $"parameter with id: {IdManagement.GetId(item.Item1)}");
+
+
                             return true;
                         }
 
@@ -177,8 +185,8 @@ namespace LegionCore.Architecture.Server
 
         private LegionDataIn GetNormalDataIn()
         {
-            LegionDataIn dataIn =  _ParametersManager.GetNormalDataIn(DataIn);
-            if(!(dataIn is LegionErrorDataIn))
+            LegionDataIn dataIn = _ParametersManager.GetNormalDataIn(DataIn);
+            if (!(dataIn is LegionErrorDataIn))
                 AddTaskToTimeoutList(dataIn);
             return dataIn;
         }
@@ -191,7 +199,9 @@ namespace LegionCore.Architecture.Server
                 {
                     RemoveTaskFromTimeoutList(IdManagement.GetId(dataIn));
                     AddTaskToTimeoutList(dataIn);
-                    _Logger.LogWarning("Timeouted task reinitialized! Parameter id: " + IdManagement.GetId(dataIn));
+                    _Logger.LogWarning("[ Server ] Timeouted task reinitialized! " +
+                        $"task id: {_Id}, " +
+                        $"parameter id: {IdManagement.GetId(dataIn)}");
                     return dataIn;
                 }
 

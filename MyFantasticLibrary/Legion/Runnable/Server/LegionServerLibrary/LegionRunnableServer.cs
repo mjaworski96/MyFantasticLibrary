@@ -1,4 +1,5 @@
 ﻿using LegionCore.Architecture.Server;
+using LegionCore.Logging;
 using LegionCore.NetworkCommunication;
 using System;
 using System.Threading.Tasks;
@@ -17,7 +18,15 @@ namespace LegionServerLibrary
 
         public static void Main(string[] args)
         {
-            new LegionRunnableServer().Run().GetAwaiter().GetResult();
+            try
+            {
+                new LegionRunnableServer().Run().GetAwaiter().GetResult();
+                while (!LoggingManager.Instance.IsQueueEmpty) ;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

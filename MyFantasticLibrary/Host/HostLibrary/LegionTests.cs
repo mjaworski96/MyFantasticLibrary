@@ -21,10 +21,10 @@ namespace HostLibrary
             Task serverManagerTask = serverManager.Start();
             await serverManagerTask;
         }
-        public void TestClient()
+        public async void TestClient()
         {
             IClientCommunicator communicator = new NetworkClient();
-            while (!RunClient(communicator)) ;
+            while (! await RunClient(communicator)) ;
         }
         private async void TestNetwork()
         {
@@ -32,24 +32,23 @@ namespace HostLibrary
             NetworkServer serverManager = new NetworkServer(server);
             Task serverManagerTask = serverManager.Start();
             IClientCommunicator communicator = new NetworkClient();
-            while (!RunClient(communicator));
+            while (! await RunClient(communicator));
             await serverManagerTask;
         }
         
-        private void TestInMemory()
+        private async void TestInMemory()
         {
             LegionServer server = LegionServer.StartNew().Item2;
             IClientCommunicator communicator = new InMemoryClientCommunicator(server);
-            while (!RunClient(communicator));
+            while (! await RunClient(communicator));
         }
 
-        private bool RunClient(IClientCommunicator communicator)
+        private async Task<bool> RunClient(IClientCommunicator communicator)
         {
             try
             {
                 LegionClient client = new LegionClient(communicator);
-                client.Init();
-                client.Run();
+                await client.Run();
                 return true;
             }
             catch (LegionException)

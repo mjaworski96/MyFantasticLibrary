@@ -49,6 +49,7 @@ namespace LegionCore.Architecture.Server
         {
             using (server)
             {
+                LoggingManager.Instance.LogInformation("[ Server ] Legion client started working.");
                 semaphore.WaitOne();
                 LoggingManager.Instance.LogWarning("[ Server ] Legion server finished working.");
             }           

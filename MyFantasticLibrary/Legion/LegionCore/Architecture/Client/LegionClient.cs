@@ -53,11 +53,9 @@ namespace LegionCore.Architecture.Client
                 throw exc;
             }
         }
-        /// <summary>
-        /// Initializes client
-        /// </summary>
-        public void Init()
+        private void Init()
         {
+            _LoggingManager.LogInformation("[ Client ] Legion client initialization");
             Tuple<int, LoadedComponent<LegionTask>> loadedComponent
             = _Communicator.GetCurrentTask();
             if(loadedComponent != null)
@@ -67,30 +65,39 @@ namespace LegionCore.Architecture.Client
                     Init(out _Tasks[i], loadedComponent, i);
                 }
                 _LoggingManager.LogInformation("[ Client ] Legion Client initialization completed.");
-            }    
+            }  
+            else
+            {
+                _LoggingManager.LogWarning(" [ Client ] Legion Server initialization failed.");
+            }
         }
 
         /// <summary>
         /// Run hosted tasks
         /// </summary>
-        public void Run()
+        public Task Run()
         {
-            if (!InitTasks())
-            {
-                _LoggingManager.LogWarning("[ Client ] No params available.");
-                return;
-            }
-            bool finished = false;
+           return Task.Run(() =>
+           {
+               Init();
+               if (!InitTasks())
+               {
+                   _LoggingManager.LogWarning("[ Client ] No params available.");
+                   return;
+               }
+               bool finished = false;
 
-            while (!finished)
-            {
-                Wait();
-                List<Tuple<int, int>> finishedTasksIds = FinishedTasksIds;
-                SendOutputDataToServer(finishedTasksIds.Select(x => x.Item2).ToList());
-                ReinitializeTasksParameters(finishedTasksIds);
-                finished = CheckIfFinish();
-            }
-            _LoggingManager.LogWarning("[ Client ] Legion Client finished working.");
+               while (!finished)
+               {
+                   Wait();
+                   List<Tuple<int, int>> finishedTasksIds = FinishedTasksIds;
+                   SendOutputDataToServer(finishedTasksIds.Select(x => x.Item2).ToList());
+                   ReinitializeTasksParameters(finishedTasksIds);
+                   finished = CheckIfFinish();
+               }
+               Task.WaitAll(_Tasks.Select(x => x.MyRunningTask).ToArray());
+               _LoggingManager.LogWarning("[ Client ] Legion Client finished working.");
+           });
         }
         private bool InitTasks()
         {
@@ -218,7 +225,6 @@ namespace LegionCore.Architecture.Client
                 }
             }
             
-
             _Communicator.SaveResults(dataOut);
         }
     }
