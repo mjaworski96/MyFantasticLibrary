@@ -11,23 +11,37 @@
         <item>
           <component>
             <type>LegionContract.LegionTask, LegionContract</type>
-            <name></name>
-            <directory></directory>
+            <name>Add And Wait Task</name>
+            <directory>tasks/</directory>
           </component>
           <dataIn>
-            <item></item>
+            <item>./tasks/data_in.txt</item>
+            <item>./tasks/data_in_2.txt</item>
           </dataIn>
-          <dataOut></dataOut>
-          <orderedDataOut></orderedDataOut>
-          <timeout></timeout>
+          <dataOut>./tasks/results/first.txt</dataOut>
+          <orderedDataOut>./tasks/results/first_ordered.txt</orderedDataOut>
+          <timeout>10000</timeout>
+        </item>
+        <item>
+          <component>
+            <type>LegionContract.LegionTask, LegionContract</type>
+            <name>Mul And Wait Task</name>
+            <directory>tasks/</directory>
+          </component>
+          <dataIn>
+            <item>./tasks/data_in_mul_task.txt</item>
+          </dataIn>
+          <dataOut>./tasks/results/second.txt</dataOut>
+          <orderedDataOut>./tasks/results/second_ordered.txt</orderedDataOut>
+          <timeout>10000</timeout>
         </item>
       </tasks>
     </server>
   </legion>
-  <aie>
+  <network>
     <address>127.0.0.1</address>
     <port>6000</port>
-    <buffersize>20000</buffersize>
+    <bufferSize>20000</bufferSize>
     <queue>100</queue>
-  </aie>
+  </network>
 </config>

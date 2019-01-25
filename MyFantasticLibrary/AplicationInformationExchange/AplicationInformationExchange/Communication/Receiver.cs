@@ -46,7 +46,7 @@ namespace AplicationInformationExchange.Communication
             this._MessageFactory = messageFactory;
             this._EndCondition = endCondition;
             Configuration configuration = new Configuration(configFilePath);
-            string queueSize = configuration.GetString("aie.queue");
+            string queueSize = configuration.GetString("network.queue");
             if (string.IsNullOrWhiteSpace(queueSize))
             {
                 queueSize = "100";

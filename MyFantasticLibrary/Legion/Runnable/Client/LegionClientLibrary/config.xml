@@ -7,14 +7,14 @@
   </logger>
   <legion>
     <client>
-      <workers>12</workers>
-      <componentsPath>./</componentsPath>
+      <workers>6</workers>
+      <componentsPath>components/</componentsPath>
     </client>
   </legion>
-  <aie>
+  <network>
     <address>127.0.0.1</address>
     <port>6000</port>
-    <buffersize>20000</buffersize>
+    <bufferSize>20000</bufferSize>
     <queue>100</queue>
-  </aie>
+  </network>
 </config>

@@ -47,9 +47,9 @@ namespace AplicationInformationExchange.Communication
         protected Communicator(string configFilename = "config.xml")
         {
             Configuration configuration = new Configuration(configFilename);
-            _Address = configuration.GetString("aie.address");
-            _Port = int.Parse(configuration.GetString("aie.port"));
-            string bufferSize = configuration.GetString("aie.buffersize");
+            _Address = configuration.GetString("network.address");
+            _Port = int.Parse(configuration.GetString("network.port"));
+            string bufferSize = configuration.GetString("network.bufferSize");
             if(string.IsNullOrWhiteSpace(bufferSize))
             {
                 bufferSize = "10240";
