@@ -95,7 +95,8 @@ namespace LegionCore.Architecture.Client
                    ReinitializeTasksParameters(finishedTasksIds);
                    finished = CheckIfFinish();
                }
-               Task.WaitAll(_Tasks.Select(x => x.MyRunningTask).ToArray());
+               Task.WaitAll(_Tasks.Where(x => x.MyRunningTask != null)
+                   .Select(x => x.MyRunningTask).ToArray());
                _LoggingManager.LogWarning("[ Client ] Legion Client finished working.");
            });
         }
