@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <logger>
+    <type>Logging.ConsoleLogger</type>
+    <parameter>Green;Yellow;Red;Red</parameter>
+    <filter>Information</filter>
+  </logger>
+  <legion>
+    <server>
+      <tasks>
+        <item>
+          <component>
+            <type>LegionContract.LegionTask, LegionContract</type>
+            <name>Add And Wait Task</name>
+            <directory>tasks/</directory>
+          </component>
+          <dataIn>
+            <item>./tasks/data_in.txt</item>
+            <item>./tasks/data_in_2.txt</item>
+          </dataIn>
+          <dataOut>./tasks/results/first.txt</dataOut>
+          <orderedDataOut>./tasks/results/first_ordered.txt</orderedDataOut>
+          <timeout>10000</timeout>
+        </item>
+        <item>
+          <component>
+            <type>LegionContract.LegionTask, LegionContract</type>
+            <name>Mul And Wait Task</name>
+            <directory>tasks/</directory>
+          </component>
+          <dataIn>
+            <item>./tasks/data_in_mul_task.txt</item>
+          </dataIn>
+          <dataOut>./tasks/results/second.txt</dataOut>
+          <orderedDataOut>./tasks/results/second_ordered.txt</orderedDataOut>
+          <timeout>10000</timeout>
+        </item>
+      </tasks>
+    </server>
+  </legion>
+  <network>
+    <address>127.0.0.1</address>
+    <port>6000</port>
+    <bufferSize>20000</bufferSize>
+    <queue>100</queue>
+  </network>
+</config>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ComponentContract</name>
+    </assembly>
+    <members>
+        <member name="T:ComponentContract.ComponentAttribute">
+            <summary>
+            Attribute for exporting components.
+            </summary>
+        </member>
+        <member name="M:ComponentContract.ComponentAttribute.#ctor(System.String)">
+            <summary>
+            Initializes new instance of ComponentAttribute. Other properties are set as "Unknown".
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name is null or empty.</exception>
+            <param name="name">Name of component</param>
+        </member>
+        <member name="M:ComponentContract.ComponentAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Initializes new instance of ComponentAttribute. Other properties are set as "Unknown".
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name is null or empty.</exception>
+            <param name="name">Name of component.</param>
+            <param name="version">Version of component.</param>
+        </member>
+        <member name="M:ComponentContract.ComponentAttribute.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes new instance of ComponentAttribute. Other properties are set as "Unknown".
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name is null or empty.</exception>
+            <param name="name">Name of component.</param>
+            <param name="version">Version of component.</param>
+            <param name="publisher">Publisher of component.</param>
+        </member>
+        <member name="M:ComponentContract.ComponentAttribute.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes new instance of ComponentAttribute. Other properties are set as "Unknown".
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if name is null or empty.</exception>
+            <param name="name">Name of component.</param>
+            <param name="version">Version of component.</param>
+            <param name="publisher">Publisher of component.</param>
+            <param name="description">Description of component.</param>
+        </member>
+        <member name="P:ComponentContract.ComponentAttribute.Name">
+            <summary>
+            Name of component.
+            </summary>
+        </member>
+        <member name="P:ComponentContract.ComponentAttribute.Version">
+            <summary>
+            Version of component.
+            </summary>
+        </member>
+        <member name="P:ComponentContract.ComponentAttribute.Publisher">
+            <summary>
+            Publisher of component.
+            </summary>
+        </member>
+        <member name="P:ComponentContract.ComponentAttribute.Description">
+            <summary>
+            Description of component.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <logger>
+    <type>Logging.ConsoleLogger</type>
+    <parameter>Green;Yellow;Red;Red</parameter>
+    <filter>Information</filter>
+  </logger>
+  <legion>
+    <client>
+      <workers>6</workers>
+      <componentsPath>components/</componentsPath>
+    </client>
+  </legion>
+  <network>
+    <address>127.0.0.1</address>
+    <port>6000</port>
+    <bufferSize>20000</bufferSize>
+    <queue>100</queue>
+  </network>
+</config>

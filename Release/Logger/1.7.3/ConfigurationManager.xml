@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ConfigurationManager</name>
+    </assembly>
+    <members>
+        <member name="T:ConfigurationManager.Configuration">
+            <summary>
+            Configuration. Contains data in Key-Value format.
+            File format is xml, root element name is ignored.
+            If element contains childs, text value is ignored.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.GetString(System.String)">
+            <summary>
+            Gets string asigned with key.
+            </summary>
+            <param name="key">Key to search value.</param>
+            <returns>Value asigned to key</returns>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.GetField(System.String)">
+            <summary>
+            Gets <see cref="T:ConfigurationManager.Field"/> asigned with key.
+            </summary>
+            <param name="key">Key to search <see cref="T:ConfigurationManager.Field"/>.</param>
+            <returns><see cref="T:ConfigurationManager.Field"/> asigned with key.</returns>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.#ctor(System.String)">
+            <summary>
+            Intializes new instance of Configuration.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if path is null or empty.</exception>
+            <param name="path">Path to file with initial configuration.</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.#ctor">
+            <summary>
+            Initializes new instance of Configuration.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.GetListOfFields(System.String)">
+            <summary>
+            Gets field asigned with key.
+            </summary>
+            <param name="key">Key to search value.</param>
+            <returns>Field asigned to key</returns>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.SetString(System.String,System.String)">
+            <summary>
+            Sets string asigned with key.
+            If key does not exists, it will be crated.
+            </summary>
+            <param name="key">Key of value.</param>
+            <param name="value">Value to asign with key.</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.SetFields(System.String,System.Collections.Generic.List{ConfigurationManager.Field})">
+            <summary>
+            Sets list of fields asigned with key.
+            If key does not exists, it will be crated.
+            </summary>
+            <param name="key">Key of value.</param>
+            <param name="fields">Fielts to asign with key.</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.SetField(System.String,ConfigurationManager.Field)">
+            <summary>
+            Sets <see cref="T:ConfigurationManager.Field"/> asiged with key.
+            </summary>
+            <param name="key">Key of <see cref="T:ConfigurationManager.Field"/></param>
+            <param name="field"><see cref="T:ConfigurationManager.Field"/> to asign with key</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.LoadConfiguration(System.String)">
+            <summary>
+            Loads configuration from file.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if path is null or empty.</exception>
+            <param name="path">Path to configuration file.</param>
+        </member>
+        <member name="M:ConfigurationManager.Configuration.SaveConfiguration(System.String)">
+            <summary>
+            Saves configuration to file.
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown if path is null or empty.</exception>
+            <param name="path">Path to configuration file.</param>
+        </member>
+        <member name="T:ConfigurationManager.Field">
+            <summary>
+            Part of configuration. Data in Key-Value format.
+            Can contains nested Fields.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Field.#ctor(System.String,System.String)">
+            <summary>
+            Intializes new instance of Field.
+            </summary>
+            <param name="key">Key of Field.</param>
+            <param name="value">Value of field</param>
+        </member>
+        <member name="M:ConfigurationManager.Field.#ctor">
+            <summary>
+            Intializes new instance of Field.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Field.GetField(System.String,System.Int32)">
+            <summary>
+            Gets Field asigned with key.
+            If Field does not exists, it will be created.
+            </summary>
+            <param name="key">Key of field</param>
+            <param name="depth">Current search depth (Used when key is complex).</param>
+            <returns>Field asinged with key.</returns>
+        </member>
+        <member name="P:ConfigurationManager.Field.Value">
+            <summary>
+            Value of Field.
+            </summary>
+        </member>
+        <member name="P:ConfigurationManager.Field.Key">
+            <summary>
+            Key of Field.
+            </summary>
+        </member>
+        <member name="P:ConfigurationManager.Field.Childrens">
+            <summary>
+            Children fields.
+            </summary>
+        </member>
+        <member name="M:ConfigurationManager.Field.Save(System.String)">
+            <summary>
+            Saves Field to xml file.
+            </summary>
+            <param name="path">Path to xml configuration file.</param>
+        </member>
+        <member name="M:ConfigurationManager.Field.Load(System.String)">
+            <summary>
+            Loads Field from xml file.
+            </summary>
+            <param name="path">Path to xml file.</param>
+        </member>
+    </members>
+</doc>

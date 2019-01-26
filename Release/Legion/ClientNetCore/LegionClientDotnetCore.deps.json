@@ -1,0 +1,147 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.0",
+    "signature": "e2fbc4d1d6a4859f1ef2f564f4ab7106d4effb0d"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.0": {
+      "LegionClientDotnetCore/1.0.0": {
+        "dependencies": {
+          "LegionClientLibrary": "1.0.0"
+        },
+        "runtime": {
+          "LegionClientDotnetCore.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.1.22727"
+          }
+        }
+      },
+      "AplicationInformationExchange/1.0.0": {
+        "dependencies": {
+          "ConfigurationManager": "1.2.0",
+          "Newtonsoft.Json": "12.0.1"
+        },
+        "runtime": {
+          "AplicationInformationExchange.dll": {}
+        }
+      },
+      "ComponentContract/1.2.0": {
+        "runtime": {
+          "ComponentContract.dll": {}
+        }
+      },
+      "ComponentsLoader/1.2.0": {
+        "dependencies": {
+          "ComponentContract": "1.2.0",
+          "ConfigurationManager": "1.2.0",
+          "Logging": "1.7.3"
+        },
+        "runtime": {
+          "ComponentsLoader.dll": {}
+        }
+      },
+      "ConfigurationManager/1.2.0": {
+        "runtime": {
+          "ConfigurationManager.dll": {}
+        }
+      },
+      "LegionClientLibrary/1.0.0": {
+        "dependencies": {
+          "LegionCore": "1.0.0"
+        },
+        "runtime": {
+          "LegionClientLibrary.dll": {}
+        }
+      },
+      "LegionContract/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.1"
+        },
+        "runtime": {
+          "LegionContract.dll": {}
+        }
+      },
+      "LegionCore/1.0.0": {
+        "dependencies": {
+          "AplicationInformationExchange": "1.0.0",
+          "ComponentContract": "1.2.0",
+          "ComponentsLoader": "1.2.0",
+          "LegionContract": "1.0.0",
+          "Logging": "1.7.3",
+          "Newtonsoft.Json": "12.0.1"
+        },
+        "runtime": {
+          "LegionCore.dll": {}
+        }
+      },
+      "Logging/1.7.3": {
+        "dependencies": {
+          "ConfigurationManager": "1.2.0"
+        },
+        "runtime": {
+          "Logging.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "LegionClientDotnetCore/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/12.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pBR3wCgYWZGiaZDYP+HHYnalVnPJlpP1q55qvVb+adrDHmFMDc1NAKio61xTwftK3Pw5h7TZJPJEEVMd6ty8rg==",
+      "path": "newtonsoft.json/12.0.1",
+      "hashPath": "newtonsoft.json.12.0.1.nupkg.sha512"
+    },
+    "AplicationInformationExchange/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ComponentContract/1.2.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ComponentsLoader/1.2.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ConfigurationManager/1.2.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LegionClientLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LegionContract/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LegionCore/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Logging/1.7.3": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LegionContract</name>
+    </assembly>
+    <members>
+        <member name="T:LegionContract.IdentifiedById">
+            <summary>
+            Base class for Task and Data(in/out)
+            </summary>
+        </member>
+        <member name="F:LegionContract.IdentifiedById._Id">
+            <summary>
+            Identifier of task or data (in/out)
+            </summary>
+        </member>
+        <member name="T:LegionContract.LegionAttribute">
+            <summary>
+            Attribute for all legion tasks.
+            </summary>
+        </member>
+        <member name="M:LegionContract.LegionAttribute.#ctor(System.Type,System.Type)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="typeIn">Input data type (must be inherited from <see cref="T:LegionContract.LegionDataIn"></see>/>)</param>
+            <param name="typeOut">Result type (must be inherited from <see cref="T:LegionContract.LegionDataOut"></see>/>)</param>
+        </member>
+        <member name="P:LegionContract.LegionAttribute.TypeIn">
+            <summary>
+            Input data type (must be inherited from <see cref="T:LegionContract.LegionDataIn"></see>/>)
+            </summary>
+        </member>
+        <member name="P:LegionContract.LegionAttribute.TypeOut">
+            <summary>
+            Result type (must be derived from <see cref="T:LegionContract.LegionDataOut"></see>/>)
+            </summary>
+        </member>
+        <member name="T:LegionContract.LegionDataIn">
+            <summary>
+            Legion task input data
+            </summary>
+        </member>
+        <member name="M:LegionContract.LegionDataIn.LoadFromStream(System.IO.StreamReader)">
+            <summary>
+            Loads input data from stream
+            </summary>
+            <param name="streamReader">Reader of stream with input data</param>
+        </member>
+        <member name="T:LegionContract.LegionDataOut">
+            <summary>
+            Legion task result
+            </summary>
+        </member>
+        <member name="M:LegionContract.LegionDataOut.SaveToStream(System.IO.StreamWriter)">
+            <summary>
+            Save result to stream
+            </summary>
+            <param name="streamWriter">Writer to stream with results</param>
+        </member>
+        <member name="T:LegionContract.LegionTask">
+            <summary>
+            Legion task abstraction
+            </summary>
+        </member>
+        <member name="M:LegionContract.LegionTask.Run(LegionContract.LegionDataIn)">
+            <summary>
+            Runs task
+            </summary>
+            <param name="dataIn">Input data</param>
+            <returns>Task result</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,522 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LegionCore</name>
+    </assembly>
+    <members>
+        <member name="T:LegionCore.Architecture.Client.IClientCommunicator">
+            <summary>
+            Intrface for client-server communication
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Client.IClientCommunicator.GetCurrentTask">
+            <summary>
+            Gets current task
+            </summary>
+            <returns>Id of currently runned task (server side) and <see cref="T:ComponentsLoader.LoadedComponent`1"/> with task</returns>
+        </member>
+        <member name="M:LegionCore.Architecture.Client.IClientCommunicator.RaiseInitializationError(System.Tuple{System.Int32,System.Exception})">
+            <summary>
+            Send error that occurs when client is initialized
+            </summary>
+            <param name="error">Id (server side) and exception that causes error</param>
+        </member>
+        <member name="M:LegionCore.Architecture.Client.IClientCommunicator.RaiseError(System.Tuple{System.Int32,System.Int32,System.Exception})">
+            <summary>
+            Send error that occurs when running task
+            </summary>
+            <param name="error">TaskId (server side), parameter id, and exception that causes error</param>
+        </member>
+        <member name="M:LegionCore.Architecture.Client.IClientCommunicator.GetDataIn(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Gets data in for tasks
+            </summary>
+            <param name="tasks">Id of tasks(server side)</param>
+            <returns>Input data for tasks</returns>
+        </member>
+        <member name="M:LegionCore.Architecture.Client.IClientCommunicator.SaveResults(System.Collections.Generic.List{System.Tuple{System.Int32,LegionContract.LegionDataOut}})">
+            <summary>
+            Sends results
+            </summary>
+            <param name="dataOut">Id of task (server side) and result</param>
+        </member>
+        <member name="T:LegionCore.Architecture.Client.LegionClient">
+            <summary>
+            Legion client
+            </summary>
+        </member>
+        <member name="P:LegionCore.Architecture.Client.LegionClient.TaskCount">
+            <summary>
+            Count of hosted tasks
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Client.LegionClient.#ctor(LegionCore.Architecture.Client.IClientCommunicator,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="communicator">Communicator instance</param>
+            <param name="configFilename">Path to file with configuration</param>
+        </member>
+        <member name="M:LegionCore.Architecture.Client.LegionClient.Run">
+            <summary>
+            Run hosted tasks
+            </summary>
+        </member>
+        <member name="T:LegionCore.Architecture.LegionErrorDataIn">
+            <summary>
+            Error input data representation
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.LegionErrorDataIn.#ctor(System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="exception">Exception that causes error</param>
+        </member>
+        <member name="P:LegionCore.Architecture.LegionErrorDataIn.Exception">
+            <summary>
+            Exception that causes error
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.LegionErrorDataIn.LoadFromStream(System.IO.StreamReader)">
+            <summary>
+            Load exception message from stream.
+            </summary>
+            <param name="streamReader"></param>
+        </member>
+        <member name="M:LegionCore.Architecture.LegionErrorDataIn.TransformToDataOut">
+            <summary>
+            Transform input data to error result
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:LegionCore.Architecture.LegionErrorDataOut">
+            <summary>
+            Error result representation
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.LegionErrorDataOut.#ctor(System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="exception">Exception that causes error</param>
+        </member>
+        <member name="P:LegionCore.Architecture.LegionErrorDataOut.Exception">
+            <summary>
+            Exception that causes error
+            </summary>
+        </member>
+        <member name="T:LegionCore.Architecture.Error.LegionExecutionErrorDataOut">
+            <summary>
+            Error that occurs when running task
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Error.LegionExecutionErrorDataOut.#ctor(System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="exception">Exception that causes error</param>
+        </member>
+        <member name="M:LegionCore.Architecture.Error.LegionExecutionErrorDataOut.SaveToStream(System.IO.StreamWriter)">
+            <summary>
+            Save information about error to stream
+            </summary>
+            <param name="streamWriter">Writer to stream with results</param>
+        </member>
+        <member name="T:LegionCore.Architecture.Error.LegionParameterInitializationErrorDataOut">
+            <summary>
+            Error that occurs when input data are initialized
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Error.LegionParameterInitializationErrorDataOut.#ctor(System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="exception">Exception that causes error</param>
+        </member>
+        <member name="M:LegionCore.Architecture.Error.LegionParameterInitializationErrorDataOut.SaveToStream(System.IO.StreamWriter)">
+            <summary>
+            Saves information about error to stream
+            </summary>
+            <param name="streamWriter">Writer to stream with results</param>
+        </member>
+        <member name="T:LegionCore.Architecture.IdManagement">
+            <summary>
+            IdentifiedById getter and setter.
+            </summary>
+        </member>
+        <member name="T:LegionCore.Architecture.LegionException">
+            <summary>
+            LegionException
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.LegionException.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.LegionException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message">Message</param>
+        </member>
+        <member name="M:LegionCore.Architecture.LegionException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="message">Message</param>
+            <param name="innerException">Exception that causes current exception</param>
+        </member>
+        <member name="M:LegionCore.Architecture.LegionException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="info">SerializationInfo</param>
+            <param name="context">StreamingContext</param>
+        </member>
+        <member name="T:LegionCore.Architecture.Server.FromFileParameter">
+            <summary>
+            Represents input data loaded from file
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.FromFileParameter.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="Filename">Path to file with input data</param>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.FromFileParameter.Open">
+            <summary>
+            Open file
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.FromFileParameter.Close">
+            <summary>
+            Close file
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.FromFileParameter.ParametersAvailable">
+            <summary>
+            Check if there is any parameters left
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.FromFileParameter.GetNormalDataIn(LegionContract.LegionDataIn)">
+            <summary>
+            Load input data
+            </summary>
+            <param name="DataInCore">Empty input data</param>
+            <returns>Input data if available, null otherwise</returns>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.FromFileParameter.Dispose">
+            <summary>
+            Dispose file
+            </summary>
+        </member>
+        <member name="T:LegionCore.Architecture.Server.IParameter">
+            <summary>
+            Abstraction for legion input data source
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.IParameter.ParametersAvailable">
+            <summary>
+            Check if there are any parameters left
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.IParameter.GetNormalDataIn(LegionContract.LegionDataIn)">
+            <summary>
+            Get input data
+            </summary>
+            <param name="DataInCore">Input data to full in</param>
+            <returns>Input data if available, null otherwise</returns>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.IParameter.Open">
+            <summary>
+            Open input data source
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.IParameter.Close">
+            <summary>
+            Close input data source
+            </summary>
+        </member>
+        <member name="T:LegionCore.Architecture.Server.LegionServer">
+            <summary>
+            Legion server manager
+            </summary>
+        </member>
+        <member name="P:LegionCore.Architecture.Server.LegionServer.Finished">
+            <summary>
+            True if all tasks are finised, false otherwise
+            </summary>
+        </member>
+        <member name="P:LegionCore.Architecture.Server.LegionServer.CurrentTask">
+            <summary>
+            Currently active task
+            </summary>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.LegionServer.StartNew(System.String)">
+            <summary>
+            Starts new server
+            </summary>
+            <param name="configFilename">Path to file with configuration</param>
+            <returns>Running task that hosts server and server</returns>
+        </member>
+        <member name="M:LegionCore.Architecture.Server.LegionServer.Dispose">
+            <summary>
+            Disposes server
+            </summary>
+        </member>
+        <member name="T:LegionCore.InMemoryCommunication.InMemoryClientCommunicator">
+            <summary>
+            In memory client-server communicator
+            </summary>
+        </member>
+        <member name="M:LegionCore.InMemoryCommunication.InMemoryClientCommunicator.#ctor(LegionCore.Architecture.Server.LegionServer)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="server">Server to communicate</param>
+        </member>
+        <member name="M:LegionCore.InMemoryCommunication.InMemoryClientCommunicator.GetCurrentTask">
+            <summary>
+            Gets current task
+            </summary>
+            <returns>Id of currently runned task (server side) and <see cref="T:ComponentsLoader.LoadedComponent`1"/> with task</returns>
+        </member>
+        <member name="M:LegionCore.InMemoryCommunication.InMemoryClientCommunicator.GetDataIn(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Gets data in for tasks
+            </summary>
+            <param name="tasks">Id of tasks(server side)</param>
+            <returns>Input data for tasks</returns>
+        </member>
+        <member name="M:LegionCore.InMemoryCommunication.InMemoryClientCommunicator.RaiseError(System.Tuple{System.Int32,System.Int32,System.Exception})">
+            <summary>
+            Send error that occurs when running task
+            </summary>
+            <param name="error">TaskId (server side), parameter id, and exception</param>
+        </member>
+        <member name="M:LegionCore.InMemoryCommunication.InMemoryClientCommunicator.RaiseInitializationError(System.Tuple{System.Int32,System.Exception})">
+            <summary>
+            Send error that occurs when client is initialized
+            </summary>
+            <param name="error">Exception and taks id (server side)</param>
+        </member>
+        <member name="M:LegionCore.InMemoryCommunication.InMemoryClientCommunicator.SaveResults(System.Collections.Generic.List{System.Tuple{System.Int32,LegionContract.LegionDataOut}})">
+            <summary>
+            Sends results
+            </summary>
+            <param name="dataOut">Id of task (server side) and result</param>
+        </member>
+        <member name="T:LegionCore.Logging.LoggingManager">
+            <summary>
+            Logging manager
+            </summary>
+        </member>
+        <member name="P:LegionCore.Logging.LoggingManager.Instance">
+            <summary>
+            Gets singleton logger instance
+            </summary>
+        </member>
+        <member name="M:LegionCore.Logging.LoggingManager.LogInformation(System.String,System.Boolean)">
+            <summary>
+            Log message with type information
+            </summary>
+            <param name="msg">Message to log</param>
+            <param name="addUtcTime">If true, utc time will be added to message</param>
+        </member>
+        <member name="M:LegionCore.Logging.LoggingManager.LogWarning(System.String,System.Boolean)">
+            <summary>
+            Log message with type warning
+            </summary>
+            <param name="msg">Message to log</param>
+            <param name="addUtcTime">If true, utc time will be added to message</param>
+        </member>
+        <member name="M:LegionCore.Logging.LoggingManager.LogError(System.String,System.Boolean)">
+            <summary>
+            Log message with type error
+            </summary>
+            <param name="msg">Message to log</param>
+            <param name="addUtcTime">If true, utc time will be added to message</param>
+        </member>
+        <member name="M:LegionCore.Logging.LoggingManager.LogCritical(System.String,System.Boolean)">
+            <summary>
+            Log message with type critical
+            </summary>
+            <param name="msg">Message to log</param>
+            <param name="addUtcTime">If true, utc time will be added to message</param>
+        </member>
+        <member name="P:LegionCore.Logging.LoggingManager.IsQueueEmpty">
+            <summary>
+            Checks if messages queue is empty
+            </summary>
+        </member>
+        <member name="T:LegionCore.NetworkCommunication.CodeStatus">
+            <summary>
+            Status of client-server communicaton
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.CodeStatus.OK">
+            <summary>
+            Ok
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.CodeStatus.ERROR">
+            <summary>
+            Error
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.CodeStatus.FINISHED">
+            <summary>
+            Server finished work
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.CodeStatus.NO_OPERATION">
+            <summary>
+            Ok, no operation should be done
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.CodeStatus.NO_CONTENT">
+            <summary>
+            Ok, but no content
+            </summary>
+        </member>
+        <member name="T:LegionCore.NetworkCommunication.NetworkClient">
+            <summary>
+            Network client-server communicator
+            </summary>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkClient.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="configFilename">Path to file with configuration</param>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkClient.GetCurrentTask">
+            <summary>
+            Get current taksk
+            </summary>
+            <returns><see cref="T:ComponentsLoader.LoadedComponent`1"/> with current task</returns>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkClient.GetDataIn(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Gets input data
+            </summary>
+            <param name="tasks">Ids of tasks</param>
+            <returns>Input data for tasks</returns>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkClient.RaiseError(System.Tuple{System.Int32,System.Int32,System.Exception})">
+            <summary>
+            Send error
+            </summary>
+            <param name="error">Task id, parameter id and exception that causes error</param>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkClient.RaiseInitializationError(System.Tuple{System.Int32,System.Exception})">
+            <summary>
+            Send initialization error
+            </summary>
+            <param name="error">Exception that causes error and task id</param>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkClient.SaveResults(System.Collections.Generic.List{System.Tuple{System.Int32,LegionContract.LegionDataOut}})">
+            <summary>
+            Send results
+            </summary>
+            <param name="dataOut">Task id and result</param>
+        </member>
+        <member name="T:LegionCore.NetworkCommunication.NetworkServer">
+            <summary>
+            Legion server network manager
+            </summary>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkServer.#ctor(LegionCore.Architecture.Server.LegionServer,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="server"><see cref="T:LegionCore.Architecture.Server.LegionServer"/> to send network requests</param>
+            <param name="configFilename">Path to file with config</param>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkServer.Start">
+            <summary>
+            Start task that host server, start receiving requests
+            </summary>
+            <returns>Task</returns>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkServer.GetCurrentTask">
+            <summary>
+            Get current task with id
+            </summary>
+            <returns>Current task id and <see cref="T:ComponentsLoader.LoadedComponent`1"/> with task</returns>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkServer.GetDataIn(AplicationInformationExchange.Model.Message)">
+            <summary>
+            Get current data in
+            </summary>
+            <param name="request"><see cref="T:AplicationInformationExchange.Model.Message"/> with task data</param>
+            <returns><see cref="T:AplicationInformationExchange.Model.Message"/> with input data</returns>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkServer.RaiseError(AplicationInformationExchange.Model.Message)">
+            <summary>
+            Receive error data
+            </summary>
+            <param name="request"><see cref="T:AplicationInformationExchange.Model.Message"/> with error data</param>
+            <returns><see cref="T:AplicationInformationExchange.Model.Message"/> with confirmation</returns>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkServer.RaiseInitializationError(AplicationInformationExchange.Model.Message)">
+            <summary>
+            Receive initialization error data
+            </summary>
+            <param name="request"><see cref="T:AplicationInformationExchange.Model.Message"/> with initialization error data</param>
+            <returns><see cref="T:AplicationInformationExchange.Model.Message"/> with confirmation</returns>
+        </member>
+        <member name="M:LegionCore.NetworkCommunication.NetworkServer.SaveResults(AplicationInformationExchange.Model.Message)">
+            <summary>
+            Receive task results
+            </summary>
+            <param name="message"><see cref="T:AplicationInformationExchange.Model.Message"/> with task results</param>
+            <returns><see cref="T:AplicationInformationExchange.Model.Message"/> with confirmation</returns>
+        </member>
+        <member name="T:LegionCore.NetworkCommunication.OperationCode">
+            <summary>
+            Operation Code - what should be done with message
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.OperationCode.NO_OPERATION">
+            <summary>
+            Nothing
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.OperationCode.GET_CURRENT_TASK">
+            <summary>
+            Send current task files metadatas
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.OperationCode.GET_CURRENT_TASK_FILES">
+            <summary>
+            Send current task files
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.OperationCode.GET_DATA_IN">
+            <summary>
+            Send task input data
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.OperationCode.SAVE_RESULTS">
+            <summary>
+            Save task result
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.OperationCode.RAISE_ERROR">
+            <summary>
+            Save error data
+            </summary>
+        </member>
+        <member name="F:LegionCore.NetworkCommunication.OperationCode.RAISE_INITIALIZATION_ERROR">
+            <summary>
+            Save initialization error data
+            </summary>
+        </member>
+    </members>
+</doc>
