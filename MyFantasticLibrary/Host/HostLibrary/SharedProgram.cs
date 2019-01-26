@@ -9,18 +9,8 @@ namespace HostLibrary
         {
             try
             {
-                if (args.Length == 1)
-                {
-                    if (args[0] == "client")
-                        new LegionTests().TestClient();
-                    if (args[0] == "server")
-                        Task.WaitAll(new LegionTests().TestServer());
-                }
-                else
-                {
-                    ITest test = new LegionTests();
-                    test.Test();
-                }
+                ITest test = new LegionTests();
+                test.Test();
             }
             catch(Exception e)
             {

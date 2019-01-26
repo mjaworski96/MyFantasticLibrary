@@ -4,6 +4,7 @@ using LegionCore.InMemoryCommunication;
 using LegionCore.Architecture;
 using System.Threading.Tasks;
 using LegionCore.NetworkCommunication;
+using System;
 
 namespace HostLibrary
 {
@@ -12,49 +13,30 @@ namespace HostLibrary
 
         public void Test()
         {
-            TestNetwork();
+             Task.WaitAll(TestNetwork());
         }
-        public async Task TestServer()
-        {
-            LegionServer server = LegionServer.StartNew().Item2;
-            NetworkServer serverManager = new NetworkServer(server);
-            Task serverManagerTask = serverManager.Start();
-            await serverManagerTask;
-        }
-        public async void TestClient()
-        {
-            IClientCommunicator communicator = new NetworkClient();
-            while (! await RunClient(communicator)) ;
-        }
-        private async void TestNetwork()
+        private async Task TestNetwork()
         {
             LegionServer server = LegionServer.StartNew().Item2;
             NetworkServer serverManager = new NetworkServer(server);
             Task serverManagerTask = serverManager.Start();
             IClientCommunicator communicator = new NetworkClient();
-            while (! await RunClient(communicator));
+            await RunClient(communicator);
             await serverManagerTask;
         }
         
         private async void TestInMemory()
         {
-            LegionServer server = LegionServer.StartNew().Item2;
-            IClientCommunicator communicator = new InMemoryClientCommunicator(server);
-            while (! await RunClient(communicator));
+            Tuple<Task, LegionServer> server = LegionServer.StartNew();
+            IClientCommunicator communicator = new InMemoryClientCommunicator(server.Item2);
+            await RunClient(communicator);
+            await server.Item1;
         }
 
-        private async Task<bool> RunClient(IClientCommunicator communicator)
+        private async Task RunClient(IClientCommunicator communicator)
         {
-            try
-            {
-                LegionClient client = new LegionClient(communicator);
-                await client.Run();
-                return true;
-            }
-            catch (LegionException)
-            {
-                return false;
-            }
+            LegionClient client = new LegionClient(communicator);
+            await client.Run();
         }
     }
 }
