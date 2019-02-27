@@ -36,7 +36,7 @@ Technology: .NET Standard 2.0
 		- Components 1.2.0
 		- ApplicationInformationExchange 1.0.0
 		
-* ApplicationInformationExchange, Version 1.0.0
+* ApplicationInformationExchange - socket based communication for small messages, Version 1.0.0
 	- Provides
 		- Socker client-server communication
 	- Dependencies:
